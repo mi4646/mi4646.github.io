@@ -1,0 +1,1440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
+    <url>/id_02/</url>
+    <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
+<span id="more"></span>
+
+<h2 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h2><p>第一步安装Docker 详情可参考博客： <a href="https://v3u.cn/a_id_149">win10系统下把玩折腾DockerToolBox以及更换国内镜像源(各种神坑)</a>。 </p>
+<p>安装Docker成功之后我们可以拉取镜像了</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker pull postgres:<span class="number">11.1</span>	<span class="comment">#我们拉取的镜像是11.1版本的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="拉取成功后，输入命令查看镜像"><a href="#拉取成功后，输入命令查看镜像" class="headerlink" title="拉取成功后，输入命令查看镜像"></a>拉取成功后，输入命令查看镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动命令："><a href="#启动命令：" class="headerlink" title="启动命令："></a>启动命令：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker run -d --name dev-postgres -e POSTGRES_PASSWORD=root -p <span class="number">6432</span>:<span class="number">5432</span> postgres:<span class="number">11.1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="解释："><a href="#解释：" class="headerlink" title="解释："></a><strong>解释：</strong></h4><ul>
+<li>run，创建并运行一个容器；</li>
+<li>–name，指定创建的容器的名字；</li>
+<li>-e POSTGRES_PASSWORD=root，设置环境变量，指定数据库的登录口令为root；</li>
+<li>-p 6432:5432，端口映射将容器的5432端口映射到外部机器的6432端口；</li>
+<li>-d postgres:11.1，指定使用postgres:11.1作为镜像。</li>
+</ul>
+<p>这里POSTGRES_PASSWORD是PostgrelSQL的用户密码，自己制定一个就可以了，默认端口号是5432，由于笔者的宿主机上已经安装好一个PostgrelSQL服务端，所以这里通过端口映射改成了6432。 </p>
+<p>PostgreSQL数据库其他内容查看博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
+<h2 id="PostgreSQL基本命令"><a href="#PostgreSQL基本命令" class="headerlink" title="PostgreSQL基本命令"></a>PostgreSQL基本命令</h2><h3 id="一、建立数据库连接"><a href="#一、建立数据库连接" class="headerlink" title="一、建立数据库连接"></a>一、建立数据库连接</h3><p>接入PostgreSQL数据库: psql -h IP地址 -p 端口 -U 数据库名</p>
+<p>之后会要求输入数据库密码</p>
+<h3 id="二、访问数据库"><a href="#二、访问数据库" class="headerlink" title="二、访问数据库"></a>二、访问数据库</h3><p>1、列举数据库：\l<br>2、选择数据库：\c 数据库名<br>3、查看该某个库中的所有表：\dt<br>4、切换数据库：\c interface<br>5、查看某个库中的某个表结构：\d 表名<br>6、查看某个库中某个表的记录：select * from apps limit 1;<br>7、显示字符集：\encoding<br>8、退出psgl：\q</p>
+<p>9、获取命令帮助: psql –help</p>
+<p>10、\help     // 获取SQL命令的帮助,同 \h </p>
+<p>11、 \dt     // 显示当前数据库中的所有表 </p>
+<p>12、 select version();      // 获取版本信息 </p>
+<p>13、\d [table_name] // 显示当前数据库的指定表的表结构 </p>
+<p>14、 \c [database_name] // 切换到指定数据库,相当于use </p>
+<p>15、 \di // 查看索引(要建立关联) </p>
+<p>16、 \encoding [字元编码名称] // 显示或设定用户端字元编码 </p>
+<h3 id="三、-SQL命令通用"><a href="#三、-SQL命令通用" class="headerlink" title="三、 SQL命令通用"></a>三、 SQL命令通用</h3><p>*创建数据库：<br>create database [数据库名];</p>
+<p>*删除数据库：<br>drop database [数据库名]; </p>
+<p>*创建表：<br>create table ([字段名1] [类型1] ;,[字段名2] [类型2],……&lt;,primary key (字段名m,字段名n,…)&gt;;);</p>
+<p>*在表中插入数据：<br>insert into 表名 ([字段名m],[字段名n],……) values ([列m的值],[列n的值],……);</p>
+<p>*显示表内容:<br>select * from student;</p>
+<p>*重命名一个表：<br>alter table [表名A] rename to [表名B];</p>
+<p>*删除一个表：<br>drop table [表名]; </p>
+<p>*在已有的表里添加字段：<br>alter table [表名] add column [字段名] [类型];</p>
+<p>*删除表中的字段：<br>alter table [表名] drop column [字段名];</p>
+<p>*重命名一个字段：<br>alter table [表名] rename column [字段名A] to [字段名B];</p>
+<p>*给一个字段设置缺省值：<br>alter table [表名] alter column [字段名] set default [新的默认值];</p>
+<p>*去除缺省值：<br>alter table [表名] alter column [字段名] drop default;</p>
+<p>*修改表中的某行某列的数据：<br>update [表名] set [目标字段名]=[目标值] where [该行特征];</p>
+<p>*删除表中某行数据：<br>delete from [表名] where [该行特征];<br>delete from [表名];  // 删空整个表</p>
+<p>*可以使用pg_dump和pg_dumpall来完成。比如备份sales数据库：<br>pg_dump drupal&gt;/opt/Postgresql/backup/1.bak</p>
+<p>&nbsp;</p>
+<p>阮一峰的网络日志PostgreSQL新手入门：<br><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
+<p>刘悦的技术博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
+<p>其他参考：<a href="https://www.cnblogs.com/zhoujie/p/pgsql.html">https://www.cnblogs.com/zhoujie/p/pgsql.html</a></p>
+<p>​                <a href="https://segmentfault.com/a/1190000002787641">https://segmentfault.com/a/1190000002787641</a></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>PostgrelSQL数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgrelSQL数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python多线程</title>
+    <url>/id_01/</url>
+    <content><![CDATA[<h1 id="Python3-多线程"><a href="#Python3-多线程" class="headerlink" title="Python3 多线程"></a>Python3 多线程</h1><hr>
+<p><strong>多线程类似于同时执行多个不同程序，多线程运行有如下优点：</strong></p>
+<ul>
+<li>使用线程可以把占据长时间的程序中的任务放到后台去处理。</li>
+<li>用户界面可以更加吸引人，比如用户点击了一个按钮去触发某些事件的处理，可以弹出一个进度条来显示处理的进度。</li>
+<li>程序的运行速度可能加快。</li>
+<li>在一些等待的任务实现上如用户输入、文件读写和网络收发数据等，线程就比较有用了。在这种情况下我们可以释放一些珍贵的资源如内存占用等等。<span id="more"></span></li>
+</ul>
+<h3 id="线程模块"><a href="#线程模块" class="headerlink" title="线程模块"></a>线程模块</h3><hr>
+<p>线程模块同样提供了Thread类来处理线程，Thread类提供了以下方法:</p>
+<ul>
+<li>run(): 用以表示线程活动的方法。</li>
+<li>start():启动线程活动。</li>
+<li>join([time]): 等待至线程中止。这阻塞调用线程直至线程的join() 方法被调用中止-正常退出或者抛出未处理的异常-或者是可选的超时发生。</li>
+<li>isAlive(): 返回线程是否活动的。</li>
+<li>getName(): 返回线程名。</li>
+<li>setName(): 设置线程名。</li>
+</ul>
+<h3 id="Python-中的多线程之-GIL"><a href="#Python-中的多线程之-GIL" class="headerlink" title="Python 中的多线程之 GIL"></a>Python 中的多线程之 GIL</h3><hr>
+<p>由于线程是操作系统直接支持的执行单元，因此，高级语言通常都内置多线程的支持，Python也不例外，并且，Python的线程是真正的Posix Thread，而不是模拟出来的线程。</p>
+<p>Python的标准库提供了两个模块：<code>thread</code>和<code>threading</code>，<code>thread</code>是低级模块，<code>threading</code>是高级模块，对<code>thread</code>进行了封装。绝大多数情况下，我们只需要使用<code>threading</code>这个高级模块。</p>
+<p>启动一个线程就是把一个函数传入并创建<code>Thread</code>实例，然后调用<code>start()</code>开始执行：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time, threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新线程执行的代码:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span>():</span></span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;thread %s &gt;&gt;&gt; %s&#x27;</span> % (threading.current_thread().name, n)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name</span><br><span class="line">t = threading.Thread(target=loop, name=<span class="string">&#x27;LoopThread&#x27;</span>)</span><br><span class="line">t.start()</span><br><span class="line">t.join()</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">thread MainThread is running...</span><br><span class="line">thread LoopThread is running...</span><br><span class="line">thread LoopThread &gt;&gt;&gt; 1</span><br><span class="line">thread LoopThread &gt;&gt;&gt; 2</span><br><span class="line">thread LoopThread &gt;&gt;&gt; 3</span><br><span class="line">thread LoopThread &gt;&gt;&gt; 4</span><br><span class="line">thread LoopThread &gt;&gt;&gt; 5</span><br><span class="line">thread LoopThread ended.</span><br><span class="line">thread MainThread ended.</span><br></pre></td></tr></table></figure>
+
+<p>由于任何进程默认就会启动一个线程，我们把该线程称为主线程，主线程又可以启动新的线程，Python的<code>threading</code>模块有个<code>current_thread()</code>函数，它永远返回当前线程的实例。主线程实例的名字叫<code>MainThread</code>，子线程的名字在创建时指定，我们用<code>LoopThread</code>命名子线程。名字仅仅在打印时用来显示，完全没有其他意义，如果不起名字Python就自动给线程命名为<code>Thread-1</code>，<code>Thread-2</code>……</p>
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><p>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，所以，任何一个变量都可以被任何一个线程修改，因此，线程之间共享数据最大的危险在于多个线程同时改一个变量，把内容给改乱了。</p>
+<p>来看看多个线程同时操作一个变量怎么把内容给改乱了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import time, threading</span><br><span class="line"></span><br><span class="line"># 假定这是你的银行存款:</span><br><span class="line">balance &#x3D; 0</span><br><span class="line"></span><br><span class="line">def change_it(n):</span><br><span class="line">    # 先存后取，结果应该为0:</span><br><span class="line">    global balance</span><br><span class="line">    balance &#x3D; balance + n</span><br><span class="line">    balance &#x3D; balance - n</span><br><span class="line"></span><br><span class="line">def run_thread(n):</span><br><span class="line">    for i in range(100000):</span><br><span class="line">        change_it(n)</span><br><span class="line"></span><br><span class="line">t1 &#x3D; threading.Thread(target&#x3D;run_thread, args&#x3D;(5,))</span><br><span class="line">t2 &#x3D; threading.Thread(target&#x3D;run_thread, args&#x3D;(8,))</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.join()</span><br><span class="line">t2.join()</span><br><span class="line">print balance</span><br></pre></td></tr></table></figure>
+
+<p>我们定义了一个共享变量<code>balance</code>，初始值为<code>0</code>，并且启动两个线程，先存后取，理论上结果应该为<code>0</code>，但是，由于线程的调度是由操作系统决定的，当t1、t2交替执行时，只要循环次数足够多，<code>balance</code>的结果就不一定是<code>0</code>了。</p>
+<p>原因是因为高级语言的一条语句在CPU执行时是若干条语句，即使一个简单的计算：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">balance &#x3D; balance + n</span><br></pre></td></tr></table></figure>
+
+<p>也分两步：</p>
+<ol>
+<li>计算<code>balance + n</code>，存入临时变量中；</li>
+<li>将临时变量的值赋给<code>balance</code>。</li>
+</ol>
+<p>也就是可以看成：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x &#x3D; balance + n</span><br><span class="line">balance &#x3D; x</span><br></pre></td></tr></table></figure>
+
+<p>由于x是局部变量，两个线程各自都有自己的x，当代码正常执行时：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">初始值 balance &#x3D; 0</span><br><span class="line"></span><br><span class="line">t1: x1 &#x3D; balance + 5 # x1 &#x3D; 0 + 5 &#x3D; 5</span><br><span class="line">t1: balance &#x3D; x1     # balance &#x3D; 5</span><br><span class="line">t1: x1 &#x3D; balance - 5 # x1 &#x3D; 5 - 5 &#x3D; 0</span><br><span class="line">t1: balance &#x3D; x1     # balance &#x3D; 0</span><br><span class="line"></span><br><span class="line">t2: x2 &#x3D; balance + 8 # x2 &#x3D; 0 + 8 &#x3D; 8</span><br><span class="line">t2: balance &#x3D; x2     # balance &#x3D; 8</span><br><span class="line">t2: x2 &#x3D; balance - 8 # x2 &#x3D; 8 - 8 &#x3D; 0</span><br><span class="line">t2: balance &#x3D; x2     # balance &#x3D; 0</span><br><span class="line"></span><br><span class="line">结果 balance &#x3D; 0</span><br></pre></td></tr></table></figure>
+
+<p>但是t1和t2是交替运行的，如果操作系统以下面的顺序执行t1、t2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">初始值 balance &#x3D; 0</span><br><span class="line"></span><br><span class="line">t1: x1 &#x3D; balance + 5  # x1 &#x3D; 0 + 5 &#x3D; 5</span><br><span class="line"></span><br><span class="line">t2: x2 &#x3D; balance + 8  # x2 &#x3D; 0 + 8 &#x3D; 8</span><br><span class="line">t2: balance &#x3D; x2      # balance &#x3D; 8</span><br><span class="line"></span><br><span class="line">t1: balance &#x3D; x1      # balance &#x3D; 5</span><br><span class="line">t1: x1 &#x3D; balance - 5  # x1 &#x3D; 5 - 5 &#x3D; 0</span><br><span class="line">t1: balance &#x3D; x1      # balance &#x3D; 0</span><br><span class="line"></span><br><span class="line">t2: x2 &#x3D; balance - 5  # x2 &#x3D; 0 - 5 &#x3D; -5</span><br><span class="line">t2: balance &#x3D; x2      # balance &#x3D; -5</span><br><span class="line"></span><br><span class="line">结果 balance &#x3D; -5</span><br></pre></td></tr></table></figure>
+
+<p>究其原因，是因为修改<code>balance</code>需要多条语句，而执行这几条语句时，线程可能中断，从而导致多个线程把同一个对象的内容改乱了。</p>
+<p>两个线程同时一存一取，就可能导致余额不对，你肯定不希望你的银行存款莫名其妙地变成了负数，所以，我们必须确保一个线程在修改<code>balance</code>的时候，别的线程一定不能改。</p>
+<p>如果我们要确保<code>balance</code>计算正确，就要给<code>change_it()</code>上一把锁，当某个线程开始执行<code>change_it()</code>时，我们说，该线程因为获得了锁，因此其他线程不能同时执行<code>change_it()</code>，只能等待，直到锁被释放后，获得该锁以后才能改。由于锁只有一个，无论多少线程，同一时刻最多只有一个线程持有该锁，所以，不会造成修改的冲突。创建一个锁就是通过<code>threading.Lock()</code>来实现：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">balance &#x3D; 0</span><br><span class="line">lock &#x3D; threading.Lock()</span><br><span class="line"></span><br><span class="line">def run_thread(n):</span><br><span class="line">    for i in range(100000):</span><br><span class="line">        # 先要获取锁:</span><br><span class="line">        lock.acquire()</span><br><span class="line">        try:</span><br><span class="line">            # 放心地改吧:</span><br><span class="line">            change_it(n)</span><br><span class="line">        finally:</span><br><span class="line">            # 改完了一定要释放锁:</span><br><span class="line">            lock.release()</span><br></pre></td></tr></table></figure>
+
+<p>当多个线程同时执行<code>lock.acquire()</code>时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。</p>
+<p>获得锁的线程用完后一定要释放锁，否则那些苦苦等待锁的线程将永远等待下去，成为死线程。所以我们用<code>try...finally</code>来确保锁一定会被释放。</p>
+<p>锁的好处就是确保了某段关键代码只能由一个线程从头到尾完整地执行，坏处当然也很多，首先是阻止了多线程并发执行，包含锁的某段代码实际上只能以单线程模式执行，效率就大大地下降了。其次，由于可以存在多个锁，不同的线程持有不同的锁，并试图获取对方持有的锁时，可能会造成死锁，导致多个线程全部挂起，既不能执行，也无法结束，只能靠操作系统强制终止。</p>
+<p>小结：</p>
+<p>多线程编程，模型复杂，容易发生冲突，必须用锁加以隔离，同时，又要小心死锁的发生。</p>
+<p>Python解释器由于设计时有GIL全局锁，导致了多线程无法利用多核。多线程的并发在Python中就是一个美丽的梦。</p>
+<p>参考博客：<a href="https://www.liaoxuefeng.com/wiki/897692888725344/923056337842176">https://www.liaoxuefeng.com/wiki/897692888725344/923056337842176</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
+    <url>/id_04/</url>
+    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
+<p>安装eCharts：npm install echarts @4.9.0</p>
+<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
+<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
+<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
+<p>然后在main.js中全局配置：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
+
+<p>现在上vue的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>效果图：</p>
+<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python实现生成 json web token</title>
+    <url>/id_03/</url>
+    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
+<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
+<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
+<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
+<p> 依赖包: PyJWT==1.7.1</p>
+<p>代码示例：</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx实现请求的负载均衡 + Keep Alive实现nginx的高可用</title>
+    <url>/id_05/</url>
+    <content><![CDATA[<h1 id="nginx实现请求的负载均衡-Keep-Alive实现nginx的高可用"><a href="#nginx实现请求的负载均衡-Keep-Alive实现nginx的高可用" class="headerlink" title="nginx实现请求的负载均衡 + Keep Alive实现nginx的高可用"></a>nginx实现请求的负载均衡 + Keep Alive实现nginx的高可用</h1><blockquote>
+<p>实践中客户端无法直接跟服务端发起请求的时候，我们就需要代理服务。代理可以实现客户端与服务端之间的通信,我们的Nginx也可以实现相应的代理服务。代理分为正向代理和反向代理,此文就来演示一下Nginx配置正向代理和反向代理的场景。</p>
+</blockquote>
+<br/>
+
+<h2 id="什么是正向代理-反向代理？"><a href="#什么是正向代理-反向代理？" class="headerlink" title="什么是正向代理/反向代理？"></a>什么是正向代理/反向代理？</h2><ul>
+<li><strong>正向代理</strong>：是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。</li>
+</ul>
+ <br/>
+
+<ul>
+<li><strong>反向代理</strong>：客户端发送请求给反向代理服务器，但是代理服务器上没有客户端需要的资源，代理服务器会判断转发到原始服务器获得资源，并把资源返回给客户端；在整个过程，客户端不知道自己访问的是一个代理服务器，而是一个原始服务器</li>
+</ul>
+ <br/>
+
+<h2 id="常规部署方案"><a href="#常规部署方案" class="headerlink" title="常规部署方案"></a>常规部署方案</h2><p><img src="/imgs/nginx%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1610715791927.png" alt="1610715791927"></p>
+<br/>
+
+<p><img src="/imgs/nginx%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1610715825972.png" alt="1610715825972"></p>
+<br/>
+
+<h2 id="Nginx反向代理"><a href="#Nginx反向代理" class="headerlink" title="Nginx反向代理"></a>Nginx反向代理</h2><p>web01和web02安装nginx可以参考我之前的博客：<a href="https://www.cnblogs.com/tjw-bk/p/13970811.html">Django + Uwsgi + Nginx 的生产环境部署之实战篇</a></p>
+<br/>
+
+<ul>
+<li><p>web01配置</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[root@linux-node4 ~]<span class="comment"># yum -y install nginx </span></span><br><span class="line">[root@linux-node4 ~]<span class="comment"># echo web01 &gt; /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+
+<br/></li>
+<li><p>web02配置</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[root@linux-node4 ~]<span class="comment"># yum -y install nginx </span></span><br><span class="line">[root@linux-node4 ~]<span class="comment"># echo web01 &gt; /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+
+<br/></li>
+<li><p>然后对着两个web服务器进行测试nginx服务 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">start nginx</span><br></pre></td></tr></table></figure>
+
+<br/></li>
+</ul>
+<h2 id="nginx反向代理配置"><a href="#nginx反向代理配置" class="headerlink" title="nginx反向代理配置"></a>nginx反向代理配置</h2><h3 id="安装nginx服务器"><a href="#安装nginx服务器" class="headerlink" title="安装nginx服务器"></a>安装nginx服务器</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[root@linux-node4 ~]<span class="comment"># yum -y install nginx</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置反向代理"><a href="#配置反向代理" class="headerlink" title="配置反向代理"></a>配置反向代理</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">stream &#123;</span><br><span class="line"></span><br><span class="line">    log_format  main  <span class="string">&#x27;$remote_addr $upstream_addr - [$time_local] $status $upstream_bytes_sent&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    access_log  /<span class="keyword">var</span>/log/nginx/django-access.log  main;</span><br><span class="line"></span><br><span class="line">    upstream django-apiserver &#123;</span><br><span class="line"></span><br><span class="line">                server <span class="number">192.168</span><span class="number">.56</span><span class="number">.62</span>:<span class="number">80</span>;	<span class="comment">//web服务器ip </span></span><br><span class="line"></span><br><span class="line">                server <span class="number">192.168</span><span class="number">.56</span><span class="number">.63</span>:<span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line"></span><br><span class="line">       listen <span class="number">88</span>;	<span class="comment">//Nginx代理端口</span></span><br><span class="line"></span><br><span class="line">       proxy_pass django-apiserver;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<ul>
+<li><p>测试反向代理可用性</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http:<span class="comment">//192.168.56.62/ # web01 </span></span><br><span class="line">http:<span class="comment">//192.168.56.63/ # web02</span></span><br><span class="line"># 可以停止一个nginx服务，测试可用性</span><br></pre></td></tr></table></figure></li>
+</ul>
+<br/>
+
+<h2 id="Nginx-KeepAlive方案"><a href="#Nginx-KeepAlive方案" class="headerlink" title="Nginx+KeepAlive方案"></a>Nginx+KeepAlive方案</h2><h3 id="为什么使用Nginx-KeepAlive方案部署？"><a href="#为什么使用Nginx-KeepAlive方案部署？" class="headerlink" title="为什么使用Nginx+KeepAlive方案部署？"></a>为什么使用Nginx+KeepAlive方案部署？</h3><blockquote>
+<p>因为我们是使用nginx实现的反向代理，实现负载均衡，如果这个nginx挂了，我们整个服务都会挂掉，所以这个Nginx+KeepAlive方案就被广泛使用，原理就是帮我们的nginx的服务器找一个备胎，如果我们的主服务器没有事的话，就正常运行，备胎就什么活都不干，假如主服务器挂掉，我们的备胎（nginx从服务器）就被扶正了。</p>
+</blockquote>
+<br/>
+
+<p><img src="/imgs/nginx%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1610799649353.png" alt="1610799649353"></p>
+<br/>
+
+<p><img src="/imgs/nginx%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1610799758636.png" alt="1610799758636"></p>
+<h3 id="部署nginx负载均衡"><a href="#部署nginx负载均衡" class="headerlink" title="部署nginx负载均衡"></a>部署nginx负载均衡</h3><ul>
+<li><p>安装nginx服务 </p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">[root@linux-node4 ~]# yum -y install nginx</span><br></pre></td></tr></table></figure></li>
+<li><p>配置反向代理 </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[root@lb-master ~]# vim /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line"> <span class="comment">//这个跟之前的配置一样</span></span><br><span class="line">stream &#123;</span><br><span class="line"></span><br><span class="line">    log_format  main  <span class="string">&#x27;$remote_addr $upstream_addr - [$time_local] $status $upstream_bytes_sent&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    access_log  /<span class="keyword">var</span>/log/nginx/django-access.log  main;</span><br><span class="line"></span><br><span class="line">    upstream django-apiserver &#123;</span><br><span class="line"></span><br><span class="line">                server <span class="number">192.168</span><span class="number">.56</span><span class="number">.62</span>:<span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">                server <span class="number">192.168</span><span class="number">.56</span><span class="number">.63</span>:<span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line"></span><br><span class="line">       listen <span class="number">88</span>;</span><br><span class="line"></span><br><span class="line">       proxy_pass django-apiserver;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/></li>
+</ul>
+<h3 id="测试反向代理可用性"><a href="#测试反向代理可用性" class="headerlink" title="测试反向代理可用性"></a>测试反向代理可用性</h3><ul>
+<li><p>测试集群可用性</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http:<span class="comment">//192.168.56.62/ # web01</span></span><br><span class="line">http:<span class="comment">//192.168.56.63/ # web02 </span></span><br><span class="line"># 可以停止一个nginx服务，测试可用性</span><br></pre></td></tr></table></figure></li>
+</ul>
+<br/>
+
+<ul>
+<li><p>服务管理 </p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">//启动nginx</span></span><br><span class="line">[root@lb-slave ~]# systemctl start nginx  </span><br><span class="line"></span><br><span class="line"><span class="comment">//重启nginx</span></span><br><span class="line">[root@lb-slave ~]# systemctl enable nginx</span><br></pre></td></tr></table></figure>
+
+<br/></li>
+</ul>
+<h3 id="KeepAlive安装与配置"><a href="#KeepAlive安装与配置" class="headerlink" title="KeepAlive安装与配置"></a>KeepAlive安装与配置</h3><h4 id="安装keepAlive"><a href="#安装keepAlive" class="headerlink" title="安装keepAlive"></a>安装keepAlive</h4><figure class="highlight"><table><tr><td class="code"><pre><span class="line">[root@lb-master ~]# yum -y install keepalived</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h4 id="keepalive-master配置修改"><a href="#keepalive-master配置修改" class="headerlink" title="keepalive-master配置修改"></a>keepalive-master配置修改</h4><ul>
+<li><p>主服务器。。。</p>
+</li>
+<li><h5 id="注：默认的keepalived-conf配置太多，直接删除，用下面配置替换即可"><a href="#注：默认的keepalived-conf配置太多，直接删除，用下面配置替换即可" class="headerlink" title="注：默认的keepalived.conf配置太多，直接删除，用下面配置替换即可"></a><code>注：默认的keepalived.conf配置太多，直接删除，用下面配置替换即可</code></h5></li>
+<li><p>192.168.56.61 </p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[root@lb-master ~]# vim /etc/keepalived/keepalived.conf </span><br><span class="line"></span><br><span class="line">global_defs &#123; </span><br><span class="line"></span><br><span class="line">   notification_email &#123; </span><br><span class="line"></span><br><span class="line">     acassen@firewall.loc </span><br><span class="line"></span><br><span class="line">     failover@firewall.loc </span><br><span class="line"></span><br><span class="line">     sysadmin@firewall.loc </span><br><span class="line"></span><br><span class="line">   &#125; </span><br><span class="line"></span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc  </span><br><span class="line"></span><br><span class="line">   smtp_server <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> </span><br><span class="line"></span><br><span class="line">   smtp_connect_timeout <span class="number">30</span> </span><br><span class="line"></span><br><span class="line">   router_id NGINX_MASTER</span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"># 健康监测nginx</span><br><span class="line"></span><br><span class="line">vrrp_script check_nginx &#123;</span><br><span class="line"></span><br><span class="line">    script &quot;/etc/keepalived/check_nginx.sh&quot;      # 设置检查nginx是否存活的脚本位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># keepalive热备组配置</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123; </span><br><span class="line"></span><br><span class="line">    state MASTER            # 配置当前keepalive为master角色</span><br><span class="line"></span><br><span class="line">    interface eth0           # 网卡名字，必须和实际网卡名称一致，默认是ens33</span><br><span class="line"></span><br><span class="line">    virtual_router_id 51       # VRRP 路由 ID实例，每个实例是唯一的 </span><br><span class="line"></span><br><span class="line">    priority 100            # 优先级，备服务器设置 90 </span><br><span class="line"></span><br><span class="line">    advert_int 1            # 指定VRRP 心跳包通告间隔时间，默认1秒 </span><br><span class="line"></span><br><span class="line">    authentication &#123; </span><br><span class="line"></span><br><span class="line">        auth_type PASS      </span><br><span class="line"></span><br><span class="line">        auth_pass 1111       # 设置keepalive的master和slave之间简单的秘钥认证</span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123; </span><br><span class="line"></span><br><span class="line">        192.168.56.60/24     # 设置keepalive虚拟IP地址</span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line"></span><br><span class="line">        check_nginx</span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="keepalive-slave配置修改"><a href="#keepalive-slave配置修改" class="headerlink" title="keepalive-slave配置修改"></a>keepalive-slave配置修改</h3><ul>
+<li><h5 id="注：默认的keepalived-conf配置太多，直接删除，用下面配置替换即可-1"><a href="#注：默认的keepalived-conf配置太多，直接删除，用下面配置替换即可-1" class="headerlink" title="注：默认的keepalived.conf配置太多，直接删除，用下面配置替换即可 "></a><code>注：默认的keepalived.conf配置太多，直接删除，用下面配置替换即可 </code></h5></li>
+<li><p>192.168.56.64 </p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[root@lb-master ~]# vim /etc/keepalived/keepalived.conf </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">global_defs &#123; </span><br><span class="line"></span><br><span class="line">   notification_email &#123; </span><br><span class="line"></span><br><span class="line">     acassen@firewall.loc </span><br><span class="line"></span><br><span class="line">     failover@firewall.loc </span><br><span class="line"></span><br><span class="line">     sysadmin@firewall.loc </span><br><span class="line"></span><br><span class="line">   &#125; </span><br><span class="line"></span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc  </span><br><span class="line"></span><br><span class="line">   smtp_server <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> </span><br><span class="line"></span><br><span class="line">   smtp_connect_timeout <span class="number">30</span> </span><br><span class="line"></span><br><span class="line">   router_id NGINX_BACKUP</span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">vrrp_script check_nginx &#123;</span><br><span class="line"></span><br><span class="line">    script <span class="string">&quot;/etc/keepalived/check_nginx.sh&quot;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123; </span><br><span class="line"></span><br><span class="line">    state BACKUP            # 设置keepalive角色为backend</span><br><span class="line"></span><br><span class="line">    interface eth0           # 设置虚拟网卡名称</span><br><span class="line"></span><br><span class="line">    virtual_router_id 51       # VRRP 路由 ID实例，每个实例是唯一的，master和slave保持一致即可</span><br><span class="line"></span><br><span class="line">    priority 90             # 优先级，备服务器设置 90 </span><br><span class="line"></span><br><span class="line">    advert_int 1            # 指定VRRP 心跳包通告间隔时间，默认1秒 </span><br><span class="line"></span><br><span class="line">    authentication &#123; </span><br><span class="line"></span><br><span class="line">        auth_type PASS      </span><br><span class="line"></span><br><span class="line">        auth_pass <span class="number">1111</span> </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123; </span><br><span class="line"></span><br><span class="line">        192.168.56.60/24     # 设置虚拟网卡地址</span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line"></span><br><span class="line">        check_nginx</span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="添加nginx健康监测脚本"><a href="#添加nginx健康监测脚本" class="headerlink" title="添加nginx健康监测脚本"></a>添加nginx健康监测脚本</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[root@lb-master keepalived]# vim /etc/keepalived/check_nginx.sh</span><br><span class="line"></span><br><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">count=$(ps -ef |grep nginx |egrep -cv <span class="string">&quot;grep|$$&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$count&quot;</span> -eq <span class="number">0</span> ];then</span><br><span class="line"></span><br><span class="line">    exit <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">    exit <span class="number">0</span></span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">[root@lb-master keepalived]# chmod +x /etc/keepalived/check_nginx.sh         # 给脚本添加一个可执行</span><br><span class="line"></span><br><span class="line">权限</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="启动keepalive命令"><a href="#启动keepalive命令" class="headerlink" title="启动keepalive命令"></a>启动keepalive命令</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">[root@lb-master ~]# systemctl start keepalived </span><br><span class="line">[root@lb-master ~]# systemctl enable keepalived</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="测试keepalive高可用"><a href="#测试keepalive高可用" class="headerlink" title="测试keepalive高可用"></a>测试keepalive高可用</h3><ul>
+<li>测试使用 <a href="http://192.168.56.60:88/">http://192.168.56.60:88/</a> 虚拟IP访问<ul>
+<li>在浏览器中访问: <a href="http://192.168.56.60/">http://192.168.56.60</a> <a href="http://192.168.56.61/">http://192.168.56.61</a> <a href="http://192.168.56.64/">http://192.168.56.64</a> 都可以访问web1和web2服务</li>
+</ul>
+</li>
+<li>关闭lb-master（192.168.56.61）的nginx测试VIP是否漂移到备节点<ul>
+<li>在192.168.56.61中停止nginx服务（lb-master）,lb-slave中可以接替master的服务</li>
+<li>依然可以使用 <a href="http://192.168.56.60:88/">http://192.168.56.60:88/</a> 访问web01和web02服务</li>
+</ul>
+</li>
+</ul>
+<br/>
+
+<p>使用ip addr 可以查看ip地址</p>
+<p><img src="/imgs/nginx%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1610800880083.png" alt="1610800880083"></p>
+<br/>
+
+<h2 id="项目部署并发分析"><a href="#项目部署并发分析" class="headerlink" title="项目部署并发分析"></a>项目部署并发分析</h2><h3 id="并发常用名词"><a href="#并发常用名词" class="headerlink" title="并发常用名词"></a>并发常用名词</h3><ol>
+<li><p>PV(访问量)： 页面访问量，页面刷新一次算一次。 </p>
+</li>
+<li><p>UV(独立访客)： 即Unique Visitor，一个客户端（电脑，手机）为一个访客； </p>
+</li>
+<li><p>DAU(日活跃用户数)：登录或使用了某个产品的用户数，这与流量统计工具里的访客（UV）概念相似。 </p>
+</li>
+<li><p>峰值QPS： </p>
+</li>
+</ol>
+<p>　　　　原理：每天80%的访问集中在20%的时间里，这20%时间叫做峰值时间 </p>
+<p>　　　　公式：( 总PV数 * 80% ) / ( 每天秒数 * 20% ) = 峰值时间每秒请求数(QPS) </p>
+<ol start="5">
+<li>QPS/TPS(每秒查询率)：每秒能够查询次数（QPS/TPS= 并发数 / 平均响应时间） </li>
+</ol>
+<p>　　　　并发数：并发数是指系统同时能处理的请求数量，这个也是反应了系统的负载能力。 </p>
+<p>　　　　吐吞量：吞吐量是指系统在单位时间内处理请求的数量 </p>
+<p>　　　　响应时间（RT）：响应时间是指系统对请求作出响应的时间，一般取平均响应时间</p>
+]]></content>
+      <categories>
+        <category>工具Nginx</category>
+      </categories>
+      <tags>
+        <tag>工具Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解MVC</title>
+    <url>/id_07/</url>
+    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
+<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
+ <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
+
+<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
+<span id="more"></span>
+<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
+
+<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
+]]></content>
+      <categories>
+        <category>Python 开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>理解什么是JWT(Json web token)及Python实现</title>
+    <url>/id_06/</url>
+    <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
+<p>深入了解Json Web令牌之概念篇 :<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>参考博客：<a href="https://segmentfault.com/a/1190000010312468?utm_source=tag-newest">https://segmentfault.com/a/1190000010312468?utm_source=tag-newest</a></p>
+<blockquote>
+<p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc7519">(RFC 7519</a>).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
+</blockquote>
+<h2 id="使用传统Session进行身份验证？"><a href="#使用传统Session进行身份验证？" class="headerlink" title="使用传统Session进行身份验证？"></a>使用传统Session进行身份验证？</h2><p>使用 Session 进行身份认证的话，实现<strong>单点登录</strong>，需要我们把用户的 Session 信息保存在一台电脑上，并且还会遇到常见的 <strong>Cookie 跨域</strong>的问题。但是，使用 token 进行认证的话， token 被保存在客户端，不会存在这些问题。 </p>
+<h2 id="Token的认证流程"><a href="#Token的认证流程" class="headerlink" title="Token的认证流程"></a>Token的认证流程</h2><ol>
+<li><p>用户输入其登录信息</p>
+</li>
+<li><p>服务器验证信息是否正确，并返回已签名的token</p>
+</li>
+<li><p>token储在客户端，例如存在local storage或cookie中</p>
+</li>
+<li><p>之后的HTTP请求都将token添加到请求头里</p>
+</li>
+<li><p>服务器解码JWT，并且如果令牌有效，则接受请求</p>
+</li>
+<li><p>一旦用户注销，令牌将在客户端被销毁，不需要与服务器进行交互一个关键是，令牌是无状态的。后端服务器不需要保存令牌或当前session的记录</p>
+</li>
+</ol>
+<h2 id="JWT-特点"><a href="#JWT-特点" class="headerlink" title="JWT 特点"></a>JWT 特点</h2><ul>
+<li>体积小，因而传输速度快</li>
+<li>传输方式多样，可以通过URL/POST参数/HTTP头部等方式传输</li>
+<li>严格的结构化。它自身（在 payload 中）就包含了所有与用户相关的验证消息，如用户可访问路由、访问有效期等信息，服务器无需再去连接数据库验证信息的有效性，并且 payload 支持为你的应用而定制化。</li>
+<li>支持跨域验证，可以应用于单点登录。</li>
+</ul>
+<h2 id="认识JWT"><a href="#认识JWT" class="headerlink" title="认识JWT"></a>认识JWT</h2><p>JWT是由三段信息构成的，将这三段信息文本用<code>.</code>链接一起就构成了Jwt字符串。就像这样: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>一个通常你看到的jwt，由以下三部分组成，分别分别是：</p>
+<p>1.header：主要声明了JWT的类型、签名算法；</p>
+<p>2.payload：主要承载了各种声明并传递明文数据；</p>
+<p>3.signature：拥有该部分的JWT被称为JWS，也就是签了名的JWS；没有该部分的JWT被称为不安全的JWT也就是不安全的JWT，此时报头中的声明的签名算法为none。</p>
+<h4 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h4><ul>
+<li><p>声明类型，这里是jwt</p>
+</li>
+<li><p>声明加密的算法 通常直接使用 HMAC SHA256</p>
+</li>
+<li><p> 然后将头部进行base64加密（该加密是可以对称解密的)，构成了第一部分。 </p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//包括类别（typ）、加密算法（alg）；</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">  <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="载荷（payload）"><a href="#载荷（payload）" class="headerlink" title="载荷（payload）"></a>载荷（payload）</h4><p>载荷就是存放有效信息的地方。这些有效信息包含三个部分：</p>
+<ul>
+<li>标准中注册声明</li>
+<li>公共的声名</li>
+<li>私有的声明</li>
+</ul>
+<p><code>公共的声明 ：</code><br>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密。</p>
+<p><code>私有的声明 ：</code><br>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。</p>
+<p>下面是一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括需要传递的用户信息；</span></span><br><span class="line">&#123; <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;Online JWT Builder&quot;</span>, </span><br><span class="line">  <span class="string">&quot;iat&quot;</span>: <span class="number">1416797419</span>, </span><br><span class="line">  <span class="string">&quot;exp&quot;</span>: <span class="number">1448333419</span>, </span><br><span class="line">  <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>, </span><br><span class="line">  <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;uid&quot;</span>, </span><br><span class="line">  <span class="string">&quot;nickname&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;username&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;scopes&quot;</span>: [ <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span> ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>iss: 该JWT的签发者，是否使用是可选的；</li>
+<li>sub: 该JWT所面向的用户，是否使用是可选的；</li>
+<li>aud: 接收该JWT的一方，是否使用是可选的；</li>
+<li>exp(expires): 什么时候过期，这里是一个Unix时间戳，是否使用是可选的；</li>
+<li>iat(issued at): 在什么时候签发的(UNIX时间)，是否使用是可选的；</li>
+</ul>
+<p>其他还有：</p>
+<ul>
+<li>nbf (Not Before)：如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；，是否使用是可选的；</li>
+<li>jti: jwt的唯一身份标识，主要用来作为一次性token，从而回避重放攻击。</li>
+</ul>
+<p>将上面的JSON对象进行<code>base64编码</code>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<h4 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据alg算法与私有秘钥进行加密得到的签名字串；</span></span><br><span class="line"><span class="comment">// 这一段是最重要的敏感信息，只能在服务端解密；</span></span><br><span class="line">HMACSHA256(  </span><br><span class="line">    base64UrlEncode(header) + <span class="string">&quot;.&quot;</span> +</span><br><span class="line">    base64UrlEncode(payload),</span><br><span class="line">    SECREATE_KEY</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
+<ul>
+<li>header (base64后的)</li>
+<li>payload (base64后的)</li>
+<li>secret</li>
+</ul>
+<p>将上面的两个编码后的字符串都用.连接在一起（头部在前）最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。如果我们用 <code>secret</code> 作为密钥的话，那么就可以得到我们加密后内容</p>
+<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>签名的目的</code>：签名实际上是对头部以及载荷内容进行签名。所以，如果有人对头部以及载荷的内容解码之后进行修改，再进行编码的话，那么新的头部和载荷的签名和之前的签名就将是不一样的。而且，如果不知道服务器加密的时候用的密钥的话，得出来的签名也一定会是不一样的。<br>这样就能保证token不会被篡改。 </p>
+</blockquote>
+<p>token 生成好之后，接下来就可以用token来和服务器进行通讯了。 </p>
+<p>这里在第三步我们得到 JWT 之后，需要将JWT存放在 client，之后的每次需要认证的请求都要把JWT发送过来。（请求时可以放到 header 的 Authorization ） </p>
+<p>![1610682286610](/imgs/理解什么是JWT(Json web token)及Python实现/1610682286610.png)</p>
+<h3 id="JWT-使用场景"><a href="#JWT-使用场景" class="headerlink" title="JWT 使用场景"></a>JWT 使用场景</h3><p>JWT的主要优势在于使用无状态、可扩展的方式处理应用中的用户会话。服务端可以通过内嵌的声明信息，很容易地获取用户的会话信息，而不需要去访问用户或会话的数据库。在一个分布式的面向服务的框架中，这一点非常有用。</p>
+<p>但是，如果系统中需要使用黑名单实现长期有效的token刷新机制，这种无状态的优势就不明显了。</p>
+<blockquote>
+<p>优点</p>
+</blockquote>
+<p>快速开发<br>不需要cookie<br>JSON在移动端的广泛应用<br>不依赖于社交登录<br>相对简单的概念理解</p>
+<blockquote>
+<p>缺点</p>
+</blockquote>
+<p>Token有长度限制<br>Token不能撤销<br>需要token有失效时间限制(exp)</p>
+<h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><p>我们可以使用 <a href="https://github.com/jpadilla/pyjwt/">pyjwt：https://github.com/jpadilla/pyjwt/</a> </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 sanic 作为restful api 框架 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_token</span>(<span class="params">request</span>):</span></span><br><span class="line">    grant_type = request.json.get(<span class="string">&#x27;grant_type&#x27;</span>)</span><br><span class="line">    username = request.json[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">    password = request.json[<span class="string">&#x27;password&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> grant_type == <span class="string">&#x27;password&#x27;</span>:</span><br><span class="line">        account = verify_password(username, password)</span><br><span class="line">    <span class="keyword">elif</span> grant_type == <span class="string">&#x27;wxapp&#x27;</span>:</span><br><span class="line">        account = verify_wxapp(username, password)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> account:</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;iat&quot;</span>: <span class="built_in">int</span>(time.time()),</span><br><span class="line">         <span class="string">&quot;exp&quot;</span>: <span class="built_in">int</span>(time.time()) + <span class="number">86400</span> * <span class="number">7</span>,</span><br><span class="line">         <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;sub&quot;</span>: account[<span class="string">&#x27;_id&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;username&quot;</span>: account[<span class="string">&#x27;username&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;scopes&quot;</span>: [<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    token = jwt.encode(payload, <span class="string">&#x27;secret&#x27;</span>, algorithm=<span class="string">&#x27;HS256&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span>, &#123;<span class="string">&#x27;access_token&#x27;</span>: token, <span class="string">&#x27;account_id&#x27;</span>: account[<span class="string">&#x27;_id&#x27;</span>]&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_bearer_token</span>(<span class="params">token</span>):</span></span><br><span class="line">    <span class="comment">#  如果在生成token的时候使用了aud参数，那么校验的时候也需要添加此参数</span></span><br><span class="line">    payload = jwt.decode(token, <span class="string">&#x27;secret&#x27;</span>, audience=<span class="string">&#x27;www.gusibi.com&#x27;</span>, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>, token</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span>, token</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python +django 实现码云（gitee）三方登陆</title>
+    <url>/id_10/</url>
+    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
+<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
+<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
+<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
+<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
+<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
+<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
+<span id="more"></span>
+
+
+
+<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
+<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
+<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
+<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
+<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
+<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+
+<p>最后我们会得到一个用户信息。</p>
+<p><strong>总结</strong>：</p>
+<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
+
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用python+django集成钉钉三方扫码登陆</title>
+    <url>/id_09/</url>
+    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
+<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
+<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
+<ol>
+<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<ol start="2">
+<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
+</ol>
+<pre><code>![](/myhexo/imgs/使用python+django集成钉钉三方扫码登陆/20191221095537_44738.png) 
+</code></pre>
+<ol start="3">
+<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
+
+<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
+<p><img src="/myhexo/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>   最后我们访问路由就可以得到自己的个人信息。</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python的垃圾回收机制</title>
+    <url>/id_11/</url>
+    <content><![CDATA[<h1 id="Python的垃圾回收机制"><a href="#Python的垃圾回收机制" class="headerlink" title="Python的垃圾回收机制"></a>Python的垃圾回收机制</h1><br/>
+
+
+
+<p><strong>对象</strong>：因为Python中一切皆对象，所以变量的本质其实就是对象的一个指针；比如：<code>a = 1 </code>其实先分配内存（<strong>创建对象</strong>）存储数据“1”；然后a变量中指向对象（变量a存储着对象的内存地址）<br><strong>不可变对象</strong>：变量相对于对象的指向不会发生改变<br>1.具有相同值的不可变对象，变量指向的是同一个对象<br>2.只要不可变对象的值发生改变，变量就会指向重新创建的对象<br><strong>可变对象</strong>：变量相对于对象的指向会发生改变<br>1.具有相同值的可变对象，变量指向的是不同的对象<br>2.允许可变对象存储数据的值发生改变而不影响变量的指向</p>
+<p>因为Python运行过程中会使用各种变量，所以如果对象的占用内存管理不当，程序会由于内存溢出而异常终止</p>
+<br/>
+
+<h2 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1.引用计数法"></a>1.引用计数法</h2><p>Python中采用<code>引用计数</code>为主，<code>标记-清除</code>和<code>分代回收</code>为辅的策略</p>
+<p>引用计数法：每当对象被引用一次<code>引用计数</code>就会加一；而当引用被销毁后就会进行减一，当<code>引用计数</code>为零时进行内存回收</p>
+<p><strong>优点</strong></p>
+<blockquote>
+<p>1.高效且易于实现<br>2.实时性：一旦没有引用，内存直接释放<br>3.对象拥有确定的周期</p>
+</blockquote>
+<p><strong>缺点</strong></p>
+<blockquote>
+<p>1.资源消耗：维护引用计数的次数和引用赋值成正比<br>2.无法解决循环引用问题</p>
+</blockquote>
+<br/>
+
+<h3 id="引用计数案例"><a href="#引用计数案例" class="headerlink" title="引用计数案例"></a>引用计数案例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;初始化对象&#x27;&#x27;&#x27;</span></span><br><span class="line">        print(<span class="string">&#x27;object born id:%s&#x27;</span> %<span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">id</span>(self))))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>():</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;循环引用变量与删除变量&#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        c1=A()</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">c</span>):</span></span><br><span class="line">    print(<span class="string">&#x27;obejct refcount is: &#x27;</span>,sys.getrefcount(c)) <span class="comment">#getrefcount()方法用于返回对象的引用计数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="comment">#生成对象</span></span><br><span class="line">    a=A()</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#增加引用</span></span><br><span class="line">    b=a</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#销毁引用对象b</span></span><br><span class="line">    <span class="keyword">del</span> b</span><br><span class="line">    func(a)</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong><code>注意：查看对象的引用计数使用python内置模块中的sys的getrefcount()方法</code></strong></p>
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> born <span class="built_in">id</span>:<span class="number">0xfbfed0</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">5</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h4 id="导致引用计数-1-的情况"><a href="#导致引用计数-1-的情况" class="headerlink" title="导致引用计数 +1 的情况"></a>导致引用计数 +1 的情况</h4><ul>
+<li><p>对象被创建，例如 a=23</p>
+</li>
+<li><p>对象被引用，例如 b=a</p>
+</li>
+<li><p>对象被作为参数，传入到一个函数中，例如<code>func(a)</code></p>
+</li>
+<li><p>对象作为一个元素，存储在容器中，例如<code>list1=[a,a]</code></p>
+<br/></li>
+</ul>
+<h4 id="导致引用计数-1-的情况-1"><a href="#导致引用计数-1-的情况-1" class="headerlink" title="导致引用计数-1 的情况"></a>导致引用计数-1 的情况</h4><ul>
+<li><p>对象的别名被显式销毁，例如<code>del a</code></p>
+</li>
+<li><p>对象的别名被赋予新的对象，例如<code>a=24</code></p>
+</li>
+<li><p>一个对象离开它的作用域，例如 f 函数执行完毕时，<code>func</code>函数中的局部变量（全局变量不会）</p>
+</li>
+<li><p>对象所在的容器被销毁，或从容器中删除对象</p>
+<br/></li>
+</ul>
+<h2 id="2-标记-清除"><a href="#2-标记-清除" class="headerlink" title="2.标记-清除"></a>2.标记-清除</h2><p><strong>标记-清除</strong></p>
+<blockquote>
+<p>1）它分为两个阶段：第一阶段是标记阶段，GC会把所有的活动对象打上标记，第二阶段是把那些没有标记的对象非活动对象进行回收。</p>
+<p>2）对象之间通过引用（指针）连在一起，构成一个有向图</p>
+<p>3）从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象，根对象就是全局变量、调用栈、寄存器。</p>
+<p>注：像是PyIntObject、PyStringObject这些不可变对象是不可能产生循环引用的，因为它们内部不可能持有其它对象的引用。</p>
+</blockquote>
+<br/>
+
+<p><img src="/imgs/Python%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/1611640216458.png"></p>
+<br/>
+
+<ol>
+<li>在上图中，可以从程序变量直接访问块1，并且可以间接访问块2和3,程序无法访问块4和5</li>
+<li>第一步将标记块1，并记住块2和3以供稍后处理。</li>
+<li>第二步将标记块2，第三步将标记块3，但不记得块2，因为它已被标记。</li>
+<li>扫描阶段将忽略块1，2和3，因为它们已被标记，但会回收块4和5。</li>
+</ol>
+<br/>
+
+<h2 id="3-分代回收"><a href="#3-分代回收" class="headerlink" title="3.分代回收"></a>3.分代回收</h2><p>1、Python将内存分为了3“代”，分别为年轻代、中年代、老年代<br>2、最初创建对象都放在年轻代<br>3、当触发一次标记清除时，如果没有被清除，从年轻代到中年代<br>4、再一次触发标记清除，在中年代的数据依然没有被清除，就会放到老年代<br>5、意义：越多次数无法清除的，以后被清除的概率就更低</p>
+<p>参考博客：<a href="https://testerhome.com/topics/16556">https://testerhome.com/topics/16556</a><br>         <a href="https://segmentfault.com/a/1190000021986557">https://segmentfault.com/a/1190000021986557</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+        <category>内存管理</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo博客搭建之在文章中插入图片</title>
+    <url>/id_13/</url>
+    <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
+<ul>
+<li>在写文章时，常常有配图说明的需求。Hexo有多种图片插入方式，可以将图片存放在本地引用或者将图片放在CDN上引用。</li>
+</ul>
+<h3 id="本地引用—–》绝对路径"><a href="#本地引用—–》绝对路径" class="headerlink" title="本地引用—–》绝对路径"></a>本地引用—–》绝对路径</h3><p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。</p>
+<p>比如：source/images/image.jpg</p>
+<p><code>最近在写Hexo博客的时候，都是使用的绝地路径。非常好用</code></p>
+<p>比如：/imgs/1608460008581.png</p>
+<p><img src="/images/image.jpg"> </p>
+<span id="more"></span>
+
+<p><strong>效果</strong>：图片既可以在首页内容中访问到，也可以在文章正文中访问到。</p>
+<h3 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h3><p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过配置_config.yml来生成。</p>
+<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
+<p>_posts/post_name/image.jpg</p>
+<p><img src="image.jpg"> </p>
+<p><strong>效果</strong>：上述是markdown的引用方式，图片只能在文章中显示，但无法在首页中正常显示。</p>
+<p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
+<p>_posts/post_name/image.jpg</p>
+ 
+
+
+
+<h3 id="CDN引用"><a href="#CDN引用" class="headerlink" title="CDN引用"></a>CDN引用</h3><p>除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。</p>
+]]></content>
+      <categories>
+        <category>Hexo博客搭建</category>
+      </categories>
+      <tags>
+        <tag>Hexo博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python深浅拷贝的区别</title>
+    <url>/id_14/</url>
+    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<ul>
+<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
+<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
+</ul>
+</blockquote>
+<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
+<br/>
+
+<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
+<p>代码展示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<br/>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+        <category>语法基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用redis数据库+python实现获取在线用户人数</title>
+    <url>/id_12/</url>
+    <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
+<p>这里使用的是redis集合：</p>
+<p>Redis集是字符串的无序集合。可以在O(1)中添加，删除和检查成员的存在（恒定时间，而与Set中包含的元素数量无关）。</p>
+<p>一个集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
+<span id="more"></span>
+
+<p>应用范围:</p>
+<ul>
+<li>您可以使用Redis集来跟踪独特的事物。想知道访问指定博客帖子的所有唯一IP地址吗？每次处理页面视图时，只需使用SADD。这样避免插入重复的IP。</li>
+<li>Redis集很好地表示关系。您可以使用Set代表每个标签，使用Redis创建标签系统。然后，可以使用SADD命令将具有给定标签的所有对象的所有ID添加到代表该特定标签的Set中。您是否希望所有对象的所有ID同时具有三个不同的标签？只需使用SINTER即可。</li>
+<li>您可以使用Set使用SPOP或SRANDMEMBER命令随机提取元素。</li>
+</ul>
+<p><strong>redis集合底层实现</strong>？</p>
+<ul>
+<li>底层封装的是 <strong>哈希(Hash)</strong> ，也就是我们常说的字典，它利用的是字典的特性。</li>
+<li>集合在业界也被成为是没有<code>值(vaue)</code>的字典，只有key。无论是哈希(Hash)还是字典。</li>
+</ul>
+<p>大家在做网站排行榜等有序的数据时，可以使用redis数据库中的 <strong>有序集合（Sorted Sets）</strong> </p>
+<p>与Redis集类似，Redis排序集是非重复的String集合。区别在于，排序集的每个成员都与得分相关联，该得分用于从最小到最大得分中获取排序的排序集。虽然成员是唯一的，但分数可能会重复。</p>
+<p>一个有序集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
+<p>应用范围:</p>
+<ul>
+<li>在大型在线游戏中担任排行榜，每次提交新分数时，您就可以使用ZADD对其进行更新。您可以轻松地使用ZRANGE吸引顶级用户，也可以给定用户名，使用ZRANK返回其在列表中的排名。一起使用ZRANK和ZRANGE可以向用户显示得分与给定用户相似的得分。速度很快。</li>
+<li>排序集通常用于索引Redis中存储的数据。例如，如果您有许多代表用户的哈希，则可以使用已排序的集合，其元素具有用户的年龄作为得分，而用户的ID作为值。因此，使用ZRANGEBYSCORE检索具有给定年龄段的所有用户将非常简单快捷。</li>
+</ul>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接redis</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">5</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 获取当前在线用户人数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetOnLines</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    		<span class="comment">#获取用户ip地址</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;HTTP_X_FORWARDED_FOR&quot;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;HTTP_X_FOGWARDED_FOR&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> r.scard(<span class="string">&quot;set_ip&quot;</span>):</span><br><span class="line">          <span class="comment">#添加用户ip</span></span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">            r.expire(<span class="string">&quot;set_ip&quot;</span>, <span class="number">30</span>)	<span class="comment">#因为没有办法判断人是否走了，使用相对性 设置一个时间，清除一下这个ip 再添加</span></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&quot;online&quot;</span>: r.scard(<span class="string">&quot;set_ip&quot;</span>)&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python中的类方法、实例方法、静态方法、构造方法</title>
+    <url>/id_16/</url>
+    <content><![CDATA[<h1 id="Python中的类方法、实例方法、静态方法、构造方法"><a href="#Python中的类方法、实例方法、静态方法、构造方法" class="headerlink" title="Python中的类方法、实例方法、静态方法、构造方法"></a>Python中的类方法、实例方法、静态方法、构造方法</h1><hr>
+<h2 id="python基础知识回顾"><a href="#python基础知识回顾" class="headerlink" title="python基础知识回顾"></a>python基础知识回顾</h2><ul>
+<li><strong>类(Class):</strong> 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。</li>
+<li><strong>方法：</strong>类中定义的函数。</li>
+<li><strong>类变量：</strong>类变量在整个实例化的对象中是公用的。类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用。</li>
+<li><strong>数据成员：</strong>类变量或者实例变量用于处理类及其实例对象的相关的数据。</li>
+<li><strong>方法重写：</strong>如果从父类继承的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖（override），也称为方法的重写。</li>
+<li><strong>局部变量：</strong>定义在方法中的变量，只作用于当前实例的类。</li>
+<li><strong>实例变量：</strong>在类的声明中，属性是用变量来表示的。这种变量就称为实例变量，是在类声明的内部但是在类的其他成员方法之外声明的。</li>
+<li><strong>继承：</strong>即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟”是一个（is-a）”关系（例如，Dog是一个Animal）。</li>
+<li><strong>实例化：</strong>创建一个类的实例，类的具体对象。</li>
+<li><strong>对象：</strong>通过类定义的数据结构实例。对象包括两个数据成员（类变量和实例变量）和方法。</li>
+</ul>
+<span id="more"></span>
+
+<p>类实例化后，可以使用其属性，实际上，创建一个类之后，可以通过类名访问其属性。</p>
+<p><strong>类对象</strong>支持两种操作：<strong>属性引用和实例化</strong>。</p>
+<p>1.属性引用使用和 Python 中所有的属性引用一样的标准语法：<strong>obj.name</strong>。</p>
+<p>2.类对象创建后，类命名空间中所有的命名都是有效属性名。</p>
+<p>类有一个名为 <strong>init</strong>() 的特殊方法（<strong>构造方法</strong>），该方法在类实例化时会自动调用，也就是说，我们在实例化对象时，这个方法就是用来初始化实例对象的属性的。</p>
+<p>当然， <strong>init</strong>() 方法可以有参数，参数通过 <strong>init</strong>() 传递到类的实例化操作上。例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Computer:</span><br><span class="line">    def __init__(self, cpu, hd):</span><br><span class="line">        self.cpu &#x3D; cpu</span><br><span class="line">        self.hd &#x3D; hd</span><br><span class="line">c1 &#x3D; Computer(&#39;i7&#39;,&#39;512&#39;)</span><br><span class="line">print(c1.cpu, c1.hd)   # 输出结果：i7 512</span><br></pre></td></tr></table></figure>
+
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="self代表类的实例，而非类"><a href="#self代表类的实例，而非类" class="headerlink" title="self代表类的实例，而非类"></a>self代表类的实例，而非类</h2><p>类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的<strong>第一个参数名称</strong>, 按照惯例它的名称是 self。（也就是说，用其他名称也可以，但通常我们写成self）</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">class Test:</span><br><span class="line">    def prt(self):</span><br><span class="line">        print(self)</span><br><span class="line">        print(self.__class__)</span><br><span class="line"> </span><br><span class="line">t = Test()</span><br><span class="line">t.prt()</span><br><span class="line">#运行结果</span><br><span class="line">&lt;__main__.Test object at 0x000002CA3CA28748&gt;</span><br><span class="line">&lt;class &#x27;__main__.Test&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>从执行结果可以很明显的看出，self 代表的是类的实例，代表当前对象的地址，而 self.class 则指向类。</p>
+<p>self 不是 python 关键字，我们把他换成 其他名称也是可以正常执行的。</p>
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="类的方法"><a href="#类的方法" class="headerlink" title="类的方法"></a>类的方法</h2><p>在类的内部，使用 <strong>def</strong> 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数 self, 且为第一个参数，self 代表的是类的实例。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">#类定义</span><br><span class="line">class people:</span><br><span class="line">    #定义基本属性</span><br><span class="line">    name = &#x27;&#x27;</span><br><span class="line">    age = 0</span><br><span class="line">    #定义私有属性,私有属性在类外部无法直接进行访问</span><br><span class="line">    __weight = 0</span><br><span class="line">    #定义构造方法</span><br><span class="line">    def __init__(self,n,a,w):</span><br><span class="line">        self.name = n</span><br><span class="line">        self.age = a</span><br><span class="line">        self.__weight = w</span><br><span class="line">    def speak(self):</span><br><span class="line">        print(&quot;%s 说: 我 %d 岁了&quot; %(self.name,self.age))</span><br><span class="line"> </span><br><span class="line"># 实例化类</span><br><span class="line">p = people(&#x27;jack&#x27;,10,120)</span><br><span class="line">p.speak()</span><br><span class="line">#运行结果</span><br><span class="line">jack 说: 我 10 岁了</span><br></pre></td></tr></table></figure>
+
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="类的私有属性"><a href="#类的私有属性" class="headerlink" title="类的私有属性"></a>类的私有属性</h2><p><strong>__private_attrs</strong>：两个下划线开头，声明该属性为私有，不能在类的外部被使用或直接访问。在类内部的方法中使用时 <strong>self.__private_attrs</strong>。</p>
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="类的私有方法"><a href="#类的私有方法" class="headerlink" title="类的私有方法"></a>类的私有方法</h2><p><strong>__private_method</strong>：两个下划线开头，声明该方法为私有方法，只能在类的内部调用 ，不能在类的外部调用。<strong>self.__private_methods</strong>。</p>
+<blockquote>
+<p>类的专有方法<br><strong><strong>init</strong> :** 构造函数，在生成对象时调用<br>**<strong>del</strong> :** 析构函数，释放对象时使用<br>**<strong>repr</strong> :** 打印，转换<br>**<strong>setitem</strong> :** 按照索引赋值<br>**<strong>getitem</strong>:** 按照索引获取值<br>**<strong>len</strong>:** 获得长度<br>**<strong>cmp</strong>:** 比较运算<br>**<strong>call</strong>:** 函数调用<br>**<strong>add</strong>:** 加运算<br>**<strong>sub</strong>:** 减运算<br>**<strong>mul</strong>:** 乘运算<br>**<strong>truediv</strong>:** 除运算<br>**<strong>mod</strong>:** 求余运算<br>**<strong>pow</strong>:</strong> 乘方</p>
+</blockquote>
+<p>实例方法只能被实例对象调用，静态方法(由@staticmethod装饰的方法)、类方法(由@classmethod装饰的方法)，可以被类或类的实例对象调用。</p>
+<p>总结：</p>
+<p><strong>1.实例方法</strong>：第一个参数必须要默认传实例对象，一般习惯用self。</p>
+<p>通过self引用的可能是类属性、也有可能是实例属性（这个需要具体分析），不过在存在相同名称的类属性和实例属性的情况下，实例属性优先级更高</p>
+<p><strong>2.静态方法</strong>：修饰器@staticmethod来标识其为静态方法</p>
+<p>静态方法中引用类属性的话，必须通过类对象来引用，不能访问实例属性</p>
+<p><strong>3.类方法</strong>：修饰器@classmethod来标识其为类方法</p>
+<p>第一个参数必须要默认传类，一般习惯用cls(表示类本身)。</p>
+<p>类方法是只与类本身有关而与实例无关的方法。</p>
+<p>通过cls引用的必定是类对象的属性和方法，不能访问实例属性</p>
+<p>能够通过实例对象和类对象去访问类方法</p>
+<blockquote>
+<p>@staticmethod和@classmethod都可以直接类名.方法名()来调用，那他们有什么区别呢<br>从它们的使用上来看,<br>@staticmethod不需要表示自身对象的self和自身类的cls参数，就跟使用函数一样。<br>@classmethod也不需要self参数，但第一个参数需要是表示自身类的cls参数。<br>如果在@staticmethod中要调用到这个类的一些属性方法，只能直接类名.属性名或类名.方法名。<br>而@classmethod因为持有cls参数，可以来调用类的属性，类的方法，实例化对象等，避免硬编码。</p>
+</blockquote>
+<p><strong>方法（method）与函数（function）的区别：</strong></p>
+<p>1、方法用于类，且包含在类里（静态方法可以写在外面，但一般不这么做，静态方法本可以理解为函数），方法是特殊的函数。</p>
+<p>2、具体可以用type()来区分</p>
+<p>3、区别方法和函数最本质的办法还是看是否绑定类或实例，比如实例方法如果用类调用就会成为函数，用实例调用就是方法，而静态方法没有绑定任何类或实例，自然就是函数</p>
+<p>4、*装饰器不会改变被装饰对象的类型</p>
+<h2 id="静态方法与普通方法区别"><a href="#静态方法与普通方法区别" class="headerlink" title="静态方法与普通方法区别"></a>静态方法与普通方法区别</h2><ul>
+<li>静态的内存空间是固定的，相对来说更省资源。创实例的创一个实例就要开辟一个新内存，耗费资源</li>
+<li>静态方法属于类所有，类实例化前即可使用；</li>
+<li>非静态方法可以访问类中的任何成员，静态方法只能访问类中的静态成员；</li>
+<li>因为静态方法在类实例化前就可以使用，而类中的非静态变量必须在实例化之后才能分配内存；</li>
+<li>static内部只能出现static变量和其他static方法!而且static方法中还不能使用this等关键字，因为它是属于整个类；</li>
+<li>静态方法效率上要比实例化高，静态方法的缺点是不自动进行销毁，而实例化的则可以做销毁；</li>
+<li>静态方法和静态变量创建后始终使用同一块内存，而使用实例的方式会创建多个内存。<br><strong>主要区别</strong>：静态方法在创建对象前就可以使用了，非静态方法必须通过new出来的对象调用。</li>
+<li>静态方法可以通过 类名::方法名直接调用。普通方法需要创建一个实例，也就是new一个对象，然后通过 对象名-&gt;方法名的方式来调用</li>
+<li>静态类只能包含静态成员，否则会抛出编译错误；然而非静态类既可以包含非静态成员也可以包含静态成员</li>
+<li>静态类是不能实例化,之所以不能实例化,是因为静态类会导致C#编译器将该类同时标记为abstract和sealed,并且编译器不会在类型中</li>
+<li>生成一个实例的构造函数，从而导致静态类不能实例化；非静态类可以，并且静态成员的访问只能通过类来进行访问，因为静态成员是属于类的。</li>
+</ul>
+<p>参考博客：<a href="https://zhuanlan.zhihu.com/p/61168074">https://zhuanlan.zhihu.com/p/61168074</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis实现分布式单点登录</title>
+    <url>/id_17/</url>
+    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
+<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
+<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
+</ul>
+<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
+<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
+<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
+</ul>
+<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
+<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
+<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
+<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
+<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
+</ul>
+<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
+<ol>
+<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
+</ol>
+<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
+]]></content>
+      <categories>
+        <category>Redis数据库</category>
+      </categories>
+      <tags>
+        <tag>Redis数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sql语句大全</title>
+    <url>/id_18/</url>
+    <content><![CDATA[<h1 id="sql语句大全"><a href="#sql语句大全" class="headerlink" title="sql语句大全"></a>sql语句大全</h1><h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><ol>
+<li>查看所有数据库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查看当前使用的数据库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select database();</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建数据库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create database 数据库名 charset&#x3D;utf8;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li></li>
+<li><p>删除数据库</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">drop database 数据库名</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>使用数据句库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use database 数据库名</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>查看数据库中所有表</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h2><p>1.查看表结构</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">desc 表名</span><br></pre></td></tr></table></figure>
+
+<p>2.创建表结构的语法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table table_name(</span><br><span class="line">字段名 数据类型 可选的约束条件）；</span><br></pre></td></tr></table></figure>
+
+<p>demo：创建班级和学生表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table classes(</span><br><span class="line">    id int unsigned auto_increment primary key not null,</span><br><span class="line">    name varchar(10)</span><br><span class="line">);</span><br><span class="line">create table students(</span><br><span class="line">    id int unsigned primary key auto_increment not null,</span><br><span class="line">    name varchar(20) default &#39;&#39;,</span><br><span class="line">    age tinyint unsigned default 0,</span><br><span class="line">    height decimal(5,2),</span><br><span class="line">    gender enum(&#39;男&#39;,&#39;女&#39;,&#39;人妖&#39;,&#39;保密&#39;),</span><br><span class="line">    cls_id int unsigned default 0</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<p>3.修改表–添加字段</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table 表名 add 列名 类型</span><br><span class="line">demo：alter table students add birthday datetime;</span><br></pre></td></tr></table></figure>
+
+<p>4.修改表–修改字段–重命名版</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alert table 表名 change 原名 新名 类型及约束</span><br><span class="line">demo：alter table syudents change birthday birth  datetime not null;</span><br></pre></td></tr></table></figure>
+
+<p>5.修改表–修改字段–不重命名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table 表名 modify 列名 类型及约束</span><br><span class="line">demo : alter table students modify birth date nout noll;</span><br></pre></td></tr></table></figure>
+
+<p>6.删除表–删除字段</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table 表名 drop 列名</span><br><span class="line">demo :later table students drop birthday;</span><br></pre></td></tr></table></figure>
+
+<p>7.删除表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">drop table 表名</span><br><span class="line">demo:drop table students;</span><br></pre></td></tr></table></figure>
+
+<p>8.查看表的创建语句–详细过程</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show create table 表名</span><br><span class="line">demo : show create tabele students;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询基本使用"><a href="#查询基本使用" class="headerlink" title="查询基本使用"></a>查询基本使用</h2><p>1.查询所有列</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from 表名</span><br><span class="line">例：</span><br><span class="line">select * from classes;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>2.查询指定列</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select 列1，列2，...from 表名；</span><br><span class="line">例：</span><br><span class="line">select id,name from classes;</span><br><span class="line"></span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
+
+<h5 id="增加"><a href="#增加" class="headerlink" title="增加"></a>增加</h5><p>说明：主键列是自动增长，但是在全列插入时需要占位，通常使用空值(0或者null) ; 字段默认值 default 来占位，插入成功后以实际数据为准</p>
+<p>1.全列插入：值的顺序与表结构字段的顺序完全一一对应<br>此时 字段名列表不用填写</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into 表名 values (...)</span><br><span class="line">例：</span><br><span class="line">insert into students values(0,’郭靖‘,1,&#39;蒙古&#39;,&#39;2016-1-2&#39;);</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>2.部分列插入：值的顺序与给出的列顺序对应<br>此时需要根据实际的数据的特点 填写对应字段列表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into 表名 (列1,...) values(值1,...)</span><br><span class="line">例：</span><br><span class="line">insert into students(name,hometown,birthday) values(&#39;黄蓉&#39;,&#39;桃花岛&#39;,&#39;2016-3-2&#39;);</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>上面的语句一次可以向表中插入一行数据，还可以一次性插入多行数据，这样可以减少与数据库的通信</p>
+<p>3.全列多行插入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into 表名 values(...),(...)...;</span><br><span class="line">例：</span><br><span class="line">insert into classes values(0,&#39;python1&#39;),(0,&#39;python2&#39;);</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>4.部分列多行插入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into 表名(列1,...) values(值1,...),(值1,...)...;</span><br><span class="line">例：</span><br><span class="line">insert into students(name) values(&#39;杨康&#39;),(&#39;杨过&#39;),(&#39;小龙女&#39;);</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">update 表名 set 列1&#x3D;值1,列2&#x3D;值2... where 条件</span><br><span class="line">例：</span><br><span class="line">update students set gender&#x3D;0,hometown&#x3D;&#39;北京&#39; where id&#x3D;5;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<h5 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">delete from 表名 where 条件</span><br><span class="line">例：</span><br><span class="line">delete from students where id&#x3D;5;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>逻辑删除，本质就是修改操作</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">update students set isdelete&#x3D;1 where id&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<h5 id="as关键字"><a href="#as关键字" class="headerlink" title="as关键字"></a>as关键字</h5><p>1.使用 as 给字段起别名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select id as 序号, name as 名字, gender as 性别 from students;</span><br></pre></td></tr></table></figure>
+
+<p>2.可以通过 as 给表起别名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select s.id,s.name,s.gender from students as s;</span><br></pre></td></tr></table></figure>
+
+<h2 id="条件语句查询"><a href="#条件语句查询" class="headerlink" title="条件语句查询"></a>条件语句查询</h2><p>where后面支持多种运算符，进行条件的处理<br>比较运算符<br>逻辑运算符<br>模糊查询<br>范围查询<br>空判断</p>
+<h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><p>等于: =<br>大于: &gt;<br>大于等于: &gt;=<br>小于: &lt;<br>小于等于: &lt;=<br>不等于: != 或 &lt;&gt;</p>
+<p>例1：查询编号大于3的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where id &gt; 3;</span><br></pre></td></tr></table></figure>
+
+<p>例2：查询编号不大于4的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where id &lt;&#x3D; 4;</span><br></pre></td></tr></table></figure>
+
+<p>例3：查询姓名不是“黄蓉”的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where name !&#x3D; &#39;黄蓉&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>例4：查询没被删除的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where is_delete&#x3D;0;</span><br></pre></td></tr></table></figure>
+
+<h5 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h5><p>and<br>or<br>not</p>
+<p>例5：查询编号大于3的女同学</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where id &gt; 3 and gender&#x3D;0;</span><br></pre></td></tr></table></figure>
+
+<p>例6：查询编号小于4或没被删除的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where id &lt; 4 or is_delete&#x3D;0;</span><br></pre></td></tr></table></figure>
+
+<h5 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h5><p>like<br>%表示任意多个任意字符<br>_表示一个任意字符</p>
+<p>例7：查询姓黄的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where name like &#39;黄%&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>例8：查询姓黄并且“名”是一个字的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where name like &#39;黄_&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>例9：查询姓黄或叫靖的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where name like &#39;黄%&#39; or name like &#39;%靖&#39;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="范围查询"><a href="#范围查询" class="headerlink" title="范围查询"></a>范围查询</h5><p>范围查询分为连续范围查询和非连续范围查询</p>
+<ol>
+<li>in表示在一个非连续的范围内<br>例10：查询编号是1或3或8的学生</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where id in(1,3,8);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>between … and …表示在一个连续的范围内<br>例11：查询编号为3至8的学生</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where id between 3 and 8;</span><br></pre></td></tr></table></figure>
+
+<p>例12：查询编号是3至8的男生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where (id between 3 and 8) and gender&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<h5 id="空判断"><a href="#空判断" class="headerlink" title="空判断"></a>空判断</h5><p>判断为空<br>例13：查询没有填写身高的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where height is null;</span><br></pre></td></tr></table></figure>
+
+<p>注意： 1. null与’’是不同的 2. is null<br>判非空is not null<br>例14：查询填写了身高的学生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where height is not null;</span><br></pre></td></tr></table></figure>
+
+<p>例15：查询填写了身高的男生</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where height is not null and gender&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<p>优先级<br>优先级由高到低的顺序为：小括号，not，比较运算符，逻辑运算符<br>and比or先运算，如果同时出现并希望先算or，需要结合()使用</p>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>排序查询语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from 表名 order by 列1 asc|desc [,列2 asc|desc,...]</span><br></pre></td></tr></table></figure>
+
+<p>语法说明:<br>将行数据按照列1进行排序，如果某些行 列1 的值相同时，则按照 列2 排序，以此类推<br>asc从小到大排列，即升序<br>desc从大到小排序，即降序<br>默认按照列值从小到大排列（即asc关键字）</p>
+<p>例1：查询未删除男生信息，按学号降序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where gender&#x3D;1 and is_delete&#x3D;0 order by id desc;</span><br></pre></td></tr></table></figure>
+
+<p>例2：查询未删除学生信息，按名称升序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where is_delete&#x3D;0 order by name;</span><br></pre></td></tr></table></figure>
+
+<p>例3：显示所有的学生信息，先按照年龄从大–&gt;小排序，当年龄相同时 按照身高从高–&gt;矮排序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students  order by age desc,height desc;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from 表名 limit start&#x3D;0,count</span><br></pre></td></tr></table></figure>
+
+<p>说明<br>从start开始，获取count条数据<br>start默认值为0<br>也就是当用户需要获取数据的前n条的时候可以直接写上 xxx limit n;<br>例1：查询前3行男生信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where gender&#x3D;1 limit 0,3;</span><br></pre></td></tr></table></figure>
+
+<h5 id="关于分页的一个有趣的推导公式"><a href="#关于分页的一个有趣的推导公式" class="headerlink" title="关于分页的一个有趣的推导公式"></a>关于分页的一个有趣的推导公式</h5><p>已知：每页显示m条数据，当前显示第n页</p>
+<p>求总页数：此段逻辑后面会在python项目中实现</p>
+<p>查询总条数p1<br>使用p1除以m得到p2<br>如果整除则p2为总数页<br>如果不整除则p2+1为总页数<br>获取第n页的数据的SQL语句求解思路</p>
+<p>第n页前有n-1页<br>所在第n页前已经显示的数据的总量是(n-1)*m<br>由于数据的下标从0开始 所以第n页前所有的网页的下标是0,1,…,(n-1)*m-1<br>所以第n页的数据起始下标是(n-1)*m<br>获取第n页数据的SQL语句</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where is_delete&#x3D;0 limit (n-1)*m,m</span><br></pre></td></tr></table></figure>
+
+<p>注意：在sql语句中limit后不可以直接加公式</p>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><h5 id="总数"><a href="#总数" class="headerlink" title="总数"></a>总数</h5><p>count(*) 表示计算总行数，括号中写星与列名，结果是相同的<br>例1：查询学生总数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select count(*) from students;</span><br></pre></td></tr></table></figure>
+
+<h5 id="最大值"><a href="#最大值" class="headerlink" title="最大值"></a>最大值</h5><p>max(列) 表示求此列的最大值</p>
+<p>例2：查询女生的编号最大值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select max(id) from students where gender&#x3D;2;</span><br></pre></td></tr></table></figure>
+
+<h5 id="最小值"><a href="#最小值" class="headerlink" title="最小值"></a>最小值</h5><p>min(列) 表示求此列的最小值</p>
+<p>例3：查询未删除的学生最小编号</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select min(id) from students where is_delete&#x3D;0;</span><br></pre></td></tr></table></figure>
+
+<h5 id="求和"><a href="#求和" class="headerlink" title="求和"></a>求和</h5><p>sum(列) 表示求此列的和</p>
+<p>例4：查询男生的总年龄</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select sum(age) from students where gender&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>平均年龄</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select sum(age)&#x2F;count(*) from students where gender&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<h5 id="平均值"><a href="#平均值" class="headerlink" title="平均值"></a>平均值</h5><p>avg(列) 表示求此列的平均值</p>
+<p>例5：查询未删除女生的编号平均值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select avg(id) from students where is_delete&#x3D;0 and gender&#x3D;2;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><h5 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h5><p><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215102749979.png"></p>
+<p><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215102834896.png"></p>
+<h5 id="group-by-group-concat"><a href="#group-by-group-concat" class="headerlink" title="group by + group_concat()"></a>group by + group_concat()</h5><p>group_concat(字段名)根据分组结果，使用group_concat()来放置每一个分组中某字段的集合<br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110404945.png"><br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/201812151104227.png"><br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110443115.png"></p>
+<h5 id="group-by-聚合函数"><a href="#group-by-聚合函数" class="headerlink" title="group by + 聚合函数"></a>group by + 聚合函数</h5><p>通过group_concat()的启发，我们既然可以统计出每个分组的某字段的值的集合，那么我们也可以通过集合函数来对这个值的集合做一些操作<br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110644356.png"><br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110700907.png"><br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110713579.png"></p>
+<h5 id="group-by-having"><a href="#group-by-having" class="headerlink" title="group by + having"></a>group by + having</h5><p>having 条件表达式：用来过滤分组结果<br>having作用和where类似，但having只能用于group by 而where是用来过滤表数据<br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110825622.png"></p>
+<h5 id="group-by-with-rollup"><a href="#group-by-with-rollup" class="headerlink" title="group by + with rollup"></a>group by + with rollup</h5><p>with rollup的作用是：在最后新增一行，来记录当前表中该字段对应的操作结果，一般是汇总结果。<br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110921620.png"><br><img src="/imgs/sql%E8%AF%AD%E5%8F%A5%E5%A4%A7%E5%85%A8/20181215110934480.png"></p>
+<h2 id="连接查询语法"><a href="#连接查询语法" class="headerlink" title="连接查询语法"></a>连接查询语法</h2><p>对于外连接 outer关键字可以省略</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from 表1 inner或left或right join 表2 on 表1.列 运算符 表2.列</span><br></pre></td></tr></table></figure>
+
+<p>例1：使用内连接查询班级表与学生表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students inner join classes on students.cls_id &#x3D; classes.id;</span><br></pre></td></tr></table></figure>
+
+<p>例2：使用左连接查询班级表与学生表<br>此处使用了as为表起别名，目的是编写简单</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students as s left join classes as c on s.cls_id &#x3D; c.id;</span><br></pre></td></tr></table></figure>
+
+<p>例3：使用右连接查询班级表与学生表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students as s right join classes as c on s.cls_id &#x3D; c.id;</span><br></pre></td></tr></table></figure>
+
+<p>例4：查询学生姓名及班级名称</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select s.name,c.name from students as s inner join classes as c on s.cls_id &#x3D; c.id;</span><br></pre></td></tr></table></figure>
+
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>在一个 select 语句中,嵌入了另外一个 select 语句, 那么被嵌入的 select 语句称之为子查询语句,外部那个select语句则称为主查询.<br>主查询和子查询的关系<br>子查询是嵌入到主查询中<br>子查询是辅助主查询的,要么充当条件,要么充当数据源<br>子查询是可以独立存在的语句,是一条完整的 select 语句</p>
+<h5 id="标量子查询"><a href="#标量子查询" class="headerlink" title="标量子查询"></a>标量子查询</h5><p>查询班级学生平均年龄<br>查询大于平均年龄的学生<br>查询班级学生的平均身高</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where age &gt; (select avg(age) from students);</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h5 id="列级子查询"><a href="#列级子查询" class="headerlink" title="列级子查询"></a>列级子查询</h5><p>查询还有学生在班的所有班级名字<br>找出学生表中所有的班级 id<br>找出班级表中对应的名字</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name from classes where id in (select cls_id from students);</span><br></pre></td></tr></table></figure>
+
+<h5 id="行级子查询"><a href="#行级子查询" class="headerlink" title="行级子查询"></a>行级子查询</h5><p>需求: 查找班级年龄最大,身高最高的学生<br>行元素: 将多个字段合成一个行元素,在行级子查询中会使用到行元素</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from students where (height,age) &#x3D; (select max(height),max(age) from students);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+        <category>MySQL数据库</category>
+      </categories>
+      <tags>
+        <tag>MySQL数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP和UDP协议到底是什么</title>
+    <url>/id_19/</url>
+    <content><![CDATA[<h1 id="TCP-UDP协议到底是什么"><a href="#TCP-UDP协议到底是什么" class="headerlink" title="TCP/UDP协议到底是什么"></a>TCP/UDP协议到底是什么</h1><p>TCP详解推荐博客：<a href="https://www.jianshu.com/p/ef892323e68f">https://www.jianshu.com/p/ef892323e68f</a></p>
+<p>三握四挥参考博客：<a href="https://blog.csdn.net/sinat_36629696/article/details/80740678">https://blog.csdn.net/sinat_36629696/article/details/80740678</a></p>
+<p> 阮一峰的网络日志 :<a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html">http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html</a></p>
+<p>UDP详解推荐博客：<a href="https://blog.csdn.net/chengfengwenalan/article/details/84496477">https://blog.csdn.net/chengfengwenalan/article/details/84496477</a></p>
+<h2 id="TCP-IP协议分层"><a href="#TCP-IP协议分层" class="headerlink" title="TCP/IP协议分层"></a>TCP/IP协议分层</h2><p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/1608643833673.png"></p>
+<p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/2019-03-21-01.png"> </p>
+<p>TCP 是互联网核心协议之一 ,TCP/IP协议族按照层次由上到下，层层包装。 </p>
+<ol>
+<li><strong>物理层</strong><br>主要是处理机械的、电气的和过程的接口，以及物理层下的物理传输介质等。</li>
+<li><strong>数据链路层</strong><br>的任务是加强物理层的功能，使其对网络层显示为一条无错的线路。</li>
+<li><strong>网络层</strong><br>确定分组从源端到目的端的路由选择。路由可以选用网络中固定的静态路由表,也可以在每一次会话时决定,还可以根据当前的网络负载状况,灵活地为每一个分组分别决定。</li>
+<li><strong>传输层</strong><br>从会话层接收数据，并传输给网络层，同时确保到达目的端的各段信息正确无误，而且使会话层不受硬件变化的影响。通常,会话层每请求建立一个传输连接，传输层就会为其创建一个独立的网络连接。</li>
+<li><strong>会话层</strong><br>允许不同机器上的用户之间建立会话关系，既可以进行类似传输层的普通数据传输，也可以被用于远程登录到分时系统或在两台机器间传递文件。</li>
+<li><strong>表示层</strong><br>用于完成一些特定的功能，这些功能由于经常被请求，因此人们希望有通用的解决办法，而不是由每个用户各自实现。</li>
+<li><strong>应用层</strong><br>包含了大量人们普遍需要的协议，不同的文件系统有不同的文件命名原则和不同的文本行表示方法等，不同的系统之间传输文件还有各种不兼容问题，这些都将由应用层来处理。此外，应用层还有虚拟终端、电子邮件和新闻组等各种通用和专用的功能。</li>
+</ol>
+<h3 id="连接管理机制"><a href="#连接管理机制" class="headerlink" title="连接管理机制"></a>连接管理机制</h3><p>正常情况下, TCP需要经过三次握手建立连接, 四次挥手断开连接.</p>
+<ul>
+<li>那么什么是三次握手? 什么是四次挥手呢?</li>
+</ul>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><p>第一次:<br>客户端 - - &gt; 服务器 此时服务器知道了客户端要建立连接了<br>第二次:<br>客户端 &lt; - - 服务器 此时客户端知道服务器收到连接请求了<br>第三次:<br>客户端 - - &gt; 服务器 此时服务器知道客户端收到了自己的回应</p>
+<p>到这里, 就可以认为客户端与服务器已经建立了连接.</p>
+<h5 id="再来看张图："><a href="#再来看张图：" class="headerlink" title="再来看张图："></a>再来看张图：</h5><p> <img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/20180620002440131.gif"> </p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a><strong>四次挥手</strong></h4><p>所谓的四次挥手即TCP连接的释放(解除)。连接的释放必须是一方主动释放，另一方被动释放。以下为客户端主动发起释放连接的图解：</p>
+<p> <img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/20180620002506635.gif">  </p>
+<h5 id="“四次挥手”的通俗理解"><a href="#“四次挥手”的通俗理解" class="headerlink" title="“四次挥手”的通俗理解"></a><strong>“四次挥手”的通俗理解</strong></h5><p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/caef76094b36acaf042ba27e2f07751503e99c48.jpeg"></p>
+<p>举个栗子：把客户端比作男孩，服务器比作女孩。通过他们的分手来说明“四次挥手”过程。</p>
+<ul>
+<li>“第一次挥手”：日久见人心，男孩发现女孩变成了自己讨厌的样子，忍无可忍，于是决定分手，随即写了一封信告诉女孩。</li>
+<li>“第二次挥手”：女孩收到信之后，知道了男孩要和自己分手，怒火中烧，心中暗骂：你算什么东西，当初你可不是这个样子的！于是立马给男孩写了一封回信：分手就分手，给我点时间，我要把你的东西整理好，全部还给你！男孩收到女孩的第一封信之后，明白了女孩知道自己要和她分手。随后等待女孩把自己的东西收拾好。</li>
+<li>“第三次挥手”：过了几天，女孩把男孩送的东西都整理好了，于是再次写信给男孩：你的东西我整理好了，快把它们拿走，从此你我恩断义绝！</li>
+<li>“第四次挥手”：男孩收到女孩第二封信之后，知道了女孩收拾好东西了，可以正式分手了，于是再次写信告诉女孩：我知道了，这就去拿回来！这里双方都有各自的坚持。女孩自发出第二封信开始，限定一天内收不到男孩回信，就会再发一封信催促男孩来取东西！男孩自发出第二封信开始，限定两天内没有再次收到女孩的信就认为，女孩收到了自己的第二封信；若两天内再次收到女孩的来信，就认为自己的第二封信女孩没收到，需要再写一封信，再等两天…..</li>
+</ul>
+<p>倘若双方信都能正常收到，最少只用四封信就能彻底分手！这就是“四次挥手”。</p>
+<h2 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h2><h2 id="TCP-UDP协议的区别"><a href="#TCP-UDP协议的区别" class="headerlink" title="TCP/UDP协议的区别"></a>TCP/UDP协议的区别</h2><p><strong>TCP的优点</strong>： 可靠，稳定 TCP的可靠体现在TCP在传递数据之前，会有三次握手来建立连接，而且在数据传递时，有确认、窗口、重传、拥塞控制机制，在数据传完后，还会断开连接用来节约系统资源。 TCP的缺点： 慢，效率低，占用系统资源高，易被攻击 TCP在传递数据之前，要先建连接，这会消耗时间，而且在数据传递时，确认机制、重传机制、拥塞控制机制等都会消耗大量的时间，而且要在每台设备上维护所有的传输连接，事实上，每个连接都会占用系统的CPU、内存等硬件资源。 而且，因为TCP有确认机制、三次握手机制，这些也导致TCP容易被人利用，实现DOS、DDOS、CC等攻击。 </p>
+<p><strong>UDP的优点</strong>： 快，比TCP稍安全 UDP没有TCP的握手、确认、窗口、重传、拥塞控制等机制，UDP是一个无状态的传输协议，所以它在传递数据时非常快。没有TCP的这些机制，UDP较TCP被攻击者利用的漏洞就要少一些。但UDP也是无法避免攻击的，比如：UDP Flood攻击…… UDP的缺点： 不可靠，不稳定 因为UDP没有TCP那些可靠的机制，在数据传递时，如果网络质量不好，就会很容易丢包。 基于上面的优缺点，那么： 什么时候应该使用TCP： 当对网络通讯质量有要求的时候，比如：整个数据要准确无误的传递给对方，这往往用于一些要求可靠的应用，比如HTTP、HTTPS、FTP等传输文件的协议，POP、SMTP等邮件传输的协议。 在日常生活中，常见使用TCP协议的应用如下： 浏览器，用的HTTP FlashFXP，用的FTP Outlook，用的POP、SMTP Putty，用的Telnet、SSH QQ文件传输 ………… 什么时候应该使用UDP： 当对网络通讯质量要求不高的时候，要求网络通讯速度能尽量的快，这时就可以使用UDP。 比如，日常生活中，常见使用UDP协议的应用如下： QQ语音 QQ视频 TFTP ……</p>
+<p>有些应用场景对可靠性要求不高会用到UPD，比如长视频，要求速率。</p>
+<h2 id="小结TCP与UDP的区别："><a href="#小结TCP与UDP的区别：" class="headerlink" title="小结TCP与UDP的区别："></a><strong>小结TCP与UDP的区别：</strong></h2><p>1、基于连接与无连接；</p>
+<p>2、对系统资源的要求（TCP较多，UDP少）；</p>
+<p>3、UDP程序结构较简单；</p>
+<p>4、流模式与数据报模式 ；</p>
+<p>5、TCP保证数据正确性，UDP可能丢包；</p>
+<p>6、TCP保证数据顺序，UDP不保证。</p>
+<p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/1610535391161.png"></p>
+]]></content>
+      <categories>
+        <category>开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
+<span id="more"></span>
+
+
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Typora里面如何快捷改变字体颜色？</title>
+    <url>/id_23/</url>
+    <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
+<li>font 标签</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&#x27;red&#x27;</span>&gt;</span>红色<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>span 标签</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">&#x27;color:文字颜色;background:背景颜色;font-size:文字大小;font-family:字体;&#x27;</span>&gt;</span>文字<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="2、使用AutoHotKey-ahk-快捷键变法-Windows"><a href="#2、使用AutoHotKey-ahk-快捷键变法-Windows" class="headerlink" title="2、使用AutoHotKey(.ahk)快捷键变法 (Windows)"></a>2、使用AutoHotKey(.ahk)快捷键变法 (Windows)</h1><p> <strong>下载并安装 AutoHotkey（具体步骤可自行百度）</strong> </p>
+<ol>
+<li>访问 AutoHotkey 主页: <a href="https://autohotkey.com/">https://autohotkey.com/</a></li>
+<li>点击下载: <a href="https://autohotkey.com/download/ahk-install.exe">https://autohotkey.com/download/ahk-install.exe</a></li>
+</ol>
+<p><strong>桌面新建文件 MyHotkeyScript.ahk 将以下代码复制进去保存</strong>   注意文件后缀<code>.ahk</code> </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">; Typora</span><br><span class="line">; 快捷增加字体颜色</span><br><span class="line">; SendInput &#123;Text&#125; 解决中文输入法问题</span><br><span class="line"></span><br><span class="line"><span class="comment">#IfWinActive ahk_exe Typora.exe</span></span><br><span class="line">&#123;</span><br><span class="line">    ; Ctrl+Alt+o 橙色</span><br><span class="line">    ^!o::addFontColor(<span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">    ; Ctrl+Alt+r 红色</span><br><span class="line">    ^!r::addFontColor(<span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line">    ; Ctrl+Alt+b 浅蓝色</span><br><span class="line">    ^!b::addFontColor(<span class="string">&quot;cornflowerblue&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">; 快捷增加字体颜色</span><br><span class="line">addFontColor(color)&#123;</span><br><span class="line">    clipboard := <span class="string">&quot;&quot;</span> ; 清空剪切板</span><br><span class="line">    Send &#123;ctrl down&#125;c&#123;ctrl up&#125; ; 复制</span><br><span class="line">    SendInput &#123;TEXT&#125;&lt;font color=<span class="string">&#x27;%color%&#x27;</span>&gt;</span><br><span class="line">    SendInput &#123;ctrl down&#125;v&#123;ctrl up&#125; ; 粘贴</span><br><span class="line">    If(clipboard = <span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">        SendInput &#123;TEXT&#125;&lt;/font&gt; ; Typora 在这不会自动补充</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        SendInput &#123;TEXT&#125;&lt;/ ; Typora中自动补全标签</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>双击运行（使用<code>AutoHotkey</code>运行）</p>
+<h3 id="运行脚本"><a href="#运行脚本" class="headerlink" title="运行脚本"></a>运行脚本</h3><ol>
+<li><p>双击ahk脚本运行</p>
+</li>
+<li><p>Typora检测</p>
+</li>
+<li><ol>
+<li><p>Ctrl+Alt+O——橙色Orange</p>
+</li>
+<li><p>Ctrl+Alt+R——红色Red</p>
+</li>
+<li><p>Ctrl+Alt+B——蓝色Blue</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>然后去Typora 按快捷键试试吧！！！</p>
+<p>选择要设置颜色的文字，按<code>Ctrl+Alt+o</code>添加橙色，按<code>Ctrl+\</code>取消样式！</p>
+<p><strong>更多功能可以自行查看：</strong><a href="https://www.zhihu.com/question/385854845/answer/1182275415">https://www.zhihu.com/question/385854845/answer/1182275415</a></p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python内存管理机制</title>
+    <url>/id_21/</url>
+    <content><![CDATA[<h1 id="Python内存管理机制"><a href="#Python内存管理机制" class="headerlink" title="Python内存管理机制"></a>Python内存管理机制</h1><hr>
+<h3 id="一、-变量与对象"><a href="#一、-变量与对象" class="headerlink" title="一、 变量与对象"></a>一、 变量与对象</h3><p>关系图如下：</p>
+<p>  <img src="/imgs/1113510-20170703162719722-1993553654.png"></p>
+<span id="more"></span>
+<p>1、<strong>变量</strong>，通过变量指针引用对象</p>
+<p>　　变量指针指向具体对象的内存空间，取对象的值。</p>
+<p>2、<strong>对象</strong>，类型已知，每个对象都包含一个头部信息（头部信息：类型标识符和引用计数器）</p>
+<p><code>注意</code>：</p>
+<p>　　变量名没有类型，类型属于对象（因为变量引用对象，所以类型随对象），变量引用什么类型的对象，变量就是什么类型的。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p1 = <span class="built_in">object</span></span><br><span class="line">p2 = p1</span><br><span class="line">print(<span class="built_in">id</span>(p1))	<span class="comment">#查看p1的内存地址 	2048988240</span></span><br><span class="line">print(<span class="built_in">id</span>(p2))	<span class="comment">#查看p2的内存地址	2048988240</span></span><br></pre></td></tr></table></figure>
+
+<p>Ps： id()是python的内置函数，用于返回对象的身份，即对象的内存地址。</p>
+<p>由运行结果可知：</p>
+<p>​    变量被多次引用，内存地址是一样的。</p>
+<p>3、引用所指判断</p>
+<p>​     通过is进行引用所指判断，is是用来判断两个引用所指的对象是否相同。</p>
+<p>整数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">In [46]: a&#x3D;1</span><br><span class="line">In [47]: b&#x3D;1</span><br><span class="line">In [48]: print(a is b)</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+
+
+
+<p>短字符串</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">In [49]: c&#x3D;&quot;good&quot;</span><br><span class="line">In [50]: d&#x3D;&quot;good&quot;</span><br><span class="line">In [51]: print(c is d)</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+
+
+
+<p>长字符串</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">In [52]: e&#x3D;&quot;very good&quot;</span><br><span class="line">In [53]: f&#x3D;&quot;very good&quot;</span><br><span class="line">In [54]: print(e is f)</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
+
+
+
+<p>列表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">In [55]: g&#x3D;[]</span><br><span class="line">In [56]: h&#x3D;[]</span><br><span class="line">In [57]: print(g is h)</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
+
+<p>由运行结果可知：</p>
+<p>　　1、Python缓存了整数和短字符串，因此每个对象在内存中只存有一份，引用所指对象就是相同的，即使使用赋值语句，也只是创造新的引用，而不是对象本身；</p>
+<p>　　2、Python没有缓存长字符串、列表及其他对象，可以由多个相同的对象，可以使用赋值语句创建出新的对象。</p>
+<h3 id="二、引用计数"><a href="#二、引用计数" class="headerlink" title="二、引用计数"></a>二、引用计数</h3><p>python内部使用引用计数，来保持追踪内存中的对象，Python内部记录了对象有多少个引用，即引用计数，当对象被创建时就创建了一个引用计数，当对象不再需要时，这个对象的引用计数为0时，它被垃圾回收</p>
+<p>总结一下对象会在一下情况下引用计数加1：</p>
+<p>1.对象被创建：x=4</p>
+<p>2.另外的别人被创建：y=x</p>
+<p>3.被作为参数传递给函数：foo(x)</p>
+<p>4.作为容器对象的一个元素：a=[1,x,’33’]</p>
+<p><strong>代码示例：</strong></p>
+<p>思路讲解：我们可以使用<strong>python内置模块sys</strong>中的<strong>getrefcount</strong>参数来查看引用计数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">p1 = Project()</span><br><span class="line"></span><br><span class="line">p2 = p1</span><br><span class="line"></span><br><span class="line">print(sys.getrefcount(p1))  <span class="comment"># 查看引用计数</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码示例2：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p = Project()</span><br><span class="line">d = Dog()</span><br><span class="line">p.pet = d</span><br><span class="line">d.master = p</span><br></pre></td></tr></table></figure>
+
+<p>由于两个或两个以上对象互相引用时，彼此引用计数不为0，造成<code>循环引用</code>而无法回收。</p>
+<h3 id="三、垃圾回收"><a href="#三、垃圾回收" class="headerlink" title="三、垃圾回收"></a>三、垃圾回收</h3><p>​    当Python中的对象越来越多，占据越来越大的内存，启动垃圾回收(garbage collection)，将没用的对象清除。</p>
+<p>1、当内存中有不再使用的部分时，垃圾收集器就会把他们清理掉。它会去检查那些引用计数为0的对象，然后清除其在内存的空间。当然除了引用计数为0的会被清除，还有一种情况也会被垃圾收集器清掉：当两个对象相互引用时，他们本身其他的引用已经为0了。</p>
+<p>2、垃圾回收机制还有一个循环垃圾回收器, 确保释放循环引用对象(a引用b, b引用a, 导致其引用计数永远不为0)。</p>
+<p>在Python中，许多时候申请的内存都是小块的内存，这些小块内存在申请后，很快又会被释放，由于这些内存的申请并不是为了创建对象，所以并没有对象一级的内存池机制。这就意味着Python在运行期间会大量地执行malloc和free的操作，频繁地在用户态和核心态之间进行切换，这将严重影响Python的执行效率。为了加速Python的执行效率，Python引入了一个内存池机制，用于管理对小块内存的申请和释放。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">74</span>]: a=[<span class="number">321</span>,<span class="number">123</span>]</span><br><span class="line"></span><br><span class="line">In [<span class="number">75</span>]: <span class="keyword">del</span> a</span><br></pre></td></tr></table></figure>
+
+<p>3、解析del</p>
+<p>　　del a后，已经没有任何引用指向之前建立的[321,123]，该表引用计数变为0，用户不可能通过任何方式接触或者动用这个对象，当垃圾回收启动时，Python扫描到这个引用计数为0的对象，就将它所占据的内存清空。</p>
+<p>4、分代回收</p>
+<p>​    Python将所有的对象分为<strong>年轻代、中年代、老年代</strong>三代；</p>
+<p>　所有的新建对象都是0代对象；</p>
+<p>　当某一代对象经历过垃圾回收，依然存活，就被归入下一代对象。</p>
+<h3 id="四、内存池机制"><a href="#四、内存池机制" class="headerlink" title="四、内存池机制"></a>四、内存池机制</h3><p>Python提供了对内存的垃圾收集机制，但是它将不用的内存放到内存池而不是返回给操作系统。</p>
+<p>Python中所有小于256个字节的对象都使用pymalloc实现的分配器，而大的对象则使用系统的 malloc。另外Python对象，如整数，浮点数和List，都有其独立的私有内存池，对象间不共享他们的内存池。也就是说如果你分配又释放了大量的整数，用于缓存这些整数的内存就不能再分配给浮点数。</p>
+<hr>
+<p>参考博客：<a href="https://www.cnblogs.com/geaozhang/p/7111961.html">https://www.cnblogs.com/geaozhang/p/7111961.html</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+</search>

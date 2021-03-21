@@ -137,31 +137,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python实现生成 json web token</title>
-    <url>/id_03/</url>
-    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
-<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
-<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
-<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
-<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
-<p> 依赖包: PyJWT==1.7.1</p>
-<p>代码示例：</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
     <url>/id_04/</url>
     <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
@@ -202,114 +177,25 @@
       </tags>
   </entry>
   <entry>
-    <title>理解什么是JWT(Json web token)及Python实现</title>
-    <url>/id_06/</url>
-    <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
-<p>深入了解Json Web令牌之概念篇 :<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
-<p>参考博客：<a href="https://segmentfault.com/a/1190000010312468?utm_source=tag-newest">https://segmentfault.com/a/1190000010312468?utm_source=tag-newest</a></p>
-<blockquote>
-<p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc7519">(RFC 7519</a>).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
-</blockquote>
-<h2 id="使用传统Session进行身份验证？"><a href="#使用传统Session进行身份验证？" class="headerlink" title="使用传统Session进行身份验证？"></a>使用传统Session进行身份验证？</h2><p>使用 Session 进行身份认证的话，实现<strong>单点登录</strong>，需要我们把用户的 Session 信息保存在一台电脑上，并且还会遇到常见的 <strong>Cookie 跨域</strong>的问题。但是，使用 token 进行认证的话， token 被保存在客户端，不会存在这些问题。 </p>
-<h2 id="Token的认证流程"><a href="#Token的认证流程" class="headerlink" title="Token的认证流程"></a>Token的认证流程</h2><ol>
-<li><p>用户输入其登录信息</p>
-</li>
-<li><p>服务器验证信息是否正确，并返回已签名的token</p>
-</li>
-<li><p>token储在客户端，例如存在local storage或cookie中</p>
-</li>
-<li><p>之后的HTTP请求都将token添加到请求头里</p>
-</li>
-<li><p>服务器解码JWT，并且如果令牌有效，则接受请求</p>
-</li>
-<li><p>一旦用户注销，令牌将在客户端被销毁，不需要与服务器进行交互一个关键是，令牌是无状态的。后端服务器不需要保存令牌或当前session的记录</p>
-</li>
-</ol>
-<h2 id="JWT-特点"><a href="#JWT-特点" class="headerlink" title="JWT 特点"></a>JWT 特点</h2><ul>
-<li>体积小，因而传输速度快</li>
-<li>传输方式多样，可以通过URL/POST参数/HTTP头部等方式传输</li>
-<li>严格的结构化。它自身（在 payload 中）就包含了所有与用户相关的验证消息，如用户可访问路由、访问有效期等信息，服务器无需再去连接数据库验证信息的有效性，并且 payload 支持为你的应用而定制化。</li>
-<li>支持跨域验证，可以应用于单点登录。</li>
-</ul>
-<h2 id="认识JWT"><a href="#认识JWT" class="headerlink" title="认识JWT"></a>认识JWT</h2><p>JWT是由三段信息构成的，将这三段信息文本用<code>.</code>链接一起就构成了Jwt字符串。就像这样: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+    <title>python实现生成 json web token</title>
+    <url>/id_03/</url>
+    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
+<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
+<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
+<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
+<p> 依赖包: PyJWT==1.7.1</p>
+<p>代码示例：</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>一个通常你看到的jwt，由以下三部分组成，分别分别是：</p>
-<p>1.header：主要声明了JWT的类型、签名算法；</p>
-<p>2.payload：主要承载了各种声明并传递明文数据；</p>
-<p>3.signature：拥有该部分的JWT被称为JWS，也就是签了名的JWS；没有该部分的JWT被称为不安全的JWT也就是不安全的JWT，此时报头中的声明的签名算法为none。</p>
-<h4 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h4><ul>
-<li><p>声明类型，这里是jwt</p>
-</li>
-<li><p>声明加密的算法 通常直接使用 HMAC SHA256</p>
-</li>
-<li><p> 然后将头部进行base64加密（该加密是可以对称解密的)，构成了第一部分。 </p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//包括类别（typ）、加密算法（alg）；</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">  <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-<h4 id="载荷（payload）"><a href="#载荷（payload）" class="headerlink" title="载荷（payload）"></a>载荷（payload）</h4><p>载荷就是存放有效信息的地方。这些有效信息包含三个部分：</p>
-<ul>
-<li>标准中注册声明</li>
-<li>公共的声名</li>
-<li>私有的声明</li>
-</ul>
-<p><code>公共的声明 ：</code><br>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密。</p>
-<p><code>私有的声明 ：</code><br>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。</p>
-<p>下面是一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括需要传递的用户信息；</span></span><br><span class="line">&#123; <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;Online JWT Builder&quot;</span>, </span><br><span class="line">  <span class="string">&quot;iat&quot;</span>: <span class="number">1416797419</span>, </span><br><span class="line">  <span class="string">&quot;exp&quot;</span>: <span class="number">1448333419</span>, </span><br><span class="line">  <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>, </span><br><span class="line">  <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;uid&quot;</span>, </span><br><span class="line">  <span class="string">&quot;nickname&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;username&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;scopes&quot;</span>: [ <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span> ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>iss: 该JWT的签发者，是否使用是可选的；</li>
-<li>sub: 该JWT所面向的用户，是否使用是可选的；</li>
-<li>aud: 接收该JWT的一方，是否使用是可选的；</li>
-<li>exp(expires): 什么时候过期，这里是一个Unix时间戳，是否使用是可选的；</li>
-<li>iat(issued at): 在什么时候签发的(UNIX时间)，是否使用是可选的；</li>
-</ul>
-<p>其他还有：</p>
-<ul>
-<li>nbf (Not Before)：如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；，是否使用是可选的；</li>
-<li>jti: jwt的唯一身份标识，主要用来作为一次性token，从而回避重放攻击。</li>
-</ul>
-<p>将上面的JSON对象进行<code>base64编码</code>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
-<h4 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据alg算法与私有秘钥进行加密得到的签名字串；</span></span><br><span class="line"><span class="comment">// 这一段是最重要的敏感信息，只能在服务端解密；</span></span><br><span class="line">HMACSHA256(  </span><br><span class="line">    base64UrlEncode(header) + <span class="string">&quot;.&quot;</span> +</span><br><span class="line">    base64UrlEncode(payload),</span><br><span class="line">    SECREATE_KEY</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
-<ul>
-<li>header (base64后的)</li>
-<li>payload (base64后的)</li>
-<li>secret</li>
-</ul>
-<p>将上面的两个编码后的字符串都用.连接在一起（头部在前）最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。如果我们用 <code>secret</code> 作为密钥的话，那么就可以得到我们加密后内容</p>
-<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>签名的目的</code>：签名实际上是对头部以及载荷内容进行签名。所以，如果有人对头部以及载荷的内容解码之后进行修改，再进行编码的话，那么新的头部和载荷的签名和之前的签名就将是不一样的。而且，如果不知道服务器加密的时候用的密钥的话，得出来的签名也一定会是不一样的。<br>这样就能保证token不会被篡改。 </p>
-</blockquote>
-<p>token 生成好之后，接下来就可以用token来和服务器进行通讯了。 </p>
-<p>这里在第三步我们得到 JWT 之后，需要将JWT存放在 client，之后的每次需要认证的请求都要把JWT发送过来。（请求时可以放到 header 的 Authorization ） </p>
-<p>![1610682286610](/imgs/理解什么是JWT(Json web token)及Python实现/1610682286610.png)</p>
-<h3 id="JWT-使用场景"><a href="#JWT-使用场景" class="headerlink" title="JWT 使用场景"></a>JWT 使用场景</h3><p>JWT的主要优势在于使用无状态、可扩展的方式处理应用中的用户会话。服务端可以通过内嵌的声明信息，很容易地获取用户的会话信息，而不需要去访问用户或会话的数据库。在一个分布式的面向服务的框架中，这一点非常有用。</p>
-<p>但是，如果系统中需要使用黑名单实现长期有效的token刷新机制，这种无状态的优势就不明显了。</p>
-<blockquote>
-<p>优点</p>
-</blockquote>
-<p>快速开发<br>不需要cookie<br>JSON在移动端的广泛应用<br>不依赖于社交登录<br>相对简单的概念理解</p>
-<blockquote>
-<p>缺点</p>
-</blockquote>
-<p>Token有长度限制<br>Token不能撤销<br>需要token有失效时间限制(exp)</p>
-<h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><p>我们可以使用 <a href="https://github.com/jpadilla/pyjwt/">pyjwt：https://github.com/jpadilla/pyjwt/</a> </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 sanic 作为restful api 框架 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_token</span>(<span class="params">request</span>):</span></span><br><span class="line">    grant_type = request.json.get(<span class="string">&#x27;grant_type&#x27;</span>)</span><br><span class="line">    username = request.json[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">    password = request.json[<span class="string">&#x27;password&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> grant_type == <span class="string">&#x27;password&#x27;</span>:</span><br><span class="line">        account = verify_password(username, password)</span><br><span class="line">    <span class="keyword">elif</span> grant_type == <span class="string">&#x27;wxapp&#x27;</span>:</span><br><span class="line">        account = verify_wxapp(username, password)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> account:</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;iat&quot;</span>: <span class="built_in">int</span>(time.time()),</span><br><span class="line">         <span class="string">&quot;exp&quot;</span>: <span class="built_in">int</span>(time.time()) + <span class="number">86400</span> * <span class="number">7</span>,</span><br><span class="line">         <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;sub&quot;</span>: account[<span class="string">&#x27;_id&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;username&quot;</span>: account[<span class="string">&#x27;username&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;scopes&quot;</span>: [<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    token = jwt.encode(payload, <span class="string">&#x27;secret&#x27;</span>, algorithm=<span class="string">&#x27;HS256&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span>, &#123;<span class="string">&#x27;access_token&#x27;</span>: token, <span class="string">&#x27;account_id&#x27;</span>: account[<span class="string">&#x27;_id&#x27;</span>]&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_bearer_token</span>(<span class="params">token</span>):</span></span><br><span class="line">    <span class="comment">#  如果在生成token的时候使用了aud参数，那么校验的时候也需要添加此参数</span></span><br><span class="line">    payload = jwt.decode(token, <span class="string">&#x27;secret&#x27;</span>, audience=<span class="string">&#x27;www.gusibi.com&#x27;</span>, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>, token</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span>, token</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>项目开发</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -473,6 +359,147 @@
       </tags>
   </entry>
   <entry>
+    <title>理解什么是JWT(Json web token)及Python实现</title>
+    <url>/id_06/</url>
+    <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
+<p>深入了解Json Web令牌之概念篇 :<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>参考博客：<a href="https://segmentfault.com/a/1190000010312468?utm_source=tag-newest">https://segmentfault.com/a/1190000010312468?utm_source=tag-newest</a></p>
+<blockquote>
+<p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc7519">(RFC 7519</a>).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
+</blockquote>
+<h2 id="使用传统Session进行身份验证？"><a href="#使用传统Session进行身份验证？" class="headerlink" title="使用传统Session进行身份验证？"></a>使用传统Session进行身份验证？</h2><p>使用 Session 进行身份认证的话，实现<strong>单点登录</strong>，需要我们把用户的 Session 信息保存在一台电脑上，并且还会遇到常见的 <strong>Cookie 跨域</strong>的问题。但是，使用 token 进行认证的话， token 被保存在客户端，不会存在这些问题。 </p>
+<h2 id="Token的认证流程"><a href="#Token的认证流程" class="headerlink" title="Token的认证流程"></a>Token的认证流程</h2><ol>
+<li><p>用户输入其登录信息</p>
+</li>
+<li><p>服务器验证信息是否正确，并返回已签名的token</p>
+</li>
+<li><p>token储在客户端，例如存在local storage或cookie中</p>
+</li>
+<li><p>之后的HTTP请求都将token添加到请求头里</p>
+</li>
+<li><p>服务器解码JWT，并且如果令牌有效，则接受请求</p>
+</li>
+<li><p>一旦用户注销，令牌将在客户端被销毁，不需要与服务器进行交互一个关键是，令牌是无状态的。后端服务器不需要保存令牌或当前session的记录</p>
+</li>
+</ol>
+<h2 id="JWT-特点"><a href="#JWT-特点" class="headerlink" title="JWT 特点"></a>JWT 特点</h2><ul>
+<li>体积小，因而传输速度快</li>
+<li>传输方式多样，可以通过URL/POST参数/HTTP头部等方式传输</li>
+<li>严格的结构化。它自身（在 payload 中）就包含了所有与用户相关的验证消息，如用户可访问路由、访问有效期等信息，服务器无需再去连接数据库验证信息的有效性，并且 payload 支持为你的应用而定制化。</li>
+<li>支持跨域验证，可以应用于单点登录。</li>
+</ul>
+<h2 id="认识JWT"><a href="#认识JWT" class="headerlink" title="认识JWT"></a>认识JWT</h2><p>JWT是由三段信息构成的，将这三段信息文本用<code>.</code>链接一起就构成了Jwt字符串。就像这样: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>一个通常你看到的jwt，由以下三部分组成，分别分别是：</p>
+<p>1.header：主要声明了JWT的类型、签名算法；</p>
+<p>2.payload：主要承载了各种声明并传递明文数据；</p>
+<p>3.signature：拥有该部分的JWT被称为JWS，也就是签了名的JWS；没有该部分的JWT被称为不安全的JWT也就是不安全的JWT，此时报头中的声明的签名算法为none。</p>
+<h4 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h4><ul>
+<li><p>声明类型，这里是jwt</p>
+</li>
+<li><p>声明加密的算法 通常直接使用 HMAC SHA256</p>
+</li>
+<li><p> 然后将头部进行base64加密（该加密是可以对称解密的)，构成了第一部分。 </p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//包括类别（typ）、加密算法（alg）；</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">  <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="载荷（payload）"><a href="#载荷（payload）" class="headerlink" title="载荷（payload）"></a>载荷（payload）</h4><p>载荷就是存放有效信息的地方。这些有效信息包含三个部分：</p>
+<ul>
+<li>标准中注册声明</li>
+<li>公共的声名</li>
+<li>私有的声明</li>
+</ul>
+<p><code>公共的声明 ：</code><br>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密。</p>
+<p><code>私有的声明 ：</code><br>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。</p>
+<p>下面是一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括需要传递的用户信息；</span></span><br><span class="line">&#123; <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;Online JWT Builder&quot;</span>, </span><br><span class="line">  <span class="string">&quot;iat&quot;</span>: <span class="number">1416797419</span>, </span><br><span class="line">  <span class="string">&quot;exp&quot;</span>: <span class="number">1448333419</span>, </span><br><span class="line">  <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>, </span><br><span class="line">  <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;uid&quot;</span>, </span><br><span class="line">  <span class="string">&quot;nickname&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;username&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;scopes&quot;</span>: [ <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span> ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>iss: 该JWT的签发者，是否使用是可选的；</li>
+<li>sub: 该JWT所面向的用户，是否使用是可选的；</li>
+<li>aud: 接收该JWT的一方，是否使用是可选的；</li>
+<li>exp(expires): 什么时候过期，这里是一个Unix时间戳，是否使用是可选的；</li>
+<li>iat(issued at): 在什么时候签发的(UNIX时间)，是否使用是可选的；</li>
+</ul>
+<p>其他还有：</p>
+<ul>
+<li>nbf (Not Before)：如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；，是否使用是可选的；</li>
+<li>jti: jwt的唯一身份标识，主要用来作为一次性token，从而回避重放攻击。</li>
+</ul>
+<p>将上面的JSON对象进行<code>base64编码</code>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<h4 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据alg算法与私有秘钥进行加密得到的签名字串；</span></span><br><span class="line"><span class="comment">// 这一段是最重要的敏感信息，只能在服务端解密；</span></span><br><span class="line">HMACSHA256(  </span><br><span class="line">    base64UrlEncode(header) + <span class="string">&quot;.&quot;</span> +</span><br><span class="line">    base64UrlEncode(payload),</span><br><span class="line">    SECREATE_KEY</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
+<ul>
+<li>header (base64后的)</li>
+<li>payload (base64后的)</li>
+<li>secret</li>
+</ul>
+<p>将上面的两个编码后的字符串都用.连接在一起（头部在前）最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。如果我们用 <code>secret</code> 作为密钥的话，那么就可以得到我们加密后内容</p>
+<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>签名的目的</code>：签名实际上是对头部以及载荷内容进行签名。所以，如果有人对头部以及载荷的内容解码之后进行修改，再进行编码的话，那么新的头部和载荷的签名和之前的签名就将是不一样的。而且，如果不知道服务器加密的时候用的密钥的话，得出来的签名也一定会是不一样的。<br>这样就能保证token不会被篡改。 </p>
+</blockquote>
+<p>token 生成好之后，接下来就可以用token来和服务器进行通讯了。 </p>
+<p>这里在第三步我们得到 JWT 之后，需要将JWT存放在 client，之后的每次需要认证的请求都要把JWT发送过来。（请求时可以放到 header 的 Authorization ） </p>
+<p>![1610682286610](/imgs/理解什么是JWT(Json web token)及Python实现/1610682286610.png)</p>
+<h3 id="JWT-使用场景"><a href="#JWT-使用场景" class="headerlink" title="JWT 使用场景"></a>JWT 使用场景</h3><p>JWT的主要优势在于使用无状态、可扩展的方式处理应用中的用户会话。服务端可以通过内嵌的声明信息，很容易地获取用户的会话信息，而不需要去访问用户或会话的数据库。在一个分布式的面向服务的框架中，这一点非常有用。</p>
+<p>但是，如果系统中需要使用黑名单实现长期有效的token刷新机制，这种无状态的优势就不明显了。</p>
+<blockquote>
+<p>优点</p>
+</blockquote>
+<p>快速开发<br>不需要cookie<br>JSON在移动端的广泛应用<br>不依赖于社交登录<br>相对简单的概念理解</p>
+<blockquote>
+<p>缺点</p>
+</blockquote>
+<p>Token有长度限制<br>Token不能撤销<br>需要token有失效时间限制(exp)</p>
+<h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><p>我们可以使用 <a href="https://github.com/jpadilla/pyjwt/">pyjwt：https://github.com/jpadilla/pyjwt/</a> </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 sanic 作为restful api 框架 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_token</span>(<span class="params">request</span>):</span></span><br><span class="line">    grant_type = request.json.get(<span class="string">&#x27;grant_type&#x27;</span>)</span><br><span class="line">    username = request.json[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">    password = request.json[<span class="string">&#x27;password&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> grant_type == <span class="string">&#x27;password&#x27;</span>:</span><br><span class="line">        account = verify_password(username, password)</span><br><span class="line">    <span class="keyword">elif</span> grant_type == <span class="string">&#x27;wxapp&#x27;</span>:</span><br><span class="line">        account = verify_wxapp(username, password)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> account:</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;iat&quot;</span>: <span class="built_in">int</span>(time.time()),</span><br><span class="line">         <span class="string">&quot;exp&quot;</span>: <span class="built_in">int</span>(time.time()) + <span class="number">86400</span> * <span class="number">7</span>,</span><br><span class="line">         <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;sub&quot;</span>: account[<span class="string">&#x27;_id&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;username&quot;</span>: account[<span class="string">&#x27;username&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;scopes&quot;</span>: [<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    token = jwt.encode(payload, <span class="string">&#x27;secret&#x27;</span>, algorithm=<span class="string">&#x27;HS256&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span>, &#123;<span class="string">&#x27;access_token&#x27;</span>: token, <span class="string">&#x27;account_id&#x27;</span>: account[<span class="string">&#x27;_id&#x27;</span>]&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_bearer_token</span>(<span class="params">token</span>):</span></span><br><span class="line">    <span class="comment">#  如果在生成token的时候使用了aud参数，那么校验的时候也需要添加此参数</span></span><br><span class="line">    payload = jwt.decode(token, <span class="string">&#x27;secret&#x27;</span>, audience=<span class="string">&#x27;www.gusibi.com&#x27;</span>, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>, token</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span>, token</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
+
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深入理解MVC</title>
     <url>/id_07/</url>
     <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
@@ -491,6 +518,44 @@
       </categories>
       <tags>
         <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用python+django集成钉钉三方扫码登陆</title>
+    <url>/id_09/</url>
+    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
+<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
+<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
+<ol>
+<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<ol start="2">
+<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
+</ol>
+<p>   <img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/20191221095537_44738.png"> </p>
+<ol start="3">
+<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
+
+<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>   最后我们访问路由就可以得到自己的个人信息。</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -541,33 +606,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
-
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用redis数据库+python实现获取在线用户人数</title>
     <url>/id_12/</url>
     <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
@@ -597,44 +635,6 @@
 </ul>
 <p>代码实现：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接redis</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">5</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 获取当前在线用户人数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetOnLines</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    		<span class="comment">#获取用户ip地址</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;HTTP_X_FORWARDED_FOR&quot;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;HTTP_X_FOGWARDED_FOR&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> r.scard(<span class="string">&quot;set_ip&quot;</span>):</span><br><span class="line">          <span class="comment">#添加用户ip</span></span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">            r.expire(<span class="string">&quot;set_ip&quot;</span>, <span class="number">30</span>)	<span class="comment">#因为没有办法判断人是否走了，使用相对性 设置一个时间，清除一下这个ip 再添加</span></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&quot;online&quot;</span>: r.scard(<span class="string">&quot;set_ip&quot;</span>)&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用python+django集成钉钉三方扫码登陆</title>
-    <url>/id_09/</url>
-    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
-<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
-<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
-<ol>
-<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
-<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
-</li>
-</ol>
-<span id="more"></span>
-
-<ol start="2">
-<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
-</ol>
-<p>   <img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/20191221095537_44738.png"> </p>
-<ol start="3">
-<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
-
-<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
-<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
-</li>
-</ol>
-<ol start="4">
-<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>   最后我们访问路由就可以得到自己的个人信息。</p>
-]]></content>
       <categories>
         <category>项目开发</category>
       </categories>
@@ -892,42 +892,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis实现分布式单点登录</title>
-    <url>/id_17/</url>
-    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
-<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
-<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
-<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
-</ul>
-<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
-<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
-<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
-</ul>
-<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
-<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
-<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
-<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
-<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
-</ul>
-<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
-<ol>
-<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
-</ol>
-<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
-]]></content>
-      <categories>
-        <category>Redis数据库</category>
-      </categories>
-      <tags>
-        <tag>Redis数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sql语句大全</title>
     <url>/id_18/</url>
     <content><![CDATA[<h1 id="sql语句大全"><a href="#sql语句大全" class="headerlink" title="sql语句大全"></a>sql语句大全</h1><h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><ol>
@@ -1166,42 +1130,39 @@
       </tags>
   </entry>
   <entry>
-    <title>钉钉机器人消息通知</title>
-    <url>/id_20/</url>
-    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+    <title>Redis实现分布式单点登录</title>
+    <url>/id_17/</url>
+    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
+<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
+<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
+</ul>
+<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
+<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
+<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
+</ul>
+<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
+<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
+<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
+<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
+<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
+</ul>
+<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
 <ol>
-<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
 </ol>
-<ol start="2">
-<li>创建一个钉钉机器人。 </li>
-</ol>
-<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
-<p>   <img src="/imgs/1608125490600.png"></p>
-<span id="more"></span>
-
-
-<ol start="3">
-<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
-</ol>
-<ol start="4">
-<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
-<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
-</ol>
-<p>代码示例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
 
 
 
-<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
-<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
-<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
-<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
 ]]></content>
       <categories>
-        <category>项目开发</category>
+        <category>Redis数据库</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1257,6 +1218,72 @@
       </categories>
       <tags>
         <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
+<span id="more"></span>
+
+
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1389,33 +1416,6 @@
       </categories>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
       </tags>
   </entry>
 </search>

@@ -1,52 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/Untitled/</url>
-    <content><![CDATA[<p><img src="imgs/1616482176465.png" alt="1616482176465"></p>
-<p> redis.exceptions.AuthenticationError: Client sent AUTH, but no password is set </p>
-<p>解决 redis不要设置密码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">REDIS_CONF = &#123;</span><br><span class="line">    <span class="string">&#x27;host&#x27;</span>: REDIS_HOST,</span><br><span class="line">    <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;port&#x27;</span>: REDIS_PORT,</span><br><span class="line">    <span class="string">&#x27;db&#x27;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">&#x27;decode_responses&#x27;</span>: <span class="literal">True</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-<p><img src="imgs/1616482284329.png" alt="1616482284329"></p>
-<p>django.db.utils.OperationalError: (1045, “Access denied for user ‘root’@’localhost’ (using password: YES)”)</p>
-<p>原因：mysql账号密码不正确</p>
-<p><img src="imgs/1616482569921.png" alt="1616482569921"></p>
-<p>django.db.utils.OperationalError: (1049, “Unknown database ‘shyun’”)</p>
-<p>原因：没有创建数据库 </p>
-<p>使用Navicat创建一下数据库就完了</p>
-<p><img src="imgs/1616483040322.png" alt="1616483040322"></p>
-<p>Error: That IP address can’t be assigned to.</p>
-<p>端口被占用了   </p>
-<p>解决方法：</p>
-<p>查询nginx主进程号</p>
-<p>　　ps -ef | grep nginx</p>
-<p>　　从容停止  kill -QUIT 主进程号</p>
-<p>　　快速停止  kill -TERM 主进程号</p>
-<p>　　强制停止  kill -9 nginx</p>
-<p><img src="imgs/1616487474437.png" alt="1616487474437"></p>
-<p>django.db.utils.OperationalError: (1366, “Incorrect string value: ‘\xE7\x94\xA8\xE6\x88\xB7…’ for column ‘name’ at row 1”)</p>
-<p>创建数据库时没有utf8 选择字符集</p>
-<p><img src="imgs/1616487762101.png" alt="1616487762101"></p>
-<p>迁移数据时，数据库中的表很少</p>
-<p><img src="imgs/1616488215406.png" alt="1616488215406"></p>
-<p>执行命令后显示这样  No installed app with label ‘appscan_client’. 不要慌  这表示这个文件夹中没有model</p>
-<p>先 python manage.py makemigrations –empty yourappname 生成一个空的initial.py<br>再 python manage.py makemigrations 生成原先的model对应的migration file</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-  </entry>
-  <entry>
     <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
     <url>/id_02/</url>
     <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
@@ -177,71 +131,6 @@
 ]]></content>
       <categories>
         <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python实现生成 json web token</title>
-    <url>/id_03/</url>
-    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
-<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
-<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
-<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
-<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
-<p> 依赖包: PyJWT==1.7.1</p>
-<p>代码示例：</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
-    <url>/id_04/</url>
-    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
-<p>安装eCharts：npm install echarts @4.9.0</p>
-<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
-<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
-<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
-<p>然后在main.js中全局配置：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
-
-<p>现在上vue的代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>效果图：</p>
-<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -402,6 +291,46 @@
       </categories>
       <tags>
         <tag>工具Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
+    <url>/id_04/</url>
+    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
+<p>安装eCharts：npm install echarts @4.9.0</p>
+<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
+<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
+<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
+<p>然后在main.js中全局配置：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
+
+<p>现在上vue的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>效果图：</p>
+<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -605,44 +534,22 @@
       </tags>
   </entry>
   <entry>
-    <title>python +django 实现码云（gitee）三方登陆</title>
-    <url>/id_10/</url>
-    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
-<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
-<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
-<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
-<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
-<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
-<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
+    <title>python实现生成 json web token</title>
+    <url>/id_03/</url>
+    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
+<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
+<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
+<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
+<p> 依赖包: PyJWT==1.7.1</p>
+<p>代码示例：</p>
 <span id="more"></span>
-
-
-
-<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
-<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
-<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
-<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
-<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-
-
-<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
-<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
 
-<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-
-
-
-<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
-
-<p>最后我们会得到一个用户信息。</p>
-<p><strong>总结</strong>：</p>
-<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
 ]]></content>
       <categories>
         <category>项目开发</category>
@@ -736,38 +643,50 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo博客搭建之在文章中插入图片</title>
-    <url>/id_13/</url>
-    <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
-<ul>
-<li>在写文章时，常常有配图说明的需求。Hexo有多种图片插入方式，可以将图片存放在本地引用或者将图片放在CDN上引用。</li>
-</ul>
-<h3 id="本地引用—–》绝对路径"><a href="#本地引用—–》绝对路径" class="headerlink" title="本地引用—–》绝对路径"></a>本地引用—–》绝对路径</h3><p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。</p>
-<p>比如：source/images/image.jpg</p>
-<p><code>最近在写Hexo博客的时候，都是使用的绝地路径。非常好用</code></p>
-<p>比如：/imgs/1608460008581.png</p>
-<p><img src="/images/image.jpg"> </p>
+    <title>python +django 实现码云（gitee）三方登陆</title>
+    <url>/id_10/</url>
+    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
+<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
+<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
+<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
+<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
+<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
+<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
 <span id="more"></span>
 
-<p><strong>效果</strong>：图片既可以在首页内容中访问到，也可以在文章正文中访问到。</p>
-<h3 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h3><p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过配置_config.yml来生成。</p>
-<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
-<p>_posts/post_name/image.jpg</p>
-<p><img src="image.jpg"> </p>
-<p><strong>效果</strong>：上述是markdown的引用方式，图片只能在文章中显示，但无法在首页中正常显示。</p>
-<p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
-<p>_posts/post_name/image.jpg</p>
- 
+
+
+<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
+<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
+<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
+<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
+<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="CDN引用"><a href="#CDN引用" class="headerlink" title="CDN引用"></a>CDN引用</h3><p>除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。</p>
+<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
+<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+
+<p>最后我们会得到一个用户信息。</p>
+<p><strong>总结</strong>：</p>
+<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
 ]]></content>
       <categories>
-        <category>Hexo博客搭建</category>
+        <category>项目开发</category>
       </categories>
       <tags>
-        <tag>Hexo博客搭建</tag>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -808,6 +727,21 @@
       </tags>
   </entry>
   <entry>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python深浅拷贝的区别</title>
     <url>/id_14/</url>
     <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
@@ -839,18 +773,38 @@
       </tags>
   </entry>
   <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>Hexo博客搭建之在文章中插入图片</title>
+    <url>/id_13/</url>
+    <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
+<ul>
+<li>在写文章时，常常有配图说明的需求。Hexo有多种图片插入方式，可以将图片存放在本地引用或者将图片放在CDN上引用。</li>
+</ul>
+<h3 id="本地引用—–》绝对路径"><a href="#本地引用—–》绝对路径" class="headerlink" title="本地引用—–》绝对路径"></a>本地引用—–》绝对路径</h3><p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。</p>
+<p>比如：source/images/image.jpg</p>
+<p><code>最近在写Hexo博客的时候，都是使用的绝地路径。非常好用</code></p>
+<p>比如：/imgs/1608460008581.png</p>
+<p><img src="/images/image.jpg"> </p>
 <span id="more"></span>
 
+<p><strong>效果</strong>：图片既可以在首页内容中访问到，也可以在文章正文中访问到。</p>
+<h3 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h3><p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过配置_config.yml来生成。</p>
+<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
+<p>_posts/post_name/image.jpg</p>
+<p><img src="image.jpg"> </p>
+<p><strong>效果</strong>：上述是markdown的引用方式，图片只能在文章中显示，但无法在首页中正常显示。</p>
+<p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
+<p>_posts/post_name/image.jpg</p>
+ 
 
+
+
+<h3 id="CDN引用"><a href="#CDN引用" class="headerlink" title="CDN引用"></a>CDN引用</h3><p>除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。</p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>Hexo博客搭建</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>Hexo博客搭建</tag>
       </tags>
   </entry>
   <entry>
@@ -935,42 +889,6 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis实现分布式单点登录</title>
-    <url>/id_17/</url>
-    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
-<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
-<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
-<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
-</ul>
-<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
-<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
-<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
-</ul>
-<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
-<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
-<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
-<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
-<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
-</ul>
-<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
-<ol>
-<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
-</ol>
-<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
-]]></content>
-      <categories>
-        <category>Redis数据库</category>
-      </categories>
-      <tags>
-        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1209,6 +1127,42 @@
       </categories>
       <tags>
         <tag>MySQL数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis实现分布式单点登录</title>
+    <url>/id_17/</url>
+    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
+<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
+<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
+</ul>
+<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
+<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
+<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
+</ul>
+<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
+<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
+<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
+<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
+<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
+</ul>
+<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
+<ol>
+<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
+</ol>
+<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
+]]></content>
+      <categories>
+        <category>Redis数据库</category>
+      </categories>
+      <tags>
+        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1465,6 +1419,57 @@
       </tags>
   </entry>
   <entry>
+    <title>解决GitHub打不开的问题</title>
+    <url>/id_24/</url>
+    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
+<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+<br/>
+
+<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
+<p>查看GitHub的ip地址。</p>
+<p><img src="/imgs/id_24/1616318075440.png"></p>
+<br/>
+
+<blockquote>
+<p>140.82.114.4  github.com </p>
+</blockquote>
+<br/>
+
+<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
+<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<br/>
+
+<blockquote>
+<p> 199.232.69.194 github.global.ssl.fastly.net </p>
+</blockquote>
+<br/>
+
+<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
+<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<br/>
+
+<blockquote>
+<p>185.199.108.153 assets-cdn.github.com</p>
+<p>185.199.110.153 assets-cdn.github.com</p>
+<p>185.199.111.153 assets-cdn.github.com</p>
+</blockquote>
+<br/>
+
+<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
+
+<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<br/>
+
+<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>gitlab如何拉取代码(第一天到公司如何拉取代码)</title>
     <url>/id_25/</url>
     <content><![CDATA[<p>最近入职了一家新公司，gitlab拉取代码的时候，忘记了一些细节 这里做一下笔记.<br><br/></p>
@@ -1529,48 +1534,61 @@
       </tags>
   </entry>
   <entry>
-    <title>解决GitHub打不开的问题</title>
-    <url>/id_24/</url>
-    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
-<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+    <title>gitlab创建分支及上传代码</title>
+    <url>/id_27/</url>
+    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
+
+<p>1.查看所有分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
-<p>查看GitHub的ip地址。</p>
-<p><img src="/imgs/id_24/1616318075440.png"></p>
+<p>查看本地分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<blockquote>
-<p>140.82.114.4  github.com </p>
-</blockquote>
+<p><img src="/imgs/id_27/1616577735277.png"></p>
 <br/>
 
-<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
-<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
 <br/>
 
-<blockquote>
-<p> 199.232.69.194 github.global.ssl.fastly.net </p>
-</blockquote>
+<p>2.创建分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
-<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<p>3.切换分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<blockquote>
-<p>185.199.108.153 assets-cdn.github.com</p>
-<p>185.199.110.153 assets-cdn.github.com</p>
-<p>185.199.111.153 assets-cdn.github.com</p>
-</blockquote>
+<p>4.查看本地代码状态 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
-
-<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
 <br/>
 
-<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>这个我在第一次上传的时候没有执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 5.做一次提交，指定提交的远程分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
+<br/>
+
 ]]></content>
       <categories>
         <category>git</category>
@@ -1628,6 +1646,164 @@
       </categories>
       <tags>
         <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu 18.04安装/全局配置java环境</title>
+    <url>/id_28/</url>
+    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
+
+<p>环境信息：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
+<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
+</ol>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<ol start="2">
+<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
+</ol>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
+
+<p> 使用如下命令打开~/.bashrc文件</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 使用source命令使配置立即生效 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<blockquote>
+<p>注意：</p>
+<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
+</blockquote>
+<br/>
+
+<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>在终端输入javac命令，得到javac的可选项 </p>
+<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>拉取公司项目配置环境报错锦集原因及解决方法</title>
+    <url>/id_29/</url>
+    <content><![CDATA[<h1 id="拉取公司项目配置环境报错锦集原因及解决方法"><a href="#拉取公司项目配置环境报错锦集原因及解决方法" class="headerlink" title="拉取公司项目配置环境报错锦集原因及解决方法"></a>拉取公司项目配置环境报错锦集原因及解决方法</h1><br/>
+
+<p><img src="/imgs/id_25/1616482176465.png" alt="1616482176465"></p>
+<br/>
+
+<p>报错：<strong>redis.exceptions.AuthenticationError: Client sent AUTH, but no password is set</strong></p>
+<br/>
+
+<p>解决 redis不要设置密码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">REDIS_CONF = &#123;</span><br><span class="line">    <span class="string">&#x27;host&#x27;</span>: REDIS_HOST,</span><br><span class="line">    <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;port&#x27;</span>: REDIS_PORT,</span><br><span class="line">    <span class="string">&#x27;db&#x27;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">&#x27;decode_responses&#x27;</span>: <span class="literal">True</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<br/>
+
+
+
+
+
+<p><img src="/imgs/id_25/1616482284329.png" alt="1616482284329"></p>
+<br/>
+
+<p>报错：<strong>django.db.utils.OperationalError: (1045, “Access denied for user ‘root’@’localhost’ (using password: YES)”)</strong></p>
+<br/>
+
+<p>原因：mysql账号密码不正确</p>
+<br/>
+
+<p><img src="/imgs/id_25/1616482569921.png" alt="1616482569921"></p>
+<br/>
+
+<p>报错：<strong>django.db.utils.OperationalError: (1049, “Unknown database ‘shyun’”)</strong></p>
+<br/>
+
+<p>原因：没有创建数据库 </p>
+<p>使用Navicat创建一下数据库就完了</p>
+<br/>
+
+
+
+<p><img src="/imgs/id_25/1616483040322.png" alt="1616483040322"></p>
+<br/>
+
+<p>报错：<strong>Error: That IP address can’t be assigned to.</strong></p>
+<p>原因：端口被占用了   </p>
+<p>解决方法：</p>
+<p>查询nginx主进程号</p>
+<p>　　ps -ef | grep nginx</p>
+<p>　　从容停止  kill -QUIT 主进程号</p>
+<p>　　快速停止  kill -TERM 主进程号</p>
+<p>　　强制停止  kill -9 nginx</p>
+<br/>
+
+
+
+
+
+<p><img src="/imgs/id_25/1616487474437.png" alt="1616487474437"></p>
+<br/>
+
+<p>报错：<strong>django.db.utils.OperationalError: (1366, “Incorrect string value: ‘\xE7\x94\xA8\xE6\x88\xB7…’ for column ‘name’ at row 1”)</strong></p>
+<br/>
+
+<p>原因：创建数据库时没有utf8 选择字符集</p>
+<p>解决：</p>
+<p><img src="/imgs/id_25/1616487762101.png" alt="1616487762101"></p>
+<br/>
+
+
+
+
+
+<p>迁移数据时，数据库中的表很少</p>
+<p><img src="/imgs/id_25/1616488215406.png" alt="1616488215406"></p>
+<p>执行命令后显示这样  <strong>No installed app with label ‘appscan_client’.</strong> 不要慌  这表示这个文件夹中没有model</p>
+<p>先 python manage.py makemigrations –empty yourappname 生成一个空的initial.py<br>再 python manage.py makemigrations<br>生成原先的model对应的migration file</p>
+]]></content>
+      <categories>
+        <category>报错锦集</category>
+      </categories>
+      <tags>
+        <tag>报错锦集</tag>
       </tags>
   </entry>
 </search>

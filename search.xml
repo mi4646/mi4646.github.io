@@ -1,69 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
-    <url>/id_02/</url>
-    <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
-<span id="more"></span>
-
-<h2 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h2><p>第一步安装Docker 详情可参考博客： <a href="https://v3u.cn/a_id_149">win10系统下把玩折腾DockerToolBox以及更换国内镜像源(各种神坑)</a>。 </p>
-<p>安装Docker成功之后我们可以拉取镜像了</p>
-<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker pull postgres:<span class="number">11.1</span>	<span class="comment">#我们拉取的镜像是11.1版本的</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="拉取成功后，输入命令查看镜像"><a href="#拉取成功后，输入命令查看镜像" class="headerlink" title="拉取成功后，输入命令查看镜像"></a>拉取成功后，输入命令查看镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动命令："><a href="#启动命令：" class="headerlink" title="启动命令："></a>启动命令：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker run -d --name dev-postgres -e POSTGRES_PASSWORD=root -p <span class="number">6432</span>:<span class="number">5432</span> postgres:<span class="number">11.1</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="解释："><a href="#解释：" class="headerlink" title="解释："></a><strong>解释：</strong></h4><ul>
-<li>run，创建并运行一个容器；</li>
-<li>–name，指定创建的容器的名字；</li>
-<li>-e POSTGRES_PASSWORD=root，设置环境变量，指定数据库的登录口令为root；</li>
-<li>-p 6432:5432，端口映射将容器的5432端口映射到外部机器的6432端口；</li>
-<li>-d postgres:11.1，指定使用postgres:11.1作为镜像。</li>
-</ul>
-<p>这里POSTGRES_PASSWORD是PostgrelSQL的用户密码，自己制定一个就可以了，默认端口号是5432，由于笔者的宿主机上已经安装好一个PostgrelSQL服务端，所以这里通过端口映射改成了6432。 </p>
-<p>PostgreSQL数据库其他内容查看博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
-<h2 id="PostgreSQL基本命令"><a href="#PostgreSQL基本命令" class="headerlink" title="PostgreSQL基本命令"></a>PostgreSQL基本命令</h2><h3 id="一、建立数据库连接"><a href="#一、建立数据库连接" class="headerlink" title="一、建立数据库连接"></a>一、建立数据库连接</h3><p>接入PostgreSQL数据库: psql -h IP地址 -p 端口 -U 数据库名</p>
-<p>之后会要求输入数据库密码</p>
-<h3 id="二、访问数据库"><a href="#二、访问数据库" class="headerlink" title="二、访问数据库"></a>二、访问数据库</h3><p>1、列举数据库：\l<br>2、选择数据库：\c 数据库名<br>3、查看该某个库中的所有表：\dt<br>4、切换数据库：\c interface<br>5、查看某个库中的某个表结构：\d 表名<br>6、查看某个库中某个表的记录：select * from apps limit 1;<br>7、显示字符集：\encoding<br>8、退出psgl：\q</p>
-<p>9、获取命令帮助: psql –help</p>
-<p>10、\help     // 获取SQL命令的帮助,同 \h </p>
-<p>11、 \dt     // 显示当前数据库中的所有表 </p>
-<p>12、 select version();      // 获取版本信息 </p>
-<p>13、\d [table_name] // 显示当前数据库的指定表的表结构 </p>
-<p>14、 \c [database_name] // 切换到指定数据库,相当于use </p>
-<p>15、 \di // 查看索引(要建立关联) </p>
-<p>16、 \encoding [字元编码名称] // 显示或设定用户端字元编码 </p>
-<h3 id="三、-SQL命令通用"><a href="#三、-SQL命令通用" class="headerlink" title="三、 SQL命令通用"></a>三、 SQL命令通用</h3><p>*创建数据库：<br>create database [数据库名];</p>
-<p>*删除数据库：<br>drop database [数据库名]; </p>
-<p>*创建表：<br>create table ([字段名1] [类型1] ;,[字段名2] [类型2],……&lt;,primary key (字段名m,字段名n,…)&gt;;);</p>
-<p>*在表中插入数据：<br>insert into 表名 ([字段名m],[字段名n],……) values ([列m的值],[列n的值],……);</p>
-<p>*显示表内容:<br>select * from student;</p>
-<p>*重命名一个表：<br>alter table [表名A] rename to [表名B];</p>
-<p>*删除一个表：<br>drop table [表名]; </p>
-<p>*在已有的表里添加字段：<br>alter table [表名] add column [字段名] [类型];</p>
-<p>*删除表中的字段：<br>alter table [表名] drop column [字段名];</p>
-<p>*重命名一个字段：<br>alter table [表名] rename column [字段名A] to [字段名B];</p>
-<p>*给一个字段设置缺省值：<br>alter table [表名] alter column [字段名] set default [新的默认值];</p>
-<p>*去除缺省值：<br>alter table [表名] alter column [字段名] drop default;</p>
-<p>*修改表中的某行某列的数据：<br>update [表名] set [目标字段名]=[目标值] where [该行特征];</p>
-<p>*删除表中某行数据：<br>delete from [表名] where [该行特征];<br>delete from [表名];  // 删空整个表</p>
-<p>*可以使用pg_dump和pg_dumpall来完成。比如备份sales数据库：<br>pg_dump drupal&gt;/opt/Postgresql/backup/1.bak</p>
-<p>&nbsp;</p>
-<p>阮一峰的网络日志PostgreSQL新手入门：<br><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
-<p>刘悦的技术博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
-<p>其他参考：<a href="https://www.cnblogs.com/zhoujie/p/pgsql.html">https://www.cnblogs.com/zhoujie/p/pgsql.html</a></p>
-<p>​                <a href="https://segmentfault.com/a/1190000002787641">https://segmentfault.com/a/1190000002787641</a></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>PostgrelSQL数据库</category>
-      </categories>
-      <tags>
-        <tag>PostgrelSQL数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python多线程</title>
     <url>/id_01/</url>
     <content><![CDATA[<h1 id="Python3-多线程"><a href="#Python3-多线程" class="headerlink" title="Python3 多线程"></a>Python3 多线程</h1><hr>
@@ -134,6 +71,69 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
+    <url>/id_02/</url>
+    <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
+<span id="more"></span>
+
+<h2 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h2><p>第一步安装Docker 详情可参考博客： <a href="https://v3u.cn/a_id_149">win10系统下把玩折腾DockerToolBox以及更换国内镜像源(各种神坑)</a>。 </p>
+<p>安装Docker成功之后我们可以拉取镜像了</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker pull postgres:<span class="number">11.1</span>	<span class="comment">#我们拉取的镜像是11.1版本的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="拉取成功后，输入命令查看镜像"><a href="#拉取成功后，输入命令查看镜像" class="headerlink" title="拉取成功后，输入命令查看镜像"></a>拉取成功后，输入命令查看镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动命令："><a href="#启动命令：" class="headerlink" title="启动命令："></a>启动命令：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker run -d --name dev-postgres -e POSTGRES_PASSWORD=root -p <span class="number">6432</span>:<span class="number">5432</span> postgres:<span class="number">11.1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="解释："><a href="#解释：" class="headerlink" title="解释："></a><strong>解释：</strong></h4><ul>
+<li>run，创建并运行一个容器；</li>
+<li>–name，指定创建的容器的名字；</li>
+<li>-e POSTGRES_PASSWORD=root，设置环境变量，指定数据库的登录口令为root；</li>
+<li>-p 6432:5432，端口映射将容器的5432端口映射到外部机器的6432端口；</li>
+<li>-d postgres:11.1，指定使用postgres:11.1作为镜像。</li>
+</ul>
+<p>这里POSTGRES_PASSWORD是PostgrelSQL的用户密码，自己制定一个就可以了，默认端口号是5432，由于笔者的宿主机上已经安装好一个PostgrelSQL服务端，所以这里通过端口映射改成了6432。 </p>
+<p>PostgreSQL数据库其他内容查看博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
+<h2 id="PostgreSQL基本命令"><a href="#PostgreSQL基本命令" class="headerlink" title="PostgreSQL基本命令"></a>PostgreSQL基本命令</h2><h3 id="一、建立数据库连接"><a href="#一、建立数据库连接" class="headerlink" title="一、建立数据库连接"></a>一、建立数据库连接</h3><p>接入PostgreSQL数据库: psql -h IP地址 -p 端口 -U 数据库名</p>
+<p>之后会要求输入数据库密码</p>
+<h3 id="二、访问数据库"><a href="#二、访问数据库" class="headerlink" title="二、访问数据库"></a>二、访问数据库</h3><p>1、列举数据库：\l<br>2、选择数据库：\c 数据库名<br>3、查看该某个库中的所有表：\dt<br>4、切换数据库：\c interface<br>5、查看某个库中的某个表结构：\d 表名<br>6、查看某个库中某个表的记录：select * from apps limit 1;<br>7、显示字符集：\encoding<br>8、退出psgl：\q</p>
+<p>9、获取命令帮助: psql –help</p>
+<p>10、\help     // 获取SQL命令的帮助,同 \h </p>
+<p>11、 \dt     // 显示当前数据库中的所有表 </p>
+<p>12、 select version();      // 获取版本信息 </p>
+<p>13、\d [table_name] // 显示当前数据库的指定表的表结构 </p>
+<p>14、 \c [database_name] // 切换到指定数据库,相当于use </p>
+<p>15、 \di // 查看索引(要建立关联) </p>
+<p>16、 \encoding [字元编码名称] // 显示或设定用户端字元编码 </p>
+<h3 id="三、-SQL命令通用"><a href="#三、-SQL命令通用" class="headerlink" title="三、 SQL命令通用"></a>三、 SQL命令通用</h3><p>*创建数据库：<br>create database [数据库名];</p>
+<p>*删除数据库：<br>drop database [数据库名]; </p>
+<p>*创建表：<br>create table ([字段名1] [类型1] ;,[字段名2] [类型2],……&lt;,primary key (字段名m,字段名n,…)&gt;;);</p>
+<p>*在表中插入数据：<br>insert into 表名 ([字段名m],[字段名n],……) values ([列m的值],[列n的值],……);</p>
+<p>*显示表内容:<br>select * from student;</p>
+<p>*重命名一个表：<br>alter table [表名A] rename to [表名B];</p>
+<p>*删除一个表：<br>drop table [表名]; </p>
+<p>*在已有的表里添加字段：<br>alter table [表名] add column [字段名] [类型];</p>
+<p>*删除表中的字段：<br>alter table [表名] drop column [字段名];</p>
+<p>*重命名一个字段：<br>alter table [表名] rename column [字段名A] to [字段名B];</p>
+<p>*给一个字段设置缺省值：<br>alter table [表名] alter column [字段名] set default [新的默认值];</p>
+<p>*去除缺省值：<br>alter table [表名] alter column [字段名] drop default;</p>
+<p>*修改表中的某行某列的数据：<br>update [表名] set [目标字段名]=[目标值] where [该行特征];</p>
+<p>*删除表中某行数据：<br>delete from [表名] where [该行特征];<br>delete from [表名];  // 删空整个表</p>
+<p>*可以使用pg_dump和pg_dumpall来完成。比如备份sales数据库：<br>pg_dump drupal&gt;/opt/Postgresql/backup/1.bak</p>
+<p>&nbsp;</p>
+<p>阮一峰的网络日志PostgreSQL新手入门：<br><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
+<p>刘悦的技术博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
+<p>其他参考：<a href="https://www.cnblogs.com/zhoujie/p/pgsql.html">https://www.cnblogs.com/zhoujie/p/pgsql.html</a></p>
+<p>​                <a href="https://segmentfault.com/a/1190000002787641">https://segmentfault.com/a/1190000002787641</a></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>PostgrelSQL数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgrelSQL数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -359,6 +359,27 @@
       </tags>
   </entry>
   <entry>
+    <title>深入理解MVC</title>
+    <url>/id_07/</url>
+    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
+<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
+ <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
+
+<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
+<span id="more"></span>
+<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
+
+<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
+]]></content>
+      <categories>
+        <category>Python 开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>理解什么是JWT(Json web token)及Python实现</title>
     <url>/id_06/</url>
     <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
@@ -473,27 +494,6 @@
       </tags>
   </entry>
   <entry>
-    <title>深入理解MVC</title>
-    <url>/id_07/</url>
-    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
-<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
- <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
-
-<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
-<span id="more"></span>
-<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
-
-<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
-]]></content>
-      <categories>
-        <category>Python 开发者手册</category>
-      </categories>
-      <tags>
-        <tag>开发者手册</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python解释器</title>
     <url>/id_08/</url>
     <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
@@ -550,6 +550,53 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>   最后我们访问路由就可以得到自己的个人信息。</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python +django 实现码云（gitee）三方登陆</title>
+    <url>/id_10/</url>
+    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
+<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
+<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
+<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
+<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
+<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
+<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
+<span id="more"></span>
+
+
+
+<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
+<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
+<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
+<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
+<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
+<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+
+<p>最后我们会得到一个用户信息。</p>
+<p><strong>总结</strong>：</p>
+<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
 ]]></content>
       <categories>
         <category>项目开发</category>
@@ -680,84 +727,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python +django 实现码云（gitee）三方登陆</title>
-    <url>/id_10/</url>
-    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
-<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
-<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
-<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
-<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
-<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
-<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
-<span id="more"></span>
-
-
-
-<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
-<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
-<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
-<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
-<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-
-
-<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
-<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
-
-<p>最后我们会得到一个用户信息。</p>
-<p><strong>总结</strong>：</p>
-<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python深浅拷贝的区别</title>
-    <url>/id_14/</url>
-    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<ul>
-<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
-<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
-</ul>
-</blockquote>
-<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
-<br/>
-
-<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
-<p>代码展示：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<br/>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-        <category>语法基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo博客搭建之在文章中插入图片</title>
     <url>/id_13/</url>
     <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
@@ -793,6 +762,37 @@
       </tags>
   </entry>
   <entry>
+    <title>Python深浅拷贝的区别</title>
+    <url>/id_14/</url>
+    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<ul>
+<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
+<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
+</ul>
+</blockquote>
+<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
+<br/>
+
+<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
+<p>代码展示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<br/>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+        <category>语法基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
     <url>/id_15/</url>
     <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -805,42 +805,6 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis实现分布式单点登录</title>
-    <url>/id_17/</url>
-    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
-<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
-<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
-<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
-</ul>
-<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
-<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
-<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
-</ul>
-<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
-<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
-<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
-<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
-<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
-</ul>
-<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
-<ol>
-<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
-</ol>
-<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
-]]></content>
-      <categories>
-        <category>Redis数据库</category>
-      </categories>
-      <tags>
-        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -925,6 +889,42 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis实现分布式单点登录</title>
+    <url>/id_17/</url>
+    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
+<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
+<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
+</ul>
+<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
+<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
+<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
+</ul>
+<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
+<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
+<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
+<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
+<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
+</ul>
+<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
+<ol>
+<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
+</ol>
+<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
+]]></content>
+      <categories>
+        <category>Redis数据库</category>
+      </categories>
+      <tags>
+        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1340,33 +1340,6 @@
       </tags>
   </entry>
   <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Typora里面如何快捷改变字体颜色？</title>
     <url>/id_23/</url>
     <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
@@ -1416,6 +1389,33 @@
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1524,70 +1524,6 @@
 <h2 id="三、选好拉取代码的存储位置，在该位置建立好本地仓库，打开git命令窗口"><a href="#三、选好拉取代码的存储位置，在该位置建立好本地仓库，打开git命令窗口" class="headerlink" title="三、选好拉取代码的存储位置，在该位置建立好本地仓库，打开git命令窗口"></a>三、选好拉取代码的存储位置，在该位置建立好本地仓库，打开git命令窗口</h2><h2 id="四、然后执行-一系列git命令就可以了-用命令-git-clone-链接-就可以将代码拉倒你的本地仓库了"><a href="#四、然后执行-一系列git命令就可以了-用命令-git-clone-链接-就可以将代码拉倒你的本地仓库了" class="headerlink" title="四、然后执行 一系列git命令就可以了 用命令 git clone 链接 就可以将代码拉倒你的本地仓库了"></a>四、然后执行 一系列git命令就可以了 用命令 git clone 链接 就可以将代码拉倒你的本地仓库了</h2><br/>
 
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">git init <span class="comment">#初始化仓库</span></span><br><span class="line">git clone <span class="comment">#拉取代码</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gitlab创建分支及上传代码</title>
-    <url>/id_27/</url>
-    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
-
-<p>1.查看所有分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>查看本地分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616577735277.png"></p>
-<br/>
-
-<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
-<br/>
-
-<p>2.创建分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>3.切换分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.查看本地代码状态 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
-<br/>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>这个我在第一次上传的时候没有执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 5.做一次提交，指定提交的远程分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
-<br/>
 
 ]]></content>
       <categories>
@@ -1720,78 +1656,67 @@
       </tags>
   </entry>
   <entry>
-    <title>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</title>
-    <url>/id_30/</url>
-    <content><![CDATA[<h1 id="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"><a href="#教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目" class="headerlink" title="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"></a>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</h1><br/>
+    <title>gitlab创建分支及上传代码</title>
+    <url>/id_27/</url>
+    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
 
-<blockquote>
-<p><strong>Scrapy的优点：</strong></p>
-<p>1）scrapy  是异步的框架<br>2）采取可读性更强的  xpath 代替正则<br>3）强大的统计和  log  系统<br>4）同时在不同的  url 上爬行<br>5）支持  shell 方式，方便独立调试<br>6）写 middleware（中间件）,方便写一些统一的过滤器<br>7）通过管道的方式存入数据库</p>
-</blockquote>
-<br/>
-
-<h2 id="一、如何安装Scrapy："><a href="#一、如何安装Scrapy：" class="headerlink" title="一、如何安装Scrapy："></a>一、如何安装Scrapy：</h2><p> <a href="https://link.jianshu.com/?t=https://scrapy.org/">Scrapy官网</a> 在醒目的地方告诉我们，只需要一条命令即可安装Scrapy：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+<p>1.查看所有分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<h2 id="二、新建Scrapy项目"><a href="#二、新建Scrapy项目" class="headerlink" title="二、新建Scrapy项目"></a>二、新建Scrapy项目</h2><p>开始新建Scrapy项目，输入创建Scrapy爬虫项目命令“scrapy startproject article”，其中article是爬虫项目的名称，可以自行更改的。 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">scrapy startproject article</span><br></pre></td></tr></table></figure>
+<p>查看本地分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<p><img src="/imgs/id_30/1616654364639.png" alt="1616654364639"></p>
+<p><img src="/imgs/id_27/1616577735277.png"></p>
 <br/>
 
-<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># scrapy</span></span><br><span class="line"></span><br><span class="line">scrapy startproject 项目名 <span class="comment">#创建项目</span></span><br><span class="line">scrapy genspider 文件名 baidu.com <span class="comment">#创建爬虫</span></span><br></pre></td></tr></table></figure>
-
+<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
 <br/>
 
-<h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行</span></span><br><span class="line">scrapy crawl 文件名</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行命令 ---nolog就是不在控制台打印日志</span></span><br><span class="line">scrapy crawl 文件名 --nolog  </span><br><span class="line"></span><br><span class="line"><span class="comment">#注意事项：</span></span><br><span class="line">--nolog：不打印日志，同样如果抛出异常，也不会打印异常</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="三、工程目录的介绍"><a href="#三、工程目录的介绍" class="headerlink" title="三、工程目录的介绍"></a>三、工程目录的介绍</h2><p><img src="/imgs/id_30/1591847984484.png" alt="1591847984484"></p>
-<br/>
-
-<p><img src="/imgs/id_30/image-20210325153641412.png" alt="image-20210325153641412"></p>
-<br/>
-
-<h3 id="下面记录一下setting-py里面的设置"><a href="#下面记录一下setting-py里面的设置" class="headerlink" title="下面记录一下setting.py里面的设置"></a>下面记录一下setting.py里面的设置</h3><br/>
-
-<p><strong>注意：每次新建项目后都需要到setting.py中去修改以下3项 其他配置看需求自己配置</strong></p>
-<br/>
-
-<p><img src="/imgs/id_30/1616655762741.png" alt="1616655762741"></p>
-<br/>
-
-<p><img src="/imgs/id_30/1616655823673.png" alt="1616655823673"></p>
-<br/>
-
-<p><img src="/imgs/id_30/1616655849251.png" alt="1616655849251"></p>
-<br/>
-
-<h2 id="四、核心组件与数据流向"><a href="#四、核心组件与数据流向" class="headerlink" title="四、核心组件与数据流向"></a>四、核心组件与数据流向</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#五大核心组件</span></span><br><span class="line"><span class="number">1.</span>引擎组件：整个框架的调度者，负责各个组件之间的通信与数据的传递</span><br><span class="line"><span class="number">2.</span>爬虫组件：定义爬取行为和解析规则</span><br><span class="line"><span class="number">3.</span>调度器组件：负责调度所有请求</span><br><span class="line"><span class="number">4.</span>下载器：负责爬取页面</span><br><span class="line"><span class="number">5.</span>管道：负责数据持久化</span><br></pre></td></tr></table></figure>
+<p>2.创建分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<p><img src="/imgs/id_30/1591848326188.png" alt="1591848326188"></p>
-<br/>
-
-<h2 id="五、确定要爬取的字段"><a href="#五、确定要爬取的字段" class="headerlink" title="五、确定要爬取的字段"></a>五、确定要爬取的字段</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstSpriderItem</span>(<span class="params">scrapy.Item</span>):</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    name = scrapy.Field()	<span class="comment">#定义在数据库中的字段名称</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    date = scrapy.Field()</span><br><span class="line">    category = scrapy.Field()</span><br><span class="line">    brief = scrapy.Field()</span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+<p>3.切换分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<p><img src="/imgs/id_30/1616656348562.png" alt="1616656348562"></p>
+<p>4.查看本地代码状态 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><img src="/imgs/id_30/1591859377945.png" alt="1591859377945"></p>
+<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>这个我在第一次上传的时候没有执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 5.做一次提交，指定提交的远程分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
+<br/>
+
 ]]></content>
       <categories>
-        <category>spider</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>spider</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1879,6 +1804,168 @@
       </categories>
       <tags>
         <tag>报错锦集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</title>
+    <url>/id_30/</url>
+    <content><![CDATA[<h1 id="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"><a href="#教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目" class="headerlink" title="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"></a>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</h1><br/>
+
+<blockquote>
+<p><strong>Scrapy的优点：</strong></p>
+<p>1）scrapy  是异步的框架<br>2）采取可读性更强的  xpath 代替正则<br>3）强大的统计和  log  系统<br>4）同时在不同的  url 上爬行<br>5）支持  shell 方式，方便独立调试<br>6）写 middleware（中间件）,方便写一些统一的过滤器<br>7）通过管道的方式存入数据库</p>
+</blockquote>
+<br/>
+
+<h2 id="一、如何安装Scrapy："><a href="#一、如何安装Scrapy：" class="headerlink" title="一、如何安装Scrapy："></a>一、如何安装Scrapy：</h2><p> <a href="https://link.jianshu.com/?t=https://scrapy.org/">Scrapy官网</a> 在醒目的地方告诉我们，只需要一条命令即可安装Scrapy：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="二、新建Scrapy项目"><a href="#二、新建Scrapy项目" class="headerlink" title="二、新建Scrapy项目"></a>二、新建Scrapy项目</h2><p>开始新建Scrapy项目，输入创建Scrapy爬虫项目命令“scrapy startproject article”，其中article是爬虫项目的名称，可以自行更改的。 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">scrapy startproject article</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_30/1616654364639.png" alt="1616654364639"></p>
+<br/>
+
+<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># scrapy</span></span><br><span class="line"></span><br><span class="line">scrapy startproject 项目名 <span class="comment">#创建项目</span></span><br><span class="line">scrapy genspider 文件名 baidu.com <span class="comment">#创建爬虫</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行</span></span><br><span class="line">scrapy crawl 文件名</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行命令 ---nolog就是不在控制台打印日志</span></span><br><span class="line">scrapy crawl 文件名 --nolog  </span><br><span class="line"></span><br><span class="line"><span class="comment">#注意事项：</span></span><br><span class="line">--nolog：不打印日志，同样如果抛出异常，也不会打印异常</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="三、工程目录的介绍"><a href="#三、工程目录的介绍" class="headerlink" title="三、工程目录的介绍"></a>三、工程目录的介绍</h2><p><img src="/imgs/id_30/1591847984484.png" alt="1591847984484"></p>
+<br/>
+
+<p><img src="/imgs/id_30/image-20210325153641412.png" alt="image-20210325153641412"></p>
+<br/>
+
+<h3 id="下面记录一下setting-py里面的设置"><a href="#下面记录一下setting-py里面的设置" class="headerlink" title="下面记录一下setting.py里面的设置"></a>下面记录一下setting.py里面的设置</h3><br/>
+
+<p><strong>注意：每次新建项目后都需要到setting.py中去修改以下3项 其他配置看需求自己配置</strong></p>
+<br/>
+
+<p><img src="/imgs/id_30/1616655762741.png" alt="1616655762741"></p>
+<br/>
+
+<p><img src="/imgs/id_30/1616655823673.png" alt="1616655823673"></p>
+<br/>
+
+<p><img src="/imgs/id_30/1616655849251.png" alt="1616655849251"></p>
+<br/>
+
+<h2 id="四、核心组件与数据流向"><a href="#四、核心组件与数据流向" class="headerlink" title="四、核心组件与数据流向"></a>四、核心组件与数据流向</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#五大核心组件</span></span><br><span class="line"><span class="number">1.</span>引擎组件：整个框架的调度者，负责各个组件之间的通信与数据的传递</span><br><span class="line"><span class="number">2.</span>爬虫组件：定义爬取行为和解析规则</span><br><span class="line"><span class="number">3.</span>调度器组件：负责调度所有请求</span><br><span class="line"><span class="number">4.</span>下载器：负责爬取页面</span><br><span class="line"><span class="number">5.</span>管道：负责数据持久化</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_30/1591848326188.png" alt="1591848326188"></p>
+<br/>
+
+<h2 id="五、确定要爬取的字段"><a href="#五、确定要爬取的字段" class="headerlink" title="五、确定要爬取的字段"></a>五、确定要爬取的字段</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstSpriderItem</span>(<span class="params">scrapy.Item</span>):</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    name = scrapy.Field()	<span class="comment">#定义在数据库中的字段名称</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    date = scrapy.Field()</span><br><span class="line">    category = scrapy.Field()</span><br><span class="line">    brief = scrapy.Field()</span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_30/1616656348562.png" alt="1616656348562"></p>
+<br/>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><img src="/imgs/id_30/1591859377945.png" alt="1591859377945"></p>
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
+    <url>/id_31/</url>
+    <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
+
+<blockquote>
+<p>Xshell是一个安全终端模拟软件，可以进行远程登录。我使用XShell的主要目的是在Windows环境下登录Linux终端，传输一些大文件到Linux环境上去。 </p>
+</blockquote>
+<br/>
+
+<h2 id="第一步：-下载安装xshell客户端"><a href="#第一步：-下载安装xshell客户端" class="headerlink" title="第一步： 下载安装xshell客户端"></a>第一步： 下载安装xshell客户端</h2><p>免费版Xshell下载地址:<a href="https://www.netsarang.com/download/down_form.html?code=622">https://www.netsarang.com/download/down_form.html?code=622</a> ) </p>
+<br/>
+
+<p>第二步： 安装完成之后，如果你直接连接Ubuntu主机会发现连接不上，这是因为Ubuntu主机没有开启SSH服务，需要开启openssh-server： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>使用下面这个命令可以查看ssh是否启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>如果只有ssh-agent表示还没启动，需要 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/etc/init.d/ssh start</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>如果显示sshd则说明已启动成功 </p>
+<p><img src="/imgs/id_31/1616741589822.png" alt="1616741589822"></p>
+<br/>
+
+<h2 id="第三步：打开Xshell客户端"><a href="#第三步：打开Xshell客户端" class="headerlink" title="第三步：打开Xshell客户端"></a>第三步：打开Xshell客户端</h2><p>打开Xshell，选择“新建”，“连接”设置里选择SSH，主机填入需要连接的主机的IP地址。在“用户身份验证”中填入可用的登录Ubuntu的用户名和密码。 </p>
+<p><img src="/imgs/id_31/1616741797210.png" alt="1616741797210"></p>
+<br/>
+
+<p>终端中输入ifconfig -a 命令查看主机IP </p>
+<p><img src="/imgs/id_31/1616742651621.png" alt="1616742651621"></p>
+<br/>
+
+<p><img src="/imgs/id_31/1616741880012.png" alt="1616741880012"></p>
+<br/>
+
+<p>输入好用户名和密码后点击确定即可连接Ubuntu</p>
+<br/>
+
+<p> <code>注：如果你确认输入的用户名和密码都没有问题，但登录还是显示如下情况，拒绝你的输入的密码的话：</code></p>
+<p><img src="/imgs/id_31/1616742033575.png" alt="1616742033575"> </p>
+<br/>
+
+<p>需要编辑一下/etc/ssh/sshd_config文件： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>将 PermitRootLogin改为yes： </p>
+<p> <img src="/imgs/id_31/1616742167833.png" alt="1616742167833"></p>
+<p>改为：</p>
+<p><img src="/imgs/id_31/1616742337904.png" alt="1616742337904"></p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br><span class="line">点击字母a即可编辑</span><br><span class="line">编辑完成之后 点击Esc退出 输入:wq保存即可</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.cnblogs.com/tjw-bk/p/13968478.html">linux 进入编辑文件，保存退出相关命令</a></p>
+<br/>
+
+<p>之后重启ssh-server即可： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/id_31/1616742529496.png" alt="1616742529496"></p>
+<p>如果还不行，重启一下虚拟机，之后应该就能连接上了。 </p>
+<br/>
+
+<h2 id="第四步：-从Windows上传文件到Linux"><a href="#第四步：-从Windows上传文件到Linux" class="headerlink" title="第四步： 从Windows上传文件到Linux"></a>第四步： 从Windows上传文件到Linux</h2><p>上传命令为rz；从Linux上传文件指令为rz，上传的文件在当前命令行的目录下 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@dev:~# rz</span><br></pre></td></tr></table></figure>
+
+<p>在Xshell命令行中输入rz命令后，会弹出对话框，选择你要上传的文件，选择打开要上传的文件就上传到Linux主机下 </p>
+<p><img src="/imgs/id_31/1616742906550.png" alt="1616742906550"></p>
+<p>找到要上传的目录文件，点击即可上传到linux</p>
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
       </tags>
   </entry>
 </search>

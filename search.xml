@@ -359,27 +359,6 @@
       </tags>
   </entry>
   <entry>
-    <title>深入理解MVC</title>
-    <url>/id_07/</url>
-    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
-<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
- <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
-
-<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
-<span id="more"></span>
-<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
-
-<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
-]]></content>
-      <categories>
-        <category>Python 开发者手册</category>
-      </categories>
-      <tags>
-        <tag>开发者手册</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>理解什么是JWT(Json web token)及Python实现</title>
     <url>/id_06/</url>
     <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
@@ -494,30 +473,24 @@
       </tags>
   </entry>
   <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
+    <title>深入理解MVC</title>
+    <url>/id_07/</url>
+    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
+<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
+ <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
 
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
+<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
+<span id="more"></span>
+<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
+
+<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>Python 开发者手册</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>开发者手册</tag>
       </tags>
   </entry>
   <entry>
@@ -606,84 +579,27 @@
       </tags>
   </entry>
   <entry>
-    <title>Python的垃圾回收机制</title>
-    <url>/id_11/</url>
-    <content><![CDATA[<h1 id="Python的垃圾回收机制"><a href="#Python的垃圾回收机制" class="headerlink" title="Python的垃圾回收机制"></a>Python的垃圾回收机制</h1><br/>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
 
-
-
-<p><strong>对象</strong>：因为Python中一切皆对象，所以变量的本质其实就是对象的一个指针；比如：<code>a = 1 </code>其实先分配内存（<strong>创建对象</strong>）存储数据“1”；然后a变量中指向对象（变量a存储着对象的内存地址）<br><strong>不可变对象</strong>：变量相对于对象的指向不会发生改变<br>1.具有相同值的不可变对象，变量指向的是同一个对象<br>2.只要不可变对象的值发生改变，变量就会指向重新创建的对象<br><strong>可变对象</strong>：变量相对于对象的指向会发生改变<br>1.具有相同值的可变对象，变量指向的是不同的对象<br>2.允许可变对象存储数据的值发生改变而不影响变量的指向</p>
-<p>因为Python运行过程中会使用各种变量，所以如果对象的占用内存管理不当，程序会由于内存溢出而异常终止</p>
-<br/>
-
-<h2 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1.引用计数法"></a>1.引用计数法</h2><p>Python中采用<code>引用计数</code>为主，<code>标记-清除</code>和<code>分代回收</code>为辅的策略</p>
-<p>引用计数法：每当对象被引用一次<code>引用计数</code>就会加一；而当引用被销毁后就会进行减一，当<code>引用计数</code>为零时进行内存回收</p>
-<p><strong>优点</strong></p>
-<blockquote>
-<p>1.高效且易于实现<br>2.实时性：一旦没有引用，内存直接释放<br>3.对象拥有确定的周期</p>
-</blockquote>
-<p><strong>缺点</strong></p>
-<blockquote>
-<p>1.资源消耗：维护引用计数的次数和引用赋值成正比<br>2.无法解决循环引用问题</p>
-</blockquote>
-<br/>
-
-<h3 id="引用计数案例"><a href="#引用计数案例" class="headerlink" title="引用计数案例"></a>引用计数案例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;初始化对象&#x27;&#x27;&#x27;</span></span><br><span class="line">        print(<span class="string">&#x27;object born id:%s&#x27;</span> %<span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">id</span>(self))))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>():</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;循环引用变量与删除变量&#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        c1=A()</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">c</span>):</span></span><br><span class="line">    print(<span class="string">&#x27;obejct refcount is: &#x27;</span>,sys.getrefcount(c)) <span class="comment">#getrefcount()方法用于返回对象的引用计数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="comment">#生成对象</span></span><br><span class="line">    a=A()</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#增加引用</span></span><br><span class="line">    b=a</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#销毁引用对象b</span></span><br><span class="line">    <span class="keyword">del</span> b</span><br><span class="line">    func(a)</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><strong><code>注意：查看对象的引用计数使用python内置模块中的sys的getrefcount()方法</code></strong></p>
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> born <span class="built_in">id</span>:<span class="number">0xfbfed0</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">5</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h4 id="导致引用计数-1-的情况"><a href="#导致引用计数-1-的情况" class="headerlink" title="导致引用计数 +1 的情况"></a>导致引用计数 +1 的情况</h4><ul>
-<li><p>对象被创建，例如 a=23</p>
-</li>
-<li><p>对象被引用，例如 b=a</p>
-</li>
-<li><p>对象被作为参数，传入到一个函数中，例如<code>func(a)</code></p>
-</li>
-<li><p>对象作为一个元素，存储在容器中，例如<code>list1=[a,a]</code></p>
-<br/></li>
-</ul>
-<h4 id="导致引用计数-1-的情况-1"><a href="#导致引用计数-1-的情况-1" class="headerlink" title="导致引用计数-1 的情况"></a>导致引用计数-1 的情况</h4><ul>
-<li><p>对象的别名被显式销毁，例如<code>del a</code></p>
-</li>
-<li><p>对象的别名被赋予新的对象，例如<code>a=24</code></p>
-</li>
-<li><p>一个对象离开它的作用域，例如 f 函数执行完毕时，<code>func</code>函数中的局部变量（全局变量不会）</p>
-</li>
-<li><p>对象所在的容器被销毁，或从容器中删除对象</p>
-<br/></li>
-</ul>
-<h2 id="2-标记-清除"><a href="#2-标记-清除" class="headerlink" title="2.标记-清除"></a>2.标记-清除</h2><p><strong>标记-清除</strong></p>
-<blockquote>
-<p>1）它分为两个阶段：第一阶段是标记阶段，GC会把所有的活动对象打上标记，第二阶段是把那些没有标记的对象非活动对象进行回收。</p>
-<p>2）对象之间通过引用（指针）连在一起，构成一个有向图</p>
-<p>3）从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象，根对象就是全局变量、调用栈、寄存器。</p>
-<p>注：像是PyIntObject、PyStringObject这些不可变对象是不可能产生循环引用的，因为它们内部不可能持有其它对象的引用。</p>
-</blockquote>
-<br/>
-
-<p><img src="/imgs/Python%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/1611640216458.png"></p>
-<br/>
-
-<ol>
-<li>在上图中，可以从程序变量直接访问块1，并且可以间接访问块2和3,程序无法访问块4和5</li>
-<li>第一步将标记块1，并记住块2和3以供稍后处理。</li>
-<li>第二步将标记块2，第三步将标记块3，但不记得块2，因为它已被标记。</li>
-<li>扫描阶段将忽略块1，2和3，因为它们已被标记，但会回收块4和5。</li>
-</ol>
-<br/>
-
-<h2 id="3-分代回收"><a href="#3-分代回收" class="headerlink" title="3.分代回收"></a>3.分代回收</h2><p>1、Python将内存分为了3“代”，分别为年轻代、中年代、老年代<br>2、最初创建对象都放在年轻代<br>3、当触发一次标记清除时，如果没有被清除，从年轻代到中年代<br>4、再一次触发标记清除，在中年代的数据依然没有被清除，就会放到老年代<br>5、意义：越多次数无法清除的，以后被清除的概率就更低</p>
-<p>参考博客：<a href="https://testerhome.com/topics/16556">https://testerhome.com/topics/16556</a><br>         <a href="https://segmentfault.com/a/1190000021986557">https://segmentfault.com/a/1190000021986557</a></p>
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
 ]]></content>
       <categories>
         <category>Python基础</category>
-        <category>内存管理</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -793,15 +709,84 @@
       </tags>
   </entry>
   <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
+    <title>Python的垃圾回收机制</title>
+    <url>/id_11/</url>
+    <content><![CDATA[<h1 id="Python的垃圾回收机制"><a href="#Python的垃圾回收机制" class="headerlink" title="Python的垃圾回收机制"></a>Python的垃圾回收机制</h1><br/>
 
 
+
+<p><strong>对象</strong>：因为Python中一切皆对象，所以变量的本质其实就是对象的一个指针；比如：<code>a = 1 </code>其实先分配内存（<strong>创建对象</strong>）存储数据“1”；然后a变量中指向对象（变量a存储着对象的内存地址）<br><strong>不可变对象</strong>：变量相对于对象的指向不会发生改变<br>1.具有相同值的不可变对象，变量指向的是同一个对象<br>2.只要不可变对象的值发生改变，变量就会指向重新创建的对象<br><strong>可变对象</strong>：变量相对于对象的指向会发生改变<br>1.具有相同值的可变对象，变量指向的是不同的对象<br>2.允许可变对象存储数据的值发生改变而不影响变量的指向</p>
+<p>因为Python运行过程中会使用各种变量，所以如果对象的占用内存管理不当，程序会由于内存溢出而异常终止</p>
+<br/>
+
+<h2 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1.引用计数法"></a>1.引用计数法</h2><p>Python中采用<code>引用计数</code>为主，<code>标记-清除</code>和<code>分代回收</code>为辅的策略</p>
+<p>引用计数法：每当对象被引用一次<code>引用计数</code>就会加一；而当引用被销毁后就会进行减一，当<code>引用计数</code>为零时进行内存回收</p>
+<p><strong>优点</strong></p>
+<blockquote>
+<p>1.高效且易于实现<br>2.实时性：一旦没有引用，内存直接释放<br>3.对象拥有确定的周期</p>
+</blockquote>
+<p><strong>缺点</strong></p>
+<blockquote>
+<p>1.资源消耗：维护引用计数的次数和引用赋值成正比<br>2.无法解决循环引用问题</p>
+</blockquote>
+<br/>
+
+<h3 id="引用计数案例"><a href="#引用计数案例" class="headerlink" title="引用计数案例"></a>引用计数案例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;初始化对象&#x27;&#x27;&#x27;</span></span><br><span class="line">        print(<span class="string">&#x27;object born id:%s&#x27;</span> %<span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">id</span>(self))))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>():</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;循环引用变量与删除变量&#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        c1=A()</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">c</span>):</span></span><br><span class="line">    print(<span class="string">&#x27;obejct refcount is: &#x27;</span>,sys.getrefcount(c)) <span class="comment">#getrefcount()方法用于返回对象的引用计数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="comment">#生成对象</span></span><br><span class="line">    a=A()</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#增加引用</span></span><br><span class="line">    b=a</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#销毁引用对象b</span></span><br><span class="line">    <span class="keyword">del</span> b</span><br><span class="line">    func(a)</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong><code>注意：查看对象的引用计数使用python内置模块中的sys的getrefcount()方法</code></strong></p>
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> born <span class="built_in">id</span>:<span class="number">0xfbfed0</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">5</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h4 id="导致引用计数-1-的情况"><a href="#导致引用计数-1-的情况" class="headerlink" title="导致引用计数 +1 的情况"></a>导致引用计数 +1 的情况</h4><ul>
+<li><p>对象被创建，例如 a=23</p>
+</li>
+<li><p>对象被引用，例如 b=a</p>
+</li>
+<li><p>对象被作为参数，传入到一个函数中，例如<code>func(a)</code></p>
+</li>
+<li><p>对象作为一个元素，存储在容器中，例如<code>list1=[a,a]</code></p>
+<br/></li>
+</ul>
+<h4 id="导致引用计数-1-的情况-1"><a href="#导致引用计数-1-的情况-1" class="headerlink" title="导致引用计数-1 的情况"></a>导致引用计数-1 的情况</h4><ul>
+<li><p>对象的别名被显式销毁，例如<code>del a</code></p>
+</li>
+<li><p>对象的别名被赋予新的对象，例如<code>a=24</code></p>
+</li>
+<li><p>一个对象离开它的作用域，例如 f 函数执行完毕时，<code>func</code>函数中的局部变量（全局变量不会）</p>
+</li>
+<li><p>对象所在的容器被销毁，或从容器中删除对象</p>
+<br/></li>
+</ul>
+<h2 id="2-标记-清除"><a href="#2-标记-清除" class="headerlink" title="2.标记-清除"></a>2.标记-清除</h2><p><strong>标记-清除</strong></p>
+<blockquote>
+<p>1）它分为两个阶段：第一阶段是标记阶段，GC会把所有的活动对象打上标记，第二阶段是把那些没有标记的对象非活动对象进行回收。</p>
+<p>2）对象之间通过引用（指针）连在一起，构成一个有向图</p>
+<p>3）从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象，根对象就是全局变量、调用栈、寄存器。</p>
+<p>注：像是PyIntObject、PyStringObject这些不可变对象是不可能产生循环引用的，因为它们内部不可能持有其它对象的引用。</p>
+</blockquote>
+<br/>
+
+<p><img src="/imgs/Python%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/1611640216458.png"></p>
+<br/>
+
+<ol>
+<li>在上图中，可以从程序变量直接访问块1，并且可以间接访问块2和3,程序无法访问块4和5</li>
+<li>第一步将标记块1，并记住块2和3以供稍后处理。</li>
+<li>第二步将标记块2，第三步将标记块3，但不记得块2，因为它已被标记。</li>
+<li>扫描阶段将忽略块1，2和3，因为它们已被标记，但会回收块4和5。</li>
+</ol>
+<br/>
+
+<h2 id="3-分代回收"><a href="#3-分代回收" class="headerlink" title="3.分代回收"></a>3.分代回收</h2><p>1、Python将内存分为了3“代”，分别为年轻代、中年代、老年代<br>2、最初创建对象都放在年轻代<br>3、当触发一次标记清除时，如果没有被清除，从年轻代到中年代<br>4、再一次触发标记清除，在中年代的数据依然没有被清除，就会放到老年代<br>5、意义：越多次数无法清除的，以后被清除的概率就更低</p>
+<p>参考博客：<a href="https://testerhome.com/topics/16556">https://testerhome.com/topics/16556</a><br>         <a href="https://segmentfault.com/a/1190000021986557">https://segmentfault.com/a/1190000021986557</a></p>
 ]]></content>
       <categories>
         <category>Python基础</category>
+        <category>内存管理</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -883,6 +868,21 @@
 <li>生成一个实例的构造函数，从而导致静态类不能实例化；非静态类可以，并且静态成员的访问只能通过类来进行访问，因为静态成员是属于类的。</li>
 </ul>
 <p>参考博客：<a href="https://zhuanlan.zhihu.com/p/61168074">https://zhuanlan.zhihu.com/p/61168074</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
 ]]></content>
       <categories>
         <category>Python基础</category>
@@ -1340,6 +1340,33 @@
       </tags>
   </entry>
   <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora里面如何快捷改变字体颜色？</title>
     <url>/id_23/</url>
     <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
@@ -1389,33 +1416,6 @@
       </categories>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1585,6 +1585,70 @@
       </tags>
   </entry>
   <entry>
+    <title>gitlab创建分支及上传代码</title>
+    <url>/id_27/</url>
+    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
+
+<p>1.查看所有分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>查看本地分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616577735277.png"></p>
+<br/>
+
+<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
+<br/>
+
+<p>2.创建分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>3.切换分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>4.查看本地代码状态 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>这个我在第一次上传的时候没有执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 5.做一次提交，指定提交的远程分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
+<br/>
+
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu 18.04安装/全局配置java环境</title>
     <url>/id_28/</url>
     <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
@@ -1653,70 +1717,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gitlab创建分支及上传代码</title>
-    <url>/id_27/</url>
-    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
-
-<p>1.查看所有分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>查看本地分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616577735277.png"></p>
-<br/>
-
-<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
-<br/>
-
-<p>2.创建分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>3.切换分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.查看本地代码状态 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
-<br/>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>这个我在第一次上传的时候没有执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 5.做一次提交，指定提交的远程分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
-<br/>
-
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>

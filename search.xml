@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
+    <url>/id_02/</url>
+    <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
+<span id="more"></span>
+
+<h2 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h2><p>第一步安装Docker 详情可参考博客： <a href="https://v3u.cn/a_id_149">win10系统下把玩折腾DockerToolBox以及更换国内镜像源(各种神坑)</a>。 </p>
+<p>安装Docker成功之后我们可以拉取镜像了</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker pull postgres:<span class="number">11.1</span>	<span class="comment">#我们拉取的镜像是11.1版本的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="拉取成功后，输入命令查看镜像"><a href="#拉取成功后，输入命令查看镜像" class="headerlink" title="拉取成功后，输入命令查看镜像"></a>拉取成功后，输入命令查看镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动命令："><a href="#启动命令：" class="headerlink" title="启动命令："></a>启动命令：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker run -d --name dev-postgres -e POSTGRES_PASSWORD=root -p <span class="number">6432</span>:<span class="number">5432</span> postgres:<span class="number">11.1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="解释："><a href="#解释：" class="headerlink" title="解释："></a><strong>解释：</strong></h4><ul>
+<li>run，创建并运行一个容器；</li>
+<li>–name，指定创建的容器的名字；</li>
+<li>-e POSTGRES_PASSWORD=root，设置环境变量，指定数据库的登录口令为root；</li>
+<li>-p 6432:5432，端口映射将容器的5432端口映射到外部机器的6432端口；</li>
+<li>-d postgres:11.1，指定使用postgres:11.1作为镜像。</li>
+</ul>
+<p>这里POSTGRES_PASSWORD是PostgrelSQL的用户密码，自己制定一个就可以了，默认端口号是5432，由于笔者的宿主机上已经安装好一个PostgrelSQL服务端，所以这里通过端口映射改成了6432。 </p>
+<p>PostgreSQL数据库其他内容查看博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
+<h2 id="PostgreSQL基本命令"><a href="#PostgreSQL基本命令" class="headerlink" title="PostgreSQL基本命令"></a>PostgreSQL基本命令</h2><h3 id="一、建立数据库连接"><a href="#一、建立数据库连接" class="headerlink" title="一、建立数据库连接"></a>一、建立数据库连接</h3><p>接入PostgreSQL数据库: psql -h IP地址 -p 端口 -U 数据库名</p>
+<p>之后会要求输入数据库密码</p>
+<h3 id="二、访问数据库"><a href="#二、访问数据库" class="headerlink" title="二、访问数据库"></a>二、访问数据库</h3><p>1、列举数据库：\l<br>2、选择数据库：\c 数据库名<br>3、查看该某个库中的所有表：\dt<br>4、切换数据库：\c interface<br>5、查看某个库中的某个表结构：\d 表名<br>6、查看某个库中某个表的记录：select * from apps limit 1;<br>7、显示字符集：\encoding<br>8、退出psgl：\q</p>
+<p>9、获取命令帮助: psql –help</p>
+<p>10、\help     // 获取SQL命令的帮助,同 \h </p>
+<p>11、 \dt     // 显示当前数据库中的所有表 </p>
+<p>12、 select version();      // 获取版本信息 </p>
+<p>13、\d [table_name] // 显示当前数据库的指定表的表结构 </p>
+<p>14、 \c [database_name] // 切换到指定数据库,相当于use </p>
+<p>15、 \di // 查看索引(要建立关联) </p>
+<p>16、 \encoding [字元编码名称] // 显示或设定用户端字元编码 </p>
+<h3 id="三、-SQL命令通用"><a href="#三、-SQL命令通用" class="headerlink" title="三、 SQL命令通用"></a>三、 SQL命令通用</h3><p>*创建数据库：<br>create database [数据库名];</p>
+<p>*删除数据库：<br>drop database [数据库名]; </p>
+<p>*创建表：<br>create table ([字段名1] [类型1] ;,[字段名2] [类型2],……&lt;,primary key (字段名m,字段名n,…)&gt;;);</p>
+<p>*在表中插入数据：<br>insert into 表名 ([字段名m],[字段名n],……) values ([列m的值],[列n的值],……);</p>
+<p>*显示表内容:<br>select * from student;</p>
+<p>*重命名一个表：<br>alter table [表名A] rename to [表名B];</p>
+<p>*删除一个表：<br>drop table [表名]; </p>
+<p>*在已有的表里添加字段：<br>alter table [表名] add column [字段名] [类型];</p>
+<p>*删除表中的字段：<br>alter table [表名] drop column [字段名];</p>
+<p>*重命名一个字段：<br>alter table [表名] rename column [字段名A] to [字段名B];</p>
+<p>*给一个字段设置缺省值：<br>alter table [表名] alter column [字段名] set default [新的默认值];</p>
+<p>*去除缺省值：<br>alter table [表名] alter column [字段名] drop default;</p>
+<p>*修改表中的某行某列的数据：<br>update [表名] set [目标字段名]=[目标值] where [该行特征];</p>
+<p>*删除表中某行数据：<br>delete from [表名] where [该行特征];<br>delete from [表名];  // 删空整个表</p>
+<p>*可以使用pg_dump和pg_dumpall来完成。比如备份sales数据库：<br>pg_dump drupal&gt;/opt/Postgresql/backup/1.bak</p>
+<p>&nbsp;</p>
+<p>阮一峰的网络日志PostgreSQL新手入门：<br><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
+<p>刘悦的技术博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
+<p>其他参考：<a href="https://www.cnblogs.com/zhoujie/p/pgsql.html">https://www.cnblogs.com/zhoujie/p/pgsql.html</a></p>
+<p>​                <a href="https://segmentfault.com/a/1190000002787641">https://segmentfault.com/a/1190000002787641</a></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>PostgrelSQL数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgrelSQL数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python多线程</title>
     <url>/id_01/</url>
     <content><![CDATA[<h1 id="Python3-多线程"><a href="#Python3-多线程" class="headerlink" title="Python3 多线程"></a>Python3 多线程</h1><hr>
@@ -74,69 +137,6 @@
       </tags>
   </entry>
   <entry>
-    <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
-    <url>/id_02/</url>
-    <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
-<span id="more"></span>
-
-<h2 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h2><p>第一步安装Docker 详情可参考博客： <a href="https://v3u.cn/a_id_149">win10系统下把玩折腾DockerToolBox以及更换国内镜像源(各种神坑)</a>。 </p>
-<p>安装Docker成功之后我们可以拉取镜像了</p>
-<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker pull postgres:<span class="number">11.1</span>	<span class="comment">#我们拉取的镜像是11.1版本的</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="拉取成功后，输入命令查看镜像"><a href="#拉取成功后，输入命令查看镜像" class="headerlink" title="拉取成功后，输入命令查看镜像"></a>拉取成功后，输入命令查看镜像</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动命令："><a href="#启动命令：" class="headerlink" title="启动命令："></a>启动命令：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">docker run -d --name dev-postgres -e POSTGRES_PASSWORD=root -p <span class="number">6432</span>:<span class="number">5432</span> postgres:<span class="number">11.1</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="解释："><a href="#解释：" class="headerlink" title="解释："></a><strong>解释：</strong></h4><ul>
-<li>run，创建并运行一个容器；</li>
-<li>–name，指定创建的容器的名字；</li>
-<li>-e POSTGRES_PASSWORD=root，设置环境变量，指定数据库的登录口令为root；</li>
-<li>-p 6432:5432，端口映射将容器的5432端口映射到外部机器的6432端口；</li>
-<li>-d postgres:11.1，指定使用postgres:11.1作为镜像。</li>
-</ul>
-<p>这里POSTGRES_PASSWORD是PostgrelSQL的用户密码，自己制定一个就可以了，默认端口号是5432，由于笔者的宿主机上已经安装好一个PostgrelSQL服务端，所以这里通过端口映射改成了6432。 </p>
-<p>PostgreSQL数据库其他内容查看博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
-<h2 id="PostgreSQL基本命令"><a href="#PostgreSQL基本命令" class="headerlink" title="PostgreSQL基本命令"></a>PostgreSQL基本命令</h2><h3 id="一、建立数据库连接"><a href="#一、建立数据库连接" class="headerlink" title="一、建立数据库连接"></a>一、建立数据库连接</h3><p>接入PostgreSQL数据库: psql -h IP地址 -p 端口 -U 数据库名</p>
-<p>之后会要求输入数据库密码</p>
-<h3 id="二、访问数据库"><a href="#二、访问数据库" class="headerlink" title="二、访问数据库"></a>二、访问数据库</h3><p>1、列举数据库：\l<br>2、选择数据库：\c 数据库名<br>3、查看该某个库中的所有表：\dt<br>4、切换数据库：\c interface<br>5、查看某个库中的某个表结构：\d 表名<br>6、查看某个库中某个表的记录：select * from apps limit 1;<br>7、显示字符集：\encoding<br>8、退出psgl：\q</p>
-<p>9、获取命令帮助: psql –help</p>
-<p>10、\help     // 获取SQL命令的帮助,同 \h </p>
-<p>11、 \dt     // 显示当前数据库中的所有表 </p>
-<p>12、 select version();      // 获取版本信息 </p>
-<p>13、\d [table_name] // 显示当前数据库的指定表的表结构 </p>
-<p>14、 \c [database_name] // 切换到指定数据库,相当于use </p>
-<p>15、 \di // 查看索引(要建立关联) </p>
-<p>16、 \encoding [字元编码名称] // 显示或设定用户端字元编码 </p>
-<h3 id="三、-SQL命令通用"><a href="#三、-SQL命令通用" class="headerlink" title="三、 SQL命令通用"></a>三、 SQL命令通用</h3><p>*创建数据库：<br>create database [数据库名];</p>
-<p>*删除数据库：<br>drop database [数据库名]; </p>
-<p>*创建表：<br>create table ([字段名1] [类型1] ;,[字段名2] [类型2],……&lt;,primary key (字段名m,字段名n,…)&gt;;);</p>
-<p>*在表中插入数据：<br>insert into 表名 ([字段名m],[字段名n],……) values ([列m的值],[列n的值],……);</p>
-<p>*显示表内容:<br>select * from student;</p>
-<p>*重命名一个表：<br>alter table [表名A] rename to [表名B];</p>
-<p>*删除一个表：<br>drop table [表名]; </p>
-<p>*在已有的表里添加字段：<br>alter table [表名] add column [字段名] [类型];</p>
-<p>*删除表中的字段：<br>alter table [表名] drop column [字段名];</p>
-<p>*重命名一个字段：<br>alter table [表名] rename column [字段名A] to [字段名B];</p>
-<p>*给一个字段设置缺省值：<br>alter table [表名] alter column [字段名] set default [新的默认值];</p>
-<p>*去除缺省值：<br>alter table [表名] alter column [字段名] drop default;</p>
-<p>*修改表中的某行某列的数据：<br>update [表名] set [目标字段名]=[目标值] where [该行特征];</p>
-<p>*删除表中某行数据：<br>delete from [表名] where [该行特征];<br>delete from [表名];  // 删空整个表</p>
-<p>*可以使用pg_dump和pg_dumpall来完成。比如备份sales数据库：<br>pg_dump drupal&gt;/opt/Postgresql/backup/1.bak</p>
-<p>&nbsp;</p>
-<p>阮一峰的网络日志PostgreSQL新手入门：<br><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
-<p>刘悦的技术博客：<a href="https://v3u.cn/a_id_171">https://v3u.cn/a_id_171</a></p>
-<p>其他参考：<a href="https://www.cnblogs.com/zhoujie/p/pgsql.html">https://www.cnblogs.com/zhoujie/p/pgsql.html</a></p>
-<p>​                <a href="https://segmentfault.com/a/1190000002787641">https://segmentfault.com/a/1190000002787641</a></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>PostgrelSQL数据库</category>
-      </categories>
-      <tags>
-        <tag>PostgrelSQL数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python实现生成 json web token</title>
     <url>/id_03/</url>
     <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
@@ -153,6 +153,160 @@
 
 
 
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>理解什么是JWT(Json web token)及Python实现</title>
+    <url>/id_06/</url>
+    <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
+<p>深入了解Json Web令牌之概念篇 :<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>参考博客：<a href="https://segmentfault.com/a/1190000010312468?utm_source=tag-newest">https://segmentfault.com/a/1190000010312468?utm_source=tag-newest</a></p>
+<blockquote>
+<p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc7519">(RFC 7519</a>).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
+</blockquote>
+<h2 id="使用传统Session进行身份验证？"><a href="#使用传统Session进行身份验证？" class="headerlink" title="使用传统Session进行身份验证？"></a>使用传统Session进行身份验证？</h2><p>使用 Session 进行身份认证的话，实现<strong>单点登录</strong>，需要我们把用户的 Session 信息保存在一台电脑上，并且还会遇到常见的 <strong>Cookie 跨域</strong>的问题。但是，使用 token 进行认证的话， token 被保存在客户端，不会存在这些问题。 </p>
+<h2 id="Token的认证流程"><a href="#Token的认证流程" class="headerlink" title="Token的认证流程"></a>Token的认证流程</h2><ol>
+<li><p>用户输入其登录信息</p>
+</li>
+<li><p>服务器验证信息是否正确，并返回已签名的token</p>
+</li>
+<li><p>token储在客户端，例如存在local storage或cookie中</p>
+</li>
+<li><p>之后的HTTP请求都将token添加到请求头里</p>
+</li>
+<li><p>服务器解码JWT，并且如果令牌有效，则接受请求</p>
+</li>
+<li><p>一旦用户注销，令牌将在客户端被销毁，不需要与服务器进行交互一个关键是，令牌是无状态的。后端服务器不需要保存令牌或当前session的记录</p>
+</li>
+</ol>
+<h2 id="JWT-特点"><a href="#JWT-特点" class="headerlink" title="JWT 特点"></a>JWT 特点</h2><ul>
+<li>体积小，因而传输速度快</li>
+<li>传输方式多样，可以通过URL/POST参数/HTTP头部等方式传输</li>
+<li>严格的结构化。它自身（在 payload 中）就包含了所有与用户相关的验证消息，如用户可访问路由、访问有效期等信息，服务器无需再去连接数据库验证信息的有效性，并且 payload 支持为你的应用而定制化。</li>
+<li>支持跨域验证，可以应用于单点登录。</li>
+</ul>
+<h2 id="认识JWT"><a href="#认识JWT" class="headerlink" title="认识JWT"></a>认识JWT</h2><p>JWT是由三段信息构成的，将这三段信息文本用<code>.</code>链接一起就构成了Jwt字符串。就像这样: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>一个通常你看到的jwt，由以下三部分组成，分别分别是：</p>
+<p>1.header：主要声明了JWT的类型、签名算法；</p>
+<p>2.payload：主要承载了各种声明并传递明文数据；</p>
+<p>3.signature：拥有该部分的JWT被称为JWS，也就是签了名的JWS；没有该部分的JWT被称为不安全的JWT也就是不安全的JWT，此时报头中的声明的签名算法为none。</p>
+<h4 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h4><ul>
+<li><p>声明类型，这里是jwt</p>
+</li>
+<li><p>声明加密的算法 通常直接使用 HMAC SHA256</p>
+</li>
+<li><p> 然后将头部进行base64加密（该加密是可以对称解密的)，构成了第一部分。 </p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//包括类别（typ）、加密算法（alg）；</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">  <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="载荷（payload）"><a href="#载荷（payload）" class="headerlink" title="载荷（payload）"></a>载荷（payload）</h4><p>载荷就是存放有效信息的地方。这些有效信息包含三个部分：</p>
+<ul>
+<li>标准中注册声明</li>
+<li>公共的声名</li>
+<li>私有的声明</li>
+</ul>
+<p><code>公共的声明 ：</code><br>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密。</p>
+<p><code>私有的声明 ：</code><br>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。</p>
+<p>下面是一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括需要传递的用户信息；</span></span><br><span class="line">&#123; <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;Online JWT Builder&quot;</span>, </span><br><span class="line">  <span class="string">&quot;iat&quot;</span>: <span class="number">1416797419</span>, </span><br><span class="line">  <span class="string">&quot;exp&quot;</span>: <span class="number">1448333419</span>, </span><br><span class="line">  <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>, </span><br><span class="line">  <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;uid&quot;</span>, </span><br><span class="line">  <span class="string">&quot;nickname&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;username&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;scopes&quot;</span>: [ <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span> ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>iss: 该JWT的签发者，是否使用是可选的；</li>
+<li>sub: 该JWT所面向的用户，是否使用是可选的；</li>
+<li>aud: 接收该JWT的一方，是否使用是可选的；</li>
+<li>exp(expires): 什么时候过期，这里是一个Unix时间戳，是否使用是可选的；</li>
+<li>iat(issued at): 在什么时候签发的(UNIX时间)，是否使用是可选的；</li>
+</ul>
+<p>其他还有：</p>
+<ul>
+<li>nbf (Not Before)：如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；，是否使用是可选的；</li>
+<li>jti: jwt的唯一身份标识，主要用来作为一次性token，从而回避重放攻击。</li>
+</ul>
+<p>将上面的JSON对象进行<code>base64编码</code>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<h4 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据alg算法与私有秘钥进行加密得到的签名字串；</span></span><br><span class="line"><span class="comment">// 这一段是最重要的敏感信息，只能在服务端解密；</span></span><br><span class="line">HMACSHA256(  </span><br><span class="line">    base64UrlEncode(header) + <span class="string">&quot;.&quot;</span> +</span><br><span class="line">    base64UrlEncode(payload),</span><br><span class="line">    SECREATE_KEY</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
+<ul>
+<li>header (base64后的)</li>
+<li>payload (base64后的)</li>
+<li>secret</li>
+</ul>
+<p>将上面的两个编码后的字符串都用.连接在一起（头部在前）最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。如果我们用 <code>secret</code> 作为密钥的话，那么就可以得到我们加密后内容</p>
+<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>签名的目的</code>：签名实际上是对头部以及载荷内容进行签名。所以，如果有人对头部以及载荷的内容解码之后进行修改，再进行编码的话，那么新的头部和载荷的签名和之前的签名就将是不一样的。而且，如果不知道服务器加密的时候用的密钥的话，得出来的签名也一定会是不一样的。<br>这样就能保证token不会被篡改。 </p>
+</blockquote>
+<p>token 生成好之后，接下来就可以用token来和服务器进行通讯了。 </p>
+<p>这里在第三步我们得到 JWT 之后，需要将JWT存放在 client，之后的每次需要认证的请求都要把JWT发送过来。（请求时可以放到 header 的 Authorization ） </p>
+<p>![1610682286610](/imgs/理解什么是JWT(Json web token)及Python实现/1610682286610.png)</p>
+<h3 id="JWT-使用场景"><a href="#JWT-使用场景" class="headerlink" title="JWT 使用场景"></a>JWT 使用场景</h3><p>JWT的主要优势在于使用无状态、可扩展的方式处理应用中的用户会话。服务端可以通过内嵌的声明信息，很容易地获取用户的会话信息，而不需要去访问用户或会话的数据库。在一个分布式的面向服务的框架中，这一点非常有用。</p>
+<p>但是，如果系统中需要使用黑名单实现长期有效的token刷新机制，这种无状态的优势就不明显了。</p>
+<blockquote>
+<p>优点</p>
+</blockquote>
+<p>快速开发<br>不需要cookie<br>JSON在移动端的广泛应用<br>不依赖于社交登录<br>相对简单的概念理解</p>
+<blockquote>
+<p>缺点</p>
+</blockquote>
+<p>Token有长度限制<br>Token不能撤销<br>需要token有失效时间限制(exp)</p>
+<h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><p>我们可以使用 <a href="https://github.com/jpadilla/pyjwt/">pyjwt：https://github.com/jpadilla/pyjwt/</a> </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 sanic 作为restful api 框架 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_token</span>(<span class="params">request</span>):</span></span><br><span class="line">    grant_type = request.json.get(<span class="string">&#x27;grant_type&#x27;</span>)</span><br><span class="line">    username = request.json[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">    password = request.json[<span class="string">&#x27;password&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> grant_type == <span class="string">&#x27;password&#x27;</span>:</span><br><span class="line">        account = verify_password(username, password)</span><br><span class="line">    <span class="keyword">elif</span> grant_type == <span class="string">&#x27;wxapp&#x27;</span>:</span><br><span class="line">        account = verify_wxapp(username, password)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> account:</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;iat&quot;</span>: <span class="built_in">int</span>(time.time()),</span><br><span class="line">         <span class="string">&quot;exp&quot;</span>: <span class="built_in">int</span>(time.time()) + <span class="number">86400</span> * <span class="number">7</span>,</span><br><span class="line">         <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;sub&quot;</span>: account[<span class="string">&#x27;_id&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;username&quot;</span>: account[<span class="string">&#x27;username&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;scopes&quot;</span>: [<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    token = jwt.encode(payload, <span class="string">&#x27;secret&#x27;</span>, algorithm=<span class="string">&#x27;HS256&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span>, &#123;<span class="string">&#x27;access_token&#x27;</span>: token, <span class="string">&#x27;account_id&#x27;</span>: account[<span class="string">&#x27;_id&#x27;</span>]&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_bearer_token</span>(<span class="params">token</span>):</span></span><br><span class="line">    <span class="comment">#  如果在生成token的时候使用了aud参数，那么校验的时候也需要添加此参数</span></span><br><span class="line">    payload = jwt.decode(token, <span class="string">&#x27;secret&#x27;</span>, audience=<span class="string">&#x27;www.gusibi.com&#x27;</span>, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>, token</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span>, token</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
+    <url>/id_04/</url>
+    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
+<p>安装eCharts：npm install echarts @4.9.0</p>
+<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
+<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
+<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
+<p>然后在main.js中全局配置：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
+
+<p>现在上vue的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>效果图：</p>
+<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
 ]]></content>
       <categories>
         <category>项目开发</category>
@@ -319,151 +473,24 @@
       </tags>
   </entry>
   <entry>
-    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
-    <url>/id_04/</url>
-    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
 
-
-
-<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
-<p>安装eCharts：npm install echarts @4.9.0</p>
-<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
-<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
-<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
-<p>然后在main.js中全局配置：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
-
-<p>现在上vue的代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>效果图：</p>
-<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>理解什么是JWT(Json web token)及Python实现</title>
-    <url>/id_06/</url>
-    <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
-<p>深入了解Json Web令牌之概念篇 :<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
-<p>参考博客：<a href="https://segmentfault.com/a/1190000010312468?utm_source=tag-newest">https://segmentfault.com/a/1190000010312468?utm_source=tag-newest</a></p>
-<blockquote>
-<p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc7519">(RFC 7519</a>).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
-</blockquote>
-<h2 id="使用传统Session进行身份验证？"><a href="#使用传统Session进行身份验证？" class="headerlink" title="使用传统Session进行身份验证？"></a>使用传统Session进行身份验证？</h2><p>使用 Session 进行身份认证的话，实现<strong>单点登录</strong>，需要我们把用户的 Session 信息保存在一台电脑上，并且还会遇到常见的 <strong>Cookie 跨域</strong>的问题。但是，使用 token 进行认证的话， token 被保存在客户端，不会存在这些问题。 </p>
-<h2 id="Token的认证流程"><a href="#Token的认证流程" class="headerlink" title="Token的认证流程"></a>Token的认证流程</h2><ol>
-<li><p>用户输入其登录信息</p>
-</li>
-<li><p>服务器验证信息是否正确，并返回已签名的token</p>
-</li>
-<li><p>token储在客户端，例如存在local storage或cookie中</p>
-</li>
-<li><p>之后的HTTP请求都将token添加到请求头里</p>
-</li>
-<li><p>服务器解码JWT，并且如果令牌有效，则接受请求</p>
-</li>
-<li><p>一旦用户注销，令牌将在客户端被销毁，不需要与服务器进行交互一个关键是，令牌是无状态的。后端服务器不需要保存令牌或当前session的记录</p>
-</li>
-</ol>
-<h2 id="JWT-特点"><a href="#JWT-特点" class="headerlink" title="JWT 特点"></a>JWT 特点</h2><ul>
-<li>体积小，因而传输速度快</li>
-<li>传输方式多样，可以通过URL/POST参数/HTTP头部等方式传输</li>
-<li>严格的结构化。它自身（在 payload 中）就包含了所有与用户相关的验证消息，如用户可访问路由、访问有效期等信息，服务器无需再去连接数据库验证信息的有效性，并且 payload 支持为你的应用而定制化。</li>
-<li>支持跨域验证，可以应用于单点登录。</li>
-</ul>
-<h2 id="认识JWT"><a href="#认识JWT" class="headerlink" title="认识JWT"></a>认识JWT</h2><p>JWT是由三段信息构成的，将这三段信息文本用<code>.</code>链接一起就构成了Jwt字符串。就像这样: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>一个通常你看到的jwt，由以下三部分组成，分别分别是：</p>
-<p>1.header：主要声明了JWT的类型、签名算法；</p>
-<p>2.payload：主要承载了各种声明并传递明文数据；</p>
-<p>3.signature：拥有该部分的JWT被称为JWS，也就是签了名的JWS；没有该部分的JWT被称为不安全的JWT也就是不安全的JWT，此时报头中的声明的签名算法为none。</p>
-<h4 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h4><ul>
-<li><p>声明类型，这里是jwt</p>
-</li>
-<li><p>声明加密的算法 通常直接使用 HMAC SHA256</p>
-</li>
-<li><p> 然后将头部进行base64加密（该加密是可以对称解密的)，构成了第一部分。 </p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//包括类别（typ）、加密算法（alg）；</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">  <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="载荷（payload）"><a href="#载荷（payload）" class="headerlink" title="载荷（payload）"></a>载荷（payload）</h4><p>载荷就是存放有效信息的地方。这些有效信息包含三个部分：</p>
-<ul>
-<li>标准中注册声明</li>
-<li>公共的声名</li>
-<li>私有的声明</li>
-</ul>
-<p><code>公共的声明 ：</code><br>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密。</p>
-<p><code>私有的声明 ：</code><br>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。</p>
-<p>下面是一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括需要传递的用户信息；</span></span><br><span class="line">&#123; <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;Online JWT Builder&quot;</span>, </span><br><span class="line">  <span class="string">&quot;iat&quot;</span>: <span class="number">1416797419</span>, </span><br><span class="line">  <span class="string">&quot;exp&quot;</span>: <span class="number">1448333419</span>, </span><br><span class="line">  <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>, </span><br><span class="line">  <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;uid&quot;</span>, </span><br><span class="line">  <span class="string">&quot;nickname&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;username&quot;</span>: <span class="string">&quot;goodspeed&quot;</span>, </span><br><span class="line">  <span class="string">&quot;scopes&quot;</span>: [ <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span> ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>iss: 该JWT的签发者，是否使用是可选的；</li>
-<li>sub: 该JWT所面向的用户，是否使用是可选的；</li>
-<li>aud: 接收该JWT的一方，是否使用是可选的；</li>
-<li>exp(expires): 什么时候过期，这里是一个Unix时间戳，是否使用是可选的；</li>
-<li>iat(issued at): 在什么时候签发的(UNIX时间)，是否使用是可选的；</li>
-</ul>
-<p>其他还有：</p>
-<ul>
-<li>nbf (Not Before)：如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；，是否使用是可选的；</li>
-<li>jti: jwt的唯一身份标识，主要用来作为一次性token，从而回避重放攻击。</li>
-</ul>
-<p>将上面的JSON对象进行<code>base64编码</code>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
-<h4 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据alg算法与私有秘钥进行加密得到的签名字串；</span></span><br><span class="line"><span class="comment">// 这一段是最重要的敏感信息，只能在服务端解密；</span></span><br><span class="line">HMACSHA256(  </span><br><span class="line">    base64UrlEncode(header) + <span class="string">&quot;.&quot;</span> +</span><br><span class="line">    base64UrlEncode(payload),</span><br><span class="line">    SECREATE_KEY</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
-<ul>
-<li>header (base64后的)</li>
-<li>payload (base64后的)</li>
-<li>secret</li>
-</ul>
-<p>将上面的两个编码后的字符串都用.连接在一起（头部在前）最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。如果我们用 <code>secret</code> 作为密钥的话，那么就可以得到我们加密后内容</p>
-<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTA2NzgyNzQuNzkzODQ5NywibmFtZSI6Imxvd21hbiJ9.lFKwrllY62sFyWAjmFHMQX2QM09wKVSpkl9xDHjLFJ4</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>签名的目的</code>：签名实际上是对头部以及载荷内容进行签名。所以，如果有人对头部以及载荷的内容解码之后进行修改，再进行编码的话，那么新的头部和载荷的签名和之前的签名就将是不一样的。而且，如果不知道服务器加密的时候用的密钥的话，得出来的签名也一定会是不一样的。<br>这样就能保证token不会被篡改。 </p>
-</blockquote>
-<p>token 生成好之后，接下来就可以用token来和服务器进行通讯了。 </p>
-<p>这里在第三步我们得到 JWT 之后，需要将JWT存放在 client，之后的每次需要认证的请求都要把JWT发送过来。（请求时可以放到 header 的 Authorization ） </p>
-<p>![1610682286610](/imgs/理解什么是JWT(Json web token)及Python实现/1610682286610.png)</p>
-<h3 id="JWT-使用场景"><a href="#JWT-使用场景" class="headerlink" title="JWT 使用场景"></a>JWT 使用场景</h3><p>JWT的主要优势在于使用无状态、可扩展的方式处理应用中的用户会话。服务端可以通过内嵌的声明信息，很容易地获取用户的会话信息，而不需要去访问用户或会话的数据库。在一个分布式的面向服务的框架中，这一点非常有用。</p>
-<p>但是，如果系统中需要使用黑名单实现长期有效的token刷新机制，这种无状态的优势就不明显了。</p>
-<blockquote>
-<p>优点</p>
-</blockquote>
-<p>快速开发<br>不需要cookie<br>JSON在移动端的广泛应用<br>不依赖于社交登录<br>相对简单的概念理解</p>
-<blockquote>
-<p>缺点</p>
-</blockquote>
-<p>Token有长度限制<br>Token不能撤销<br>需要token有失效时间限制(exp)</p>
-<h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><p>我们可以使用 <a href="https://github.com/jpadilla/pyjwt/">pyjwt：https://github.com/jpadilla/pyjwt/</a> </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 sanic 作为restful api 框架 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_token</span>(<span class="params">request</span>):</span></span><br><span class="line">    grant_type = request.json.get(<span class="string">&#x27;grant_type&#x27;</span>)</span><br><span class="line">    username = request.json[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">    password = request.json[<span class="string">&#x27;password&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> grant_type == <span class="string">&#x27;password&#x27;</span>:</span><br><span class="line">        account = verify_password(username, password)</span><br><span class="line">    <span class="keyword">elif</span> grant_type == <span class="string">&#x27;wxapp&#x27;</span>:</span><br><span class="line">        account = verify_wxapp(username, password)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> account:</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;iat&quot;</span>: <span class="built_in">int</span>(time.time()),</span><br><span class="line">         <span class="string">&quot;exp&quot;</span>: <span class="built_in">int</span>(time.time()) + <span class="number">86400</span> * <span class="number">7</span>,</span><br><span class="line">         <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;sub&quot;</span>: account[<span class="string">&#x27;_id&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;username&quot;</span>: account[<span class="string">&#x27;username&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;scopes&quot;</span>: [<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    token = jwt.encode(payload, <span class="string">&#x27;secret&#x27;</span>, algorithm=<span class="string">&#x27;HS256&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span>, &#123;<span class="string">&#x27;access_token&#x27;</span>: token, <span class="string">&#x27;account_id&#x27;</span>: account[<span class="string">&#x27;_id&#x27;</span>]&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_bearer_token</span>(<span class="params">token</span>):</span></span><br><span class="line">    <span class="comment">#  如果在生成token的时候使用了aud参数，那么校验的时候也需要添加此参数</span></span><br><span class="line">    payload = jwt.decode(token, <span class="string">&#x27;secret&#x27;</span>, audience=<span class="string">&#x27;www.gusibi.com&#x27;</span>, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>, token</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span>, token</span><br></pre></td></tr></table></figure>
-
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
 ]]></content>
       <categories>
         <category>Python基础</category>
@@ -491,33 +518,6 @@
       </categories>
       <tags>
         <tag>开发者手册</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
-
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -762,21 +762,6 @@
       </tags>
   </entry>
   <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-
-
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python深浅拷贝的区别</title>
     <url>/id_14/</url>
     <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
@@ -808,39 +793,18 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis实现分布式单点登录</title>
-    <url>/id_17/</url>
-    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
-<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
-<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
-<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
-</ul>
-<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
-<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
-<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
-</ul>
-<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
-<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
-<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
-<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
-<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
-</ul>
-<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
-<ol>
-<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
-</ol>
-<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 
-
-<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
 ]]></content>
       <categories>
-        <category>Redis数据库</category>
+        <category>Python基础</category>
       </categories>
       <tags>
-        <tag>Redis数据库</tag>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -925,6 +889,42 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis实现分布式单点登录</title>
+    <url>/id_17/</url>
+    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
+<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
+<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
+</ul>
+<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
+<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
+<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
+</ul>
+<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
+<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
+<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
+<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
+<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
+</ul>
+<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
+<ol>
+<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
+</ol>
+<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
+]]></content>
+      <categories>
+        <category>Redis数据库</category>
+      </categories>
+      <tags>
+        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1260,33 +1260,6 @@
       </tags>
   </entry>
   <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python内存管理机制</title>
     <url>/id_21/</url>
     <content><![CDATA[<h1 id="Python内存管理机制"><a href="#Python内存管理机制" class="headerlink" title="Python内存管理机制"></a>Python内存管理机制</h1><hr>
@@ -1367,54 +1340,30 @@
       </tags>
   </entry>
   <entry>
-    <title>解决GitHub打不开的问题</title>
-    <url>/id_24/</url>
-    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
-<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
-<br/>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
 
-<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
-<p>查看GitHub的ip地址。</p>
-<p><img src="/imgs/id_24/1616318075440.png"></p>
-<br/>
 
-<blockquote>
-<p>140.82.114.4  github.com </p>
-</blockquote>
-<br/>
-
-<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
-<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
-<br/>
-
-<blockquote>
-<p> 199.232.69.194 github.global.ssl.fastly.net </p>
-</blockquote>
-<br/>
-
-<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
-<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
-<br/>
-
-<blockquote>
-<p>185.199.108.153 assets-cdn.github.com</p>
-<p>185.199.110.153 assets-cdn.github.com</p>
-<p>185.199.111.153 assets-cdn.github.com</p>
-</blockquote>
-<br/>
-
-<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
-
-<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
-<br/>
-
-<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>Python基础</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1467,6 +1416,57 @@
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决GitHub打不开的问题</title>
+    <url>/id_24/</url>
+    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
+<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+<br/>
+
+<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
+<p>查看GitHub的ip地址。</p>
+<p><img src="/imgs/id_24/1616318075440.png"></p>
+<br/>
+
+<blockquote>
+<p>140.82.114.4  github.com </p>
+</blockquote>
+<br/>
+
+<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
+<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<br/>
+
+<blockquote>
+<p> 199.232.69.194 github.global.ssl.fastly.net </p>
+</blockquote>
+<br/>
+
+<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
+<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<br/>
+
+<blockquote>
+<p>185.199.108.153 assets-cdn.github.com</p>
+<p>185.199.110.153 assets-cdn.github.com</p>
+<p>185.199.111.153 assets-cdn.github.com</p>
+</blockquote>
+<br/>
+
+<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
+
+<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<br/>
+
+<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1534,57 +1534,6 @@
       </tags>
   </entry>
   <entry>
-    <title>django安装M2Crypto报错</title>
-    <url>/id_26/</url>
-    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>问题如下：</p>
-<br/>
-
-<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
-<br/>
-
-<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
-<br/>
-
-<p>先 sudo apt install libssl-dev swig</p>
-<p>执行命令后报错</p>
-<br/>
-
-<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
-<br/>
-
-<p>E: 无法定位软件包 swig</p>
-<br/>
-
-<blockquote>
-<p>问题解析：</p>
-<p>发生这个问题有以下几种情况：</p>
-<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
-<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
-<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
-</blockquote>
-<br/>
-
-<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
-<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
-<br/>
-
-<p>在执行 pip3 install M2Crypto</p>
-]]></content>
-      <categories>
-        <category>django</category>
-      </categories>
-      <tags>
-        <tag>django</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>gitlab创建分支及上传代码</title>
     <url>/id_27/</url>
     <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
@@ -1646,6 +1595,57 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>django安装M2Crypto报错</title>
+    <url>/id_26/</url>
+    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>问题如下：</p>
+<br/>
+
+<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
+<br/>
+
+<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
+<br/>
+
+<p>先 sudo apt install libssl-dev swig</p>
+<p>执行命令后报错</p>
+<br/>
+
+<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
+<br/>
+
+<p>E: 无法定位软件包 swig</p>
+<br/>
+
+<blockquote>
+<p>问题解析：</p>
+<p>发生这个问题有以下几种情况：</p>
+<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
+<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
+<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
+</blockquote>
+<br/>
+
+<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
+<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
+<br/>
+
+<p>在执行 pip3 install M2Crypto</p>
+]]></content>
+      <categories>
+        <category>django</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -2138,6 +2138,40 @@
       </tags>
   </entry>
   <entry>
+    <title>反爬系列---自定义代理池</title>
+    <url>/id_36/</url>
+    <content><![CDATA[<h1 id="反爬系列—自定义代理池"><a href="#反爬系列—自定义代理池" class="headerlink" title="反爬系列—自定义代理池"></a>反爬系列—自定义代理池</h1><blockquote>
+<p>要解决爬虫被禁的问题，一个直观的思路就是使用代理池，每次爬取页面我们都使用不同的IP发出请求，这样就可以避免同一个IP频繁发出请求被禁的情况。</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>代理按照是否匿名，大致可分成这样几类</p>
+<ul>
+<li><p>透明代理</p>
+</li>
+<li><p>匿名代理</p>
+</li>
+<li><p>高匿代理</p>
+</li>
+</ul>
+<p>透明代理在HTTP头里设置了你的真实IP，服务器可以通过HTTP头知晓你真实的IP。</p>
+<p>匿名代理虽然隐藏了你的真实IP，但服务器还是知道你使用了代理。</p>
+<p>高匿代理不仅隐藏了你的真实IP，而且让服务器无法发现你在使用代理，这是我们自建代理池的最佳的选择，我们下一步自建代理池的步骤中用到的也是高匿代理。</p>
+</blockquote>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># IP的篡改</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proccess_request</span>():</span></span><br><span class="line">    <span class="comment"># 请求我的代理ip的接口</span></span><br><span class="line">    url_proxy = <span class="string">&#x27;proxy.....url&#x27;</span></span><br><span class="line">    res = requests.get(url_proxy).json()  <span class="comment"># 获取到一个json数据</span></span><br><span class="line">    proxy = res[<span class="string">&#x27;&#x27;</span>] + <span class="string">&#x27;:&#x27;</span> + res[<span class="string">&#x27;port&#x27;</span>]  <span class="comment"># 处理json数据, 形成一个ip:port形式的字符串</span></span><br><span class="line">    </span><br><span class="line">    request.meta[<span class="string">&#x27;proxy&#x27;</span>] = <span class="string">&#x27;http://%s&#x27;</span>%proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu18.04安装MySQL</title>
     <url>/id_37/</url>
     <content><![CDATA[<h1 id="Ubuntu18-04安装MySQL"><a href="#Ubuntu18-04安装MySQL" class="headerlink" title="Ubuntu18.04安装MySQL"></a>Ubuntu18.04安装MySQL</h1><br/>
@@ -2226,40 +2260,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>反爬系列---自定义代理池</title>
-    <url>/id_36/</url>
-    <content><![CDATA[<h1 id="反爬系列—自定义代理池"><a href="#反爬系列—自定义代理池" class="headerlink" title="反爬系列—自定义代理池"></a>反爬系列—自定义代理池</h1><blockquote>
-<p>要解决爬虫被禁的问题，一个直观的思路就是使用代理池，每次爬取页面我们都使用不同的IP发出请求，这样就可以避免同一个IP频繁发出请求被禁的情况。</p>
-</blockquote>
-<br/>
-
-<blockquote>
-<p>代理按照是否匿名，大致可分成这样几类</p>
-<ul>
-<li><p>透明代理</p>
-</li>
-<li><p>匿名代理</p>
-</li>
-<li><p>高匿代理</p>
-</li>
-</ul>
-<p>透明代理在HTTP头里设置了你的真实IP，服务器可以通过HTTP头知晓你真实的IP。</p>
-<p>匿名代理虽然隐藏了你的真实IP，但服务器还是知道你使用了代理。</p>
-<p>高匿代理不仅隐藏了你的真实IP，而且让服务器无法发现你在使用代理，这是我们自建代理池的最佳的选择，我们下一步自建代理池的步骤中用到的也是高匿代理。</p>
-</blockquote>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># IP的篡改</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proccess_request</span>():</span></span><br><span class="line">    <span class="comment"># 请求我的代理ip的接口</span></span><br><span class="line">    url_proxy = <span class="string">&#x27;proxy.....url&#x27;</span></span><br><span class="line">    res = requests.get(url_proxy).json()  <span class="comment"># 获取到一个json数据</span></span><br><span class="line">    proxy = res[<span class="string">&#x27;&#x27;</span>] + <span class="string">&#x27;:&#x27;</span> + res[<span class="string">&#x27;port&#x27;</span>]  <span class="comment"># 处理json数据, 形成一个ip:port形式的字符串</span></span><br><span class="line">    </span><br><span class="line">    request.meta[<span class="string">&#x27;proxy&#x27;</span>] = <span class="string">&#x27;http://%s&#x27;</span>%proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
       </tags>
   </entry>
 </search>

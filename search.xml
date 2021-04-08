@@ -74,31 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python实现生成 json web token</title>
-    <url>/id_03/</url>
-    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
-<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
-<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
-<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
-<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
-<p> 依赖包: PyJWT==1.7.1</p>
-<p>代码示例：</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
     <url>/id_02/</url>
     <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
@@ -159,6 +134,31 @@
       </categories>
       <tags>
         <tag>PostgrelSQL数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python实现生成 json web token</title>
+    <url>/id_03/</url>
+    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
+<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
+<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
+<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
+<p> 依赖包: PyJWT==1.7.1</p>
+<p>代码示例：</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -494,6 +494,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
+
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用python+django集成钉钉三方扫码登陆</title>
     <url>/id_09/</url>
     <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
@@ -526,33 +553,6 @@
 ]]></content>
       <categories>
         <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
-
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -598,6 +598,43 @@
 <p><strong>总结</strong>：</p>
 <p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
 ]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用redis数据库+python实现获取在线用户人数</title>
+    <url>/id_12/</url>
+    <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
+<p>这里使用的是redis集合：</p>
+<p>Redis集是字符串的无序集合。可以在O(1)中添加，删除和检查成员的存在（恒定时间，而与Set中包含的元素数量无关）。</p>
+<p>一个集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
+<span id="more"></span>
+
+<p>应用范围:</p>
+<ul>
+<li>您可以使用Redis集来跟踪独特的事物。想知道访问指定博客帖子的所有唯一IP地址吗？每次处理页面视图时，只需使用SADD。这样避免插入重复的IP。</li>
+<li>Redis集很好地表示关系。您可以使用Set代表每个标签，使用Redis创建标签系统。然后，可以使用SADD命令将具有给定标签的所有对象的所有ID添加到代表该特定标签的Set中。您是否希望所有对象的所有ID同时具有三个不同的标签？只需使用SINTER即可。</li>
+<li>您可以使用Set使用SPOP或SRANDMEMBER命令随机提取元素。</li>
+</ul>
+<p><strong>redis集合底层实现</strong>？</p>
+<ul>
+<li>底层封装的是 <strong>哈希(Hash)</strong> ，也就是我们常说的字典，它利用的是字典的特性。</li>
+<li>集合在业界也被成为是没有<code>值(vaue)</code>的字典，只有key。无论是哈希(Hash)还是字典。</li>
+</ul>
+<p>大家在做网站排行榜等有序的数据时，可以使用redis数据库中的 <strong>有序集合（Sorted Sets）</strong> </p>
+<p>与Redis集类似，Redis排序集是非重复的String集合。区别在于，排序集的每个成员都与得分相关联，该得分用于从最小到最大得分中获取排序的排序集。虽然成员是唯一的，但分数可能会重复。</p>
+<p>一个有序集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
+<p>应用范围:</p>
+<ul>
+<li>在大型在线游戏中担任排行榜，每次提交新分数时，您就可以使用ZADD对其进行更新。您可以轻松地使用ZRANGE吸引顶级用户，也可以给定用户名，使用ZRANK返回其在列表中的排名。一起使用ZRANK和ZRANGE可以向用户显示得分与给定用户相似的得分。速度很快。</li>
+<li>排序集通常用于索引Redis中存储的数据。例如，如果您有许多代表用户的哈希，则可以使用已排序的集合，其元素具有用户的年龄作为得分，而用户的ID作为值。因此，使用ZRANGEBYSCORE检索具有给定年龄段的所有用户将非常简单快捷。</li>
+</ul>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接redis</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">5</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 获取当前在线用户人数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetOnLines</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    		<span class="comment">#获取用户ip地址</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;HTTP_X_FORWARDED_FOR&quot;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;HTTP_X_FOGWARDED_FOR&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> r.scard(<span class="string">&quot;set_ip&quot;</span>):</span><br><span class="line">          <span class="comment">#添加用户ip</span></span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">            r.expire(<span class="string">&quot;set_ip&quot;</span>, <span class="number">30</span>)	<span class="comment">#因为没有办法判断人是否走了，使用相对性 设置一个时间，清除一下这个ip 再添加</span></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&quot;online&quot;</span>: r.scard(<span class="string">&quot;set_ip&quot;</span>)&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>项目开发</category>
       </categories>
@@ -690,43 +727,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用redis数据库+python实现获取在线用户人数</title>
-    <url>/id_12/</url>
-    <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
-<p>这里使用的是redis集合：</p>
-<p>Redis集是字符串的无序集合。可以在O(1)中添加，删除和检查成员的存在（恒定时间，而与Set中包含的元素数量无关）。</p>
-<p>一个集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
-<span id="more"></span>
-
-<p>应用范围:</p>
-<ul>
-<li>您可以使用Redis集来跟踪独特的事物。想知道访问指定博客帖子的所有唯一IP地址吗？每次处理页面视图时，只需使用SADD。这样避免插入重复的IP。</li>
-<li>Redis集很好地表示关系。您可以使用Set代表每个标签，使用Redis创建标签系统。然后，可以使用SADD命令将具有给定标签的所有对象的所有ID添加到代表该特定标签的Set中。您是否希望所有对象的所有ID同时具有三个不同的标签？只需使用SINTER即可。</li>
-<li>您可以使用Set使用SPOP或SRANDMEMBER命令随机提取元素。</li>
-</ul>
-<p><strong>redis集合底层实现</strong>？</p>
-<ul>
-<li>底层封装的是 <strong>哈希(Hash)</strong> ，也就是我们常说的字典，它利用的是字典的特性。</li>
-<li>集合在业界也被成为是没有<code>值(vaue)</code>的字典，只有key。无论是哈希(Hash)还是字典。</li>
-</ul>
-<p>大家在做网站排行榜等有序的数据时，可以使用redis数据库中的 <strong>有序集合（Sorted Sets）</strong> </p>
-<p>与Redis集类似，Redis排序集是非重复的String集合。区别在于，排序集的每个成员都与得分相关联，该得分用于从最小到最大得分中获取排序的排序集。虽然成员是唯一的，但分数可能会重复。</p>
-<p>一个有序集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
-<p>应用范围:</p>
-<ul>
-<li>在大型在线游戏中担任排行榜，每次提交新分数时，您就可以使用ZADD对其进行更新。您可以轻松地使用ZRANGE吸引顶级用户，也可以给定用户名，使用ZRANK返回其在列表中的排名。一起使用ZRANK和ZRANGE可以向用户显示得分与给定用户相似的得分。速度很快。</li>
-<li>排序集通常用于索引Redis中存储的数据。例如，如果您有许多代表用户的哈希，则可以使用已排序的集合，其元素具有用户的年龄作为得分，而用户的ID作为值。因此，使用ZRANGEBYSCORE检索具有给定年龄段的所有用户将非常简单快捷。</li>
-</ul>
-<p>代码实现：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接redis</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">5</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 获取当前在线用户人数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetOnLines</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    		<span class="comment">#获取用户ip地址</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;HTTP_X_FORWARDED_FOR&quot;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;HTTP_X_FOGWARDED_FOR&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> r.scard(<span class="string">&quot;set_ip&quot;</span>):</span><br><span class="line">          <span class="comment">#添加用户ip</span></span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">            r.expire(<span class="string">&quot;set_ip&quot;</span>, <span class="number">30</span>)	<span class="comment">#因为没有办法判断人是否走了，使用相对性 设置一个时间，清除一下这个ip 再添加</span></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&quot;online&quot;</span>: r.scard(<span class="string">&quot;set_ip&quot;</span>)&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo博客搭建之在文章中插入图片</title>
     <url>/id_13/</url>
     <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
@@ -762,6 +762,21 @@
       </tags>
   </entry>
   <entry>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python深浅拷贝的区别</title>
     <url>/id_14/</url>
     <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
@@ -793,18 +808,39 @@
       </tags>
   </entry>
   <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
+    <title>Redis实现分布式单点登录</title>
+    <url>/id_17/</url>
+    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
+<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
+<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
+</ul>
+<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
+<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
+<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
+</ul>
+<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
+<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
+<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
+<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
+<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
+</ul>
+<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
+<ol>
+<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
+</ol>
+<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
 
 
+
+<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>Redis数据库</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>Redis数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -889,97 +925,6 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis实现分布式单点登录</title>
-    <url>/id_17/</url>
-    <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
-<h2 id="为什么会存在单点登录的问题？"><a href="#为什么会存在单点登录的问题？" class="headerlink" title="为什么会存在单点登录的问题？"></a>为什么会存在单点登录的问题？</h2><ul>
-<li> Session默认是存储在当前服务器的内存中，如果是集群，那么只有那台机器的内存中才会有这个session</li>
-<li>比如说我在A机器上登录，B机器是没有这个session存在的，所以需要重新验证</li>
-</ul>
-<h2 id="如何解决这个单点登录的问题"><a href="#如何解决这个单点登录的问题" class="headerlink" title="如何解决这个单点登录的问题"></a>如何解决这个单点登录的问题</h2><ul>
-<li>不管在那一台Web服务器登录，都会把Token值存放到我们的一个集中管理的redis服务器中</li>
-<li>但客户端携带token验证的时候，会先后redis中获取，就实现了单点登录</li>
-</ul>
-<h2 id="现实举例"><a href="#现实举例" class="headerlink" title="现实举例"></a>现实举例</h2><ul>
-<li>比如自己写的一个项目，分别部署到A、B两台服务器的内存</li>
-<li>如果直接使用session，那么如果在A机器登录，token只会在A服务器的内存中</li>
-<li>因为请求会分不到A、B两个机器，如果这个请求到了B机器，B的内存中没有用户的session就会让重新登录</li>
-<li>所以登录A机器的时候我们应该把token值写到redis中，这样A/B机器登录，都会从redis中获取token进行校验</li>
-</ul>
-<h2 id="单点登录的缺点及解决办法："><a href="#单点登录的缺点及解决办法：" class="headerlink" title="单点登录的缺点及解决办法："></a>单点登录的缺点及解决办法：</h2><p>引进SSO单点登录的逻辑,它完美的解决了在多服务下的session共享问题，但是又会带来哪些问题呢?</p>
-<ol>
-<li>在高并发下,很难保证生成的token的唯一性,并且有可能存在cookie存储的token信息,在redis 中查询不到,</li>
-</ol>
-<p>于是在这种情况下就需要使用分布式锁!分布式锁有很多实现方式， 利用redis 中的setnx 和get set命令来实现redis 分布式锁!</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">SETNX命令简介</span><br><span class="line">命令格式</span><br><span class="line">SETNX key value</span><br><span class="line">将 key 的值设为 value ，当且仅当 key 不存在。</span><br><span class="line">若给定的 key 已经存在，则 SETNX 不做任何动作。</span><br><span class="line">SETNX 是『SET <span class="keyword">if</span> Not eXists』(如果不存在，则 SET)的简写。</span><br><span class="line">返回值</span><br><span class="line">设置成功，返回 <span class="number">1</span> 。</span><br><span class="line">设置失败，返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>单点登陆工作原理解析</strong>：<a href="https://zhuanlan.zhihu.com/p/66308118">https://zhuanlan.zhihu.com/p/66308118</a></p>
-]]></content>
-      <categories>
-        <category>Redis数据库</category>
-      </categories>
-      <tags>
-        <tag>Redis数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP和UDP协议到底是什么</title>
-    <url>/id_19/</url>
-    <content><![CDATA[<h1 id="TCP-UDP协议到底是什么"><a href="#TCP-UDP协议到底是什么" class="headerlink" title="TCP/UDP协议到底是什么"></a>TCP/UDP协议到底是什么</h1><p>TCP详解推荐博客：<a href="https://www.jianshu.com/p/ef892323e68f">https://www.jianshu.com/p/ef892323e68f</a></p>
-<p>三握四挥参考博客：<a href="https://blog.csdn.net/sinat_36629696/article/details/80740678">https://blog.csdn.net/sinat_36629696/article/details/80740678</a></p>
-<p> 阮一峰的网络日志 :<a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html">http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html</a></p>
-<p>UDP详解推荐博客：<a href="https://blog.csdn.net/chengfengwenalan/article/details/84496477">https://blog.csdn.net/chengfengwenalan/article/details/84496477</a></p>
-<h2 id="TCP-IP协议分层"><a href="#TCP-IP协议分层" class="headerlink" title="TCP/IP协议分层"></a>TCP/IP协议分层</h2><p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/1608643833673.png"></p>
-<p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/2019-03-21-01.png"> </p>
-<p>TCP 是互联网核心协议之一 ,TCP/IP协议族按照层次由上到下，层层包装。 </p>
-<ol>
-<li><strong>物理层</strong><br>主要是处理机械的、电气的和过程的接口，以及物理层下的物理传输介质等。</li>
-<li><strong>数据链路层</strong><br>的任务是加强物理层的功能，使其对网络层显示为一条无错的线路。</li>
-<li><strong>网络层</strong><br>确定分组从源端到目的端的路由选择。路由可以选用网络中固定的静态路由表,也可以在每一次会话时决定,还可以根据当前的网络负载状况,灵活地为每一个分组分别决定。</li>
-<li><strong>传输层</strong><br>从会话层接收数据，并传输给网络层，同时确保到达目的端的各段信息正确无误，而且使会话层不受硬件变化的影响。通常,会话层每请求建立一个传输连接，传输层就会为其创建一个独立的网络连接。</li>
-<li><strong>会话层</strong><br>允许不同机器上的用户之间建立会话关系，既可以进行类似传输层的普通数据传输，也可以被用于远程登录到分时系统或在两台机器间传递文件。</li>
-<li><strong>表示层</strong><br>用于完成一些特定的功能，这些功能由于经常被请求，因此人们希望有通用的解决办法，而不是由每个用户各自实现。</li>
-<li><strong>应用层</strong><br>包含了大量人们普遍需要的协议，不同的文件系统有不同的文件命名原则和不同的文本行表示方法等，不同的系统之间传输文件还有各种不兼容问题，这些都将由应用层来处理。此外，应用层还有虚拟终端、电子邮件和新闻组等各种通用和专用的功能。</li>
-</ol>
-<h3 id="连接管理机制"><a href="#连接管理机制" class="headerlink" title="连接管理机制"></a>连接管理机制</h3><p>正常情况下, TCP需要经过三次握手建立连接, 四次挥手断开连接.</p>
-<ul>
-<li>那么什么是三次握手? 什么是四次挥手呢?</li>
-</ul>
-<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><p>第一次:<br>客户端 - - &gt; 服务器 此时服务器知道了客户端要建立连接了<br>第二次:<br>客户端 &lt; - - 服务器 此时客户端知道服务器收到连接请求了<br>第三次:<br>客户端 - - &gt; 服务器 此时服务器知道客户端收到了自己的回应</p>
-<p>到这里, 就可以认为客户端与服务器已经建立了连接.</p>
-<h5 id="再来看张图："><a href="#再来看张图：" class="headerlink" title="再来看张图："></a>再来看张图：</h5><p> <img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/20180620002440131.gif"> </p>
-<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a><strong>四次挥手</strong></h4><p>所谓的四次挥手即TCP连接的释放(解除)。连接的释放必须是一方主动释放，另一方被动释放。以下为客户端主动发起释放连接的图解：</p>
-<p> <img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/20180620002506635.gif">  </p>
-<h5 id="“四次挥手”的通俗理解"><a href="#“四次挥手”的通俗理解" class="headerlink" title="“四次挥手”的通俗理解"></a><strong>“四次挥手”的通俗理解</strong></h5><p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/caef76094b36acaf042ba27e2f07751503e99c48.jpeg"></p>
-<p>举个栗子：把客户端比作男孩，服务器比作女孩。通过他们的分手来说明“四次挥手”过程。</p>
-<ul>
-<li>“第一次挥手”：日久见人心，男孩发现女孩变成了自己讨厌的样子，忍无可忍，于是决定分手，随即写了一封信告诉女孩。</li>
-<li>“第二次挥手”：女孩收到信之后，知道了男孩要和自己分手，怒火中烧，心中暗骂：你算什么东西，当初你可不是这个样子的！于是立马给男孩写了一封回信：分手就分手，给我点时间，我要把你的东西整理好，全部还给你！男孩收到女孩的第一封信之后，明白了女孩知道自己要和她分手。随后等待女孩把自己的东西收拾好。</li>
-<li>“第三次挥手”：过了几天，女孩把男孩送的东西都整理好了，于是再次写信给男孩：你的东西我整理好了，快把它们拿走，从此你我恩断义绝！</li>
-<li>“第四次挥手”：男孩收到女孩第二封信之后，知道了女孩收拾好东西了，可以正式分手了，于是再次写信告诉女孩：我知道了，这就去拿回来！这里双方都有各自的坚持。女孩自发出第二封信开始，限定一天内收不到男孩回信，就会再发一封信催促男孩来取东西！男孩自发出第二封信开始，限定两天内没有再次收到女孩的信就认为，女孩收到了自己的第二封信；若两天内再次收到女孩的来信，就认为自己的第二封信女孩没收到，需要再写一封信，再等两天…..</li>
-</ul>
-<p>倘若双方信都能正常收到，最少只用四封信就能彻底分手！这就是“四次挥手”。</p>
-<h2 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h2><h2 id="TCP-UDP协议的区别"><a href="#TCP-UDP协议的区别" class="headerlink" title="TCP/UDP协议的区别"></a>TCP/UDP协议的区别</h2><p><strong>TCP的优点</strong>： 可靠，稳定 TCP的可靠体现在TCP在传递数据之前，会有三次握手来建立连接，而且在数据传递时，有确认、窗口、重传、拥塞控制机制，在数据传完后，还会断开连接用来节约系统资源。 TCP的缺点： 慢，效率低，占用系统资源高，易被攻击 TCP在传递数据之前，要先建连接，这会消耗时间，而且在数据传递时，确认机制、重传机制、拥塞控制机制等都会消耗大量的时间，而且要在每台设备上维护所有的传输连接，事实上，每个连接都会占用系统的CPU、内存等硬件资源。 而且，因为TCP有确认机制、三次握手机制，这些也导致TCP容易被人利用，实现DOS、DDOS、CC等攻击。 </p>
-<p><strong>UDP的优点</strong>： 快，比TCP稍安全 UDP没有TCP的握手、确认、窗口、重传、拥塞控制等机制，UDP是一个无状态的传输协议，所以它在传递数据时非常快。没有TCP的这些机制，UDP较TCP被攻击者利用的漏洞就要少一些。但UDP也是无法避免攻击的，比如：UDP Flood攻击…… UDP的缺点： 不可靠，不稳定 因为UDP没有TCP那些可靠的机制，在数据传递时，如果网络质量不好，就会很容易丢包。 基于上面的优缺点，那么： 什么时候应该使用TCP： 当对网络通讯质量有要求的时候，比如：整个数据要准确无误的传递给对方，这往往用于一些要求可靠的应用，比如HTTP、HTTPS、FTP等传输文件的协议，POP、SMTP等邮件传输的协议。 在日常生活中，常见使用TCP协议的应用如下： 浏览器，用的HTTP FlashFXP，用的FTP Outlook，用的POP、SMTP Putty，用的Telnet、SSH QQ文件传输 ………… 什么时候应该使用UDP： 当对网络通讯质量要求不高的时候，要求网络通讯速度能尽量的快，这时就可以使用UDP。 比如，日常生活中，常见使用UDP协议的应用如下： QQ语音 QQ视频 TFTP ……</p>
-<p>有些应用场景对可靠性要求不高会用到UPD，比如长视频，要求速率。</p>
-<h2 id="小结TCP与UDP的区别："><a href="#小结TCP与UDP的区别：" class="headerlink" title="小结TCP与UDP的区别："></a><strong>小结TCP与UDP的区别：</strong></h2><p>1、基于连接与无连接；</p>
-<p>2、对系统资源的要求（TCP较多，UDP少）；</p>
-<p>3、UDP程序结构较简单；</p>
-<p>4、流模式与数据报模式 ；</p>
-<p>5、TCP保证数据正确性，UDP可能丢包；</p>
-<p>6、TCP保证数据顺序，UDP不保证。</p>
-<p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/1610535391161.png"></p>
-]]></content>
-      <categories>
-        <category>开发者手册</category>
-      </categories>
-      <tags>
-        <tag>开发者手册</tag>
       </tags>
   </entry>
   <entry>
@@ -1221,6 +1166,127 @@
       </tags>
   </entry>
   <entry>
+    <title>TCP和UDP协议到底是什么</title>
+    <url>/id_19/</url>
+    <content><![CDATA[<h1 id="TCP-UDP协议到底是什么"><a href="#TCP-UDP协议到底是什么" class="headerlink" title="TCP/UDP协议到底是什么"></a>TCP/UDP协议到底是什么</h1><p>TCP详解推荐博客：<a href="https://www.jianshu.com/p/ef892323e68f">https://www.jianshu.com/p/ef892323e68f</a></p>
+<p>三握四挥参考博客：<a href="https://blog.csdn.net/sinat_36629696/article/details/80740678">https://blog.csdn.net/sinat_36629696/article/details/80740678</a></p>
+<p> 阮一峰的网络日志 :<a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html">http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html</a></p>
+<p>UDP详解推荐博客：<a href="https://blog.csdn.net/chengfengwenalan/article/details/84496477">https://blog.csdn.net/chengfengwenalan/article/details/84496477</a></p>
+<h2 id="TCP-IP协议分层"><a href="#TCP-IP协议分层" class="headerlink" title="TCP/IP协议分层"></a>TCP/IP协议分层</h2><p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/1608643833673.png"></p>
+<p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/2019-03-21-01.png"> </p>
+<p>TCP 是互联网核心协议之一 ,TCP/IP协议族按照层次由上到下，层层包装。 </p>
+<ol>
+<li><strong>物理层</strong><br>主要是处理机械的、电气的和过程的接口，以及物理层下的物理传输介质等。</li>
+<li><strong>数据链路层</strong><br>的任务是加强物理层的功能，使其对网络层显示为一条无错的线路。</li>
+<li><strong>网络层</strong><br>确定分组从源端到目的端的路由选择。路由可以选用网络中固定的静态路由表,也可以在每一次会话时决定,还可以根据当前的网络负载状况,灵活地为每一个分组分别决定。</li>
+<li><strong>传输层</strong><br>从会话层接收数据，并传输给网络层，同时确保到达目的端的各段信息正确无误，而且使会话层不受硬件变化的影响。通常,会话层每请求建立一个传输连接，传输层就会为其创建一个独立的网络连接。</li>
+<li><strong>会话层</strong><br>允许不同机器上的用户之间建立会话关系，既可以进行类似传输层的普通数据传输，也可以被用于远程登录到分时系统或在两台机器间传递文件。</li>
+<li><strong>表示层</strong><br>用于完成一些特定的功能，这些功能由于经常被请求，因此人们希望有通用的解决办法，而不是由每个用户各自实现。</li>
+<li><strong>应用层</strong><br>包含了大量人们普遍需要的协议，不同的文件系统有不同的文件命名原则和不同的文本行表示方法等，不同的系统之间传输文件还有各种不兼容问题，这些都将由应用层来处理。此外，应用层还有虚拟终端、电子邮件和新闻组等各种通用和专用的功能。</li>
+</ol>
+<h3 id="连接管理机制"><a href="#连接管理机制" class="headerlink" title="连接管理机制"></a>连接管理机制</h3><p>正常情况下, TCP需要经过三次握手建立连接, 四次挥手断开连接.</p>
+<ul>
+<li>那么什么是三次握手? 什么是四次挥手呢?</li>
+</ul>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><p>第一次:<br>客户端 - - &gt; 服务器 此时服务器知道了客户端要建立连接了<br>第二次:<br>客户端 &lt; - - 服务器 此时客户端知道服务器收到连接请求了<br>第三次:<br>客户端 - - &gt; 服务器 此时服务器知道客户端收到了自己的回应</p>
+<p>到这里, 就可以认为客户端与服务器已经建立了连接.</p>
+<h5 id="再来看张图："><a href="#再来看张图：" class="headerlink" title="再来看张图："></a>再来看张图：</h5><p> <img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/20180620002440131.gif"> </p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a><strong>四次挥手</strong></h4><p>所谓的四次挥手即TCP连接的释放(解除)。连接的释放必须是一方主动释放，另一方被动释放。以下为客户端主动发起释放连接的图解：</p>
+<p> <img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/20180620002506635.gif">  </p>
+<h5 id="“四次挥手”的通俗理解"><a href="#“四次挥手”的通俗理解" class="headerlink" title="“四次挥手”的通俗理解"></a><strong>“四次挥手”的通俗理解</strong></h5><p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/caef76094b36acaf042ba27e2f07751503e99c48.jpeg"></p>
+<p>举个栗子：把客户端比作男孩，服务器比作女孩。通过他们的分手来说明“四次挥手”过程。</p>
+<ul>
+<li>“第一次挥手”：日久见人心，男孩发现女孩变成了自己讨厌的样子，忍无可忍，于是决定分手，随即写了一封信告诉女孩。</li>
+<li>“第二次挥手”：女孩收到信之后，知道了男孩要和自己分手，怒火中烧，心中暗骂：你算什么东西，当初你可不是这个样子的！于是立马给男孩写了一封回信：分手就分手，给我点时间，我要把你的东西整理好，全部还给你！男孩收到女孩的第一封信之后，明白了女孩知道自己要和她分手。随后等待女孩把自己的东西收拾好。</li>
+<li>“第三次挥手”：过了几天，女孩把男孩送的东西都整理好了，于是再次写信给男孩：你的东西我整理好了，快把它们拿走，从此你我恩断义绝！</li>
+<li>“第四次挥手”：男孩收到女孩第二封信之后，知道了女孩收拾好东西了，可以正式分手了，于是再次写信告诉女孩：我知道了，这就去拿回来！这里双方都有各自的坚持。女孩自发出第二封信开始，限定一天内收不到男孩回信，就会再发一封信催促男孩来取东西！男孩自发出第二封信开始，限定两天内没有再次收到女孩的信就认为，女孩收到了自己的第二封信；若两天内再次收到女孩的来信，就认为自己的第二封信女孩没收到，需要再写一封信，再等两天…..</li>
+</ul>
+<p>倘若双方信都能正常收到，最少只用四封信就能彻底分手！这就是“四次挥手”。</p>
+<h2 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h2><h2 id="TCP-UDP协议的区别"><a href="#TCP-UDP协议的区别" class="headerlink" title="TCP/UDP协议的区别"></a>TCP/UDP协议的区别</h2><p><strong>TCP的优点</strong>： 可靠，稳定 TCP的可靠体现在TCP在传递数据之前，会有三次握手来建立连接，而且在数据传递时，有确认、窗口、重传、拥塞控制机制，在数据传完后，还会断开连接用来节约系统资源。 TCP的缺点： 慢，效率低，占用系统资源高，易被攻击 TCP在传递数据之前，要先建连接，这会消耗时间，而且在数据传递时，确认机制、重传机制、拥塞控制机制等都会消耗大量的时间，而且要在每台设备上维护所有的传输连接，事实上，每个连接都会占用系统的CPU、内存等硬件资源。 而且，因为TCP有确认机制、三次握手机制，这些也导致TCP容易被人利用，实现DOS、DDOS、CC等攻击。 </p>
+<p><strong>UDP的优点</strong>： 快，比TCP稍安全 UDP没有TCP的握手、确认、窗口、重传、拥塞控制等机制，UDP是一个无状态的传输协议，所以它在传递数据时非常快。没有TCP的这些机制，UDP较TCP被攻击者利用的漏洞就要少一些。但UDP也是无法避免攻击的，比如：UDP Flood攻击…… UDP的缺点： 不可靠，不稳定 因为UDP没有TCP那些可靠的机制，在数据传递时，如果网络质量不好，就会很容易丢包。 基于上面的优缺点，那么： 什么时候应该使用TCP： 当对网络通讯质量有要求的时候，比如：整个数据要准确无误的传递给对方，这往往用于一些要求可靠的应用，比如HTTP、HTTPS、FTP等传输文件的协议，POP、SMTP等邮件传输的协议。 在日常生活中，常见使用TCP协议的应用如下： 浏览器，用的HTTP FlashFXP，用的FTP Outlook，用的POP、SMTP Putty，用的Telnet、SSH QQ文件传输 ………… 什么时候应该使用UDP： 当对网络通讯质量要求不高的时候，要求网络通讯速度能尽量的快，这时就可以使用UDP。 比如，日常生活中，常见使用UDP协议的应用如下： QQ语音 QQ视频 TFTP ……</p>
+<p>有些应用场景对可靠性要求不高会用到UPD，比如长视频，要求速率。</p>
+<h2 id="小结TCP与UDP的区别："><a href="#小结TCP与UDP的区别：" class="headerlink" title="小结TCP与UDP的区别："></a><strong>小结TCP与UDP的区别：</strong></h2><p>1、基于连接与无连接；</p>
+<p>2、对系统资源的要求（TCP较多，UDP少）；</p>
+<p>3、UDP程序结构较简单；</p>
+<p>4、流模式与数据报模式 ；</p>
+<p>5、TCP保证数据正确性，UDP可能丢包；</p>
+<p>6、TCP保证数据顺序，UDP不保证。</p>
+<p><img src="/imgs/TCP%E5%92%8CUDP%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/1610535391161.png"></p>
+]]></content>
+      <categories>
+        <category>开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
+<span id="more"></span>
+
+
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python内存管理机制</title>
     <url>/id_21/</url>
     <content><![CDATA[<h1 id="Python内存管理机制"><a href="#Python内存管理机制" class="headerlink" title="Python内存管理机制"></a>Python内存管理机制</h1><hr>
@@ -1301,42 +1367,54 @@
       </tags>
   </entry>
   <entry>
-    <title>钉钉机器人消息通知</title>
-    <url>/id_20/</url>
-    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
-<ol>
-<li>先创建一个钉钉群，将所有人添加到群里。 </li>
-</ol>
-<ol start="2">
-<li>创建一个钉钉机器人。 </li>
-</ol>
-<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
-<p>   <img src="/imgs/1608125490600.png"></p>
-<span id="more"></span>
+    <title>解决GitHub打不开的问题</title>
+    <url>/id_24/</url>
+    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
+<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+<br/>
 
+<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
+<p>查看GitHub的ip地址。</p>
+<p><img src="/imgs/id_24/1616318075440.png"></p>
+<br/>
 
-<ol start="3">
-<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
-</ol>
-<ol start="4">
-<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
-<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
-</ol>
-<p>代码示例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>140.82.114.4  github.com </p>
+</blockquote>
+<br/>
 
+<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
+<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<br/>
 
+<blockquote>
+<p> 199.232.69.194 github.global.ssl.fastly.net </p>
+</blockquote>
+<br/>
 
-<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
-<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
-<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
-<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
+<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<br/>
+
+<blockquote>
+<p>185.199.108.153 assets-cdn.github.com</p>
+<p>185.199.110.153 assets-cdn.github.com</p>
+<p>185.199.111.153 assets-cdn.github.com</p>
+</blockquote>
+<br/>
+
+<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
+
+<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<br/>
+
+<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
 ]]></content>
       <categories>
-        <category>项目开发</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1389,135 +1467,6 @@
       </categories>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决GitHub打不开的问题</title>
-    <url>/id_24/</url>
-    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
-<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
-<br/>
-
-<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
-<p>查看GitHub的ip地址。</p>
-<p><img src="/imgs/id_24/1616318075440.png"></p>
-<br/>
-
-<blockquote>
-<p>140.82.114.4  github.com </p>
-</blockquote>
-<br/>
-
-<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
-<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
-<br/>
-
-<blockquote>
-<p> 199.232.69.194 github.global.ssl.fastly.net </p>
-</blockquote>
-<br/>
-
-<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
-<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
-<br/>
-
-<blockquote>
-<p>185.199.108.153 assets-cdn.github.com</p>
-<p>185.199.110.153 assets-cdn.github.com</p>
-<p>185.199.111.153 assets-cdn.github.com</p>
-</blockquote>
-<br/>
-
-<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
-
-<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
-<br/>
-
-<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>django安装M2Crypto报错</title>
-    <url>/id_26/</url>
-    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>问题如下：</p>
-<br/>
-
-<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
-<br/>
-
-<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
-<br/>
-
-<p>先 sudo apt install libssl-dev swig</p>
-<p>执行命令后报错</p>
-<br/>
-
-<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
-<br/>
-
-<p>E: 无法定位软件包 swig</p>
-<br/>
-
-<blockquote>
-<p>问题解析：</p>
-<p>发生这个问题有以下几种情况：</p>
-<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
-<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
-<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
-</blockquote>
-<br/>
-
-<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
-<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
-<br/>
-
-<p>在执行 pip3 install M2Crypto</p>
-]]></content>
-      <categories>
-        <category>django</category>
-      </categories>
-      <tags>
-        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -1582,6 +1531,57 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>django安装M2Crypto报错</title>
+    <url>/id_26/</url>
+    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>问题如下：</p>
+<br/>
+
+<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
+<br/>
+
+<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
+<br/>
+
+<p>先 sudo apt install libssl-dev swig</p>
+<p>执行命令后报错</p>
+<br/>
+
+<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
+<br/>
+
+<p>E: 无法定位软件包 swig</p>
+<br/>
+
+<blockquote>
+<p>问题解析：</p>
+<p>发生这个问题有以下几种情况：</p>
+<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
+<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
+<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
+</blockquote>
+<br/>
+
+<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
+<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
+<br/>
+
+<p>在执行 pip3 install M2Crypto</p>
+]]></content>
+      <categories>
+        <category>django</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -1882,57 +1882,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python+Linux+Selenium — 祖传爬虫利器</title>
-    <url>/id_32/</url>
-    <content><![CDATA[<h1 id="python-Linux-Selenium-—-祖传爬虫利器"><a href="#python-Linux-Selenium-—-祖传爬虫利器" class="headerlink" title="python+Linux+Selenium — 祖传爬虫利器"></a>python+Linux+Selenium — 祖传爬虫利器</h1><br/>
-
-<p>一些网页，比如微博，只有在登录状态才能进行页面的访问，或者对数据有比较复杂的验证和保护，直接通过网络请求进行登录并获取数据就会比较麻烦。这种时候，就该本篇的主角 selenium 上场了。</p>
-<p>Selenium 是一个用于 Web 应用程序测试的工具。它的优点在于，浏览器能打开的页面，使用 selenium 就一定能获取到。但 selenium 也有其局限性，相对于脚本方式，selenium 获取内容的效率不高。</p>
-<p>本篇文章简单介绍 Selenium 下 web-driver 组件，它直接在浏览器中运行，其行为跟真实用户一样，打开浏览器、模拟输入内容、模拟点击按钮等等。Selenium 测试可以在市面上主流操作平台主流浏览器上运行。</p>
-<br/>
-
-<p>官方文档：</p>
-<ul>
-<li><a href="https://selenium-python.readthedocs.io/index.html">https://selenium-python.readthedocs.io/index.html</a></li>
-<li><a href="https://seleniumhq.github.io/selenium/docs/api/py/api.html">https://seleniumhq.github.io/selenium/docs/api/py/api.html</a></li>
-</ul>
-<br/>
-
-<p>操作环境：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">Distributor ID:    Ubuntu</span><br><span class="line">Description:    Ubuntu 18.04.5 LTS</span><br><span class="line">Release:    18.04</span><br><span class="line">Codename:    bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="一、安装selenium"><a href="#一、安装selenium" class="headerlink" title="一、安装selenium"></a>一、安装selenium</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>二、下载浏览器驱动</p>
-<p>Firefox浏览器驱动：<a href="https://link.zhihu.com/?target=https://github.com/mozilla/geckodriver/releases">geckodriver</a></p>
-<p>Chrome浏览器驱动：<a href="https://link.zhihu.com/?target=https://sites.google.com/a/chromium.org/chromedriver/home">chromedriver</a> , <a href="https://link.zhihu.com/?target=https://npm.taobao.org/mirrors/chromedriver">taobao备用地址</a></p>
-<p>IE浏览器驱动：<a href="https://link.zhihu.com/?target=http://selenium-release.storage.googleapis.com/index.html">IEDriverServer</a></p>
-<p>Edge浏览器驱动：<a href="https://link.zhihu.com/?target=https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver">MicrosoftWebDriver</a></p>
-<p>Opera浏览器驱动：<a href="https://link.zhihu.com/?target=https://github.com/operasoftware/operachromiumdriver/releases">operadriver</a></p>
-<p>另外启动浏览器，可以设置一些参数，比如无界面之类的，详细参考：</p>
-<p><a href="https://www.jianshu.com/p/1531e12f8852">https://www.jianshu.com/p/1531e12f8852</a></p>
-<br/>
-
-<h2 id="selenium快速入门"><a href="#selenium快速入门" class="headerlink" title="selenium快速入门"></a>selenium快速入门</h2><p><a href="http://www.testclass.net/selenium_python/">入门参考文献：Selenium入门</a></p>
-<h2 id="ubuntu18-04-Firefox-Selenium配置"><a href="#ubuntu18-04-Firefox-Selenium配置" class="headerlink" title="ubuntu18.04 + Firefox + Selenium配置"></a>ubuntu18.04 + Firefox + Selenium配置</h2><p>1.在<a href="https://github.com/mozilla/geckodriver/releases/">https://github.com/mozilla/geckodriver/releases/</a> 上下载驱动，注意驱动版本</p>
-<p>2.进入下载目录，解压该文件，tar -zcvf geckodriver-v0.24.0-linux64.tar.gz</p>
-<p>3.将解压好的文件移动到/usr/local/bin中 mv geckodriver /usr/local/bin</p>
-<p>4.测试，有弹出浏览器即可</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"><span class="comment">#注意 我们把geckodriver移动到了/usr/local/bin 这里就不需要引入了</span></span><br><span class="line">driver = webdriver.Firefox()</span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
     <url>/id_31/</url>
     <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
@@ -2011,6 +1960,57 @@
 <p>在Xshell命令行中输入rz命令后，会弹出对话框，选择你要上传的文件，选择打开要上传的文件就上传到Linux主机下 </p>
 <p><img src="/imgs/id_31/1616742906550.png" alt="1616742906550"></p>
 <p>找到要上传的目录文件，点击即可上传到linux</p>
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python+Linux+Selenium — 祖传爬虫利器</title>
+    <url>/id_32/</url>
+    <content><![CDATA[<h1 id="python-Linux-Selenium-—-祖传爬虫利器"><a href="#python-Linux-Selenium-—-祖传爬虫利器" class="headerlink" title="python+Linux+Selenium — 祖传爬虫利器"></a>python+Linux+Selenium — 祖传爬虫利器</h1><br/>
+
+<p>一些网页，比如微博，只有在登录状态才能进行页面的访问，或者对数据有比较复杂的验证和保护，直接通过网络请求进行登录并获取数据就会比较麻烦。这种时候，就该本篇的主角 selenium 上场了。</p>
+<p>Selenium 是一个用于 Web 应用程序测试的工具。它的优点在于，浏览器能打开的页面，使用 selenium 就一定能获取到。但 selenium 也有其局限性，相对于脚本方式，selenium 获取内容的效率不高。</p>
+<p>本篇文章简单介绍 Selenium 下 web-driver 组件，它直接在浏览器中运行，其行为跟真实用户一样，打开浏览器、模拟输入内容、模拟点击按钮等等。Selenium 测试可以在市面上主流操作平台主流浏览器上运行。</p>
+<br/>
+
+<p>官方文档：</p>
+<ul>
+<li><a href="https://selenium-python.readthedocs.io/index.html">https://selenium-python.readthedocs.io/index.html</a></li>
+<li><a href="https://seleniumhq.github.io/selenium/docs/api/py/api.html">https://seleniumhq.github.io/selenium/docs/api/py/api.html</a></li>
+</ul>
+<br/>
+
+<p>操作环境：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">Distributor ID:    Ubuntu</span><br><span class="line">Description:    Ubuntu 18.04.5 LTS</span><br><span class="line">Release:    18.04</span><br><span class="line">Codename:    bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="一、安装selenium"><a href="#一、安装selenium" class="headerlink" title="一、安装selenium"></a>一、安装selenium</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>二、下载浏览器驱动</p>
+<p>Firefox浏览器驱动：<a href="https://link.zhihu.com/?target=https://github.com/mozilla/geckodriver/releases">geckodriver</a></p>
+<p>Chrome浏览器驱动：<a href="https://link.zhihu.com/?target=https://sites.google.com/a/chromium.org/chromedriver/home">chromedriver</a> , <a href="https://link.zhihu.com/?target=https://npm.taobao.org/mirrors/chromedriver">taobao备用地址</a></p>
+<p>IE浏览器驱动：<a href="https://link.zhihu.com/?target=http://selenium-release.storage.googleapis.com/index.html">IEDriverServer</a></p>
+<p>Edge浏览器驱动：<a href="https://link.zhihu.com/?target=https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver">MicrosoftWebDriver</a></p>
+<p>Opera浏览器驱动：<a href="https://link.zhihu.com/?target=https://github.com/operasoftware/operachromiumdriver/releases">operadriver</a></p>
+<p>另外启动浏览器，可以设置一些参数，比如无界面之类的，详细参考：</p>
+<p><a href="https://www.jianshu.com/p/1531e12f8852">https://www.jianshu.com/p/1531e12f8852</a></p>
+<br/>
+
+<h2 id="selenium快速入门"><a href="#selenium快速入门" class="headerlink" title="selenium快速入门"></a>selenium快速入门</h2><p><a href="http://www.testclass.net/selenium_python/">入门参考文献：Selenium入门</a></p>
+<h2 id="ubuntu18-04-Firefox-Selenium配置"><a href="#ubuntu18-04-Firefox-Selenium配置" class="headerlink" title="ubuntu18.04 + Firefox + Selenium配置"></a>ubuntu18.04 + Firefox + Selenium配置</h2><p>1.在<a href="https://github.com/mozilla/geckodriver/releases/">https://github.com/mozilla/geckodriver/releases/</a> 上下载驱动，注意驱动版本</p>
+<p>2.进入下载目录，解压该文件，tar -zcvf geckodriver-v0.24.0-linux64.tar.gz</p>
+<p>3.将解压好的文件移动到/usr/local/bin中 mv geckodriver /usr/local/bin</p>
+<p>4.测试，有弹出浏览器即可</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"><span class="comment">#注意 我们把geckodriver移动到了/usr/local/bin 这里就不需要引入了</span></span><br><span class="line">driver = webdriver.Firefox()</span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>spider</category>
@@ -2138,40 +2138,6 @@
       </tags>
   </entry>
   <entry>
-    <title>反爬系列---自定义代理池</title>
-    <url>/id_36/</url>
-    <content><![CDATA[<h1 id="反爬系列—自定义代理池"><a href="#反爬系列—自定义代理池" class="headerlink" title="反爬系列—自定义代理池"></a>反爬系列—自定义代理池</h1><blockquote>
-<p>要解决爬虫被禁的问题，一个直观的思路就是使用代理池，每次爬取页面我们都使用不同的IP发出请求，这样就可以避免同一个IP频繁发出请求被禁的情况。</p>
-</blockquote>
-<br/>
-
-<blockquote>
-<p>代理按照是否匿名，大致可分成这样几类</p>
-<ul>
-<li><p>透明代理</p>
-</li>
-<li><p>匿名代理</p>
-</li>
-<li><p>高匿代理</p>
-</li>
-</ul>
-<p>透明代理在HTTP头里设置了你的真实IP，服务器可以通过HTTP头知晓你真实的IP。</p>
-<p>匿名代理虽然隐藏了你的真实IP，但服务器还是知道你使用了代理。</p>
-<p>高匿代理不仅隐藏了你的真实IP，而且让服务器无法发现你在使用代理，这是我们自建代理池的最佳的选择，我们下一步自建代理池的步骤中用到的也是高匿代理。</p>
-</blockquote>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># IP的篡改</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proccess_request</span>():</span></span><br><span class="line">    <span class="comment"># 请求我的代理ip的接口</span></span><br><span class="line">    url_proxy = <span class="string">&#x27;proxy.....url&#x27;</span></span><br><span class="line">    res = requests.get(url_proxy).json()  <span class="comment"># 获取到一个json数据</span></span><br><span class="line">    proxy = res[<span class="string">&#x27;&#x27;</span>] + <span class="string">&#x27;:&#x27;</span> + res[<span class="string">&#x27;port&#x27;</span>]  <span class="comment"># 处理json数据, 形成一个ip:port形式的字符串</span></span><br><span class="line">    </span><br><span class="line">    request.meta[<span class="string">&#x27;proxy&#x27;</span>] = <span class="string">&#x27;http://%s&#x27;</span>%proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu18.04安装MySQL</title>
     <url>/id_37/</url>
     <content><![CDATA[<h1 id="Ubuntu18-04安装MySQL"><a href="#Ubuntu18-04安装MySQL" class="headerlink" title="Ubuntu18.04安装MySQL"></a>Ubuntu18.04安装MySQL</h1><br/>
@@ -2260,6 +2226,40 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>反爬系列---自定义代理池</title>
+    <url>/id_36/</url>
+    <content><![CDATA[<h1 id="反爬系列—自定义代理池"><a href="#反爬系列—自定义代理池" class="headerlink" title="反爬系列—自定义代理池"></a>反爬系列—自定义代理池</h1><blockquote>
+<p>要解决爬虫被禁的问题，一个直观的思路就是使用代理池，每次爬取页面我们都使用不同的IP发出请求，这样就可以避免同一个IP频繁发出请求被禁的情况。</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>代理按照是否匿名，大致可分成这样几类</p>
+<ul>
+<li><p>透明代理</p>
+</li>
+<li><p>匿名代理</p>
+</li>
+<li><p>高匿代理</p>
+</li>
+</ul>
+<p>透明代理在HTTP头里设置了你的真实IP，服务器可以通过HTTP头知晓你真实的IP。</p>
+<p>匿名代理虽然隐藏了你的真实IP，但服务器还是知道你使用了代理。</p>
+<p>高匿代理不仅隐藏了你的真实IP，而且让服务器无法发现你在使用代理，这是我们自建代理池的最佳的选择，我们下一步自建代理池的步骤中用到的也是高匿代理。</p>
+</blockquote>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># IP的篡改</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proccess_request</span>():</span></span><br><span class="line">    <span class="comment"># 请求我的代理ip的接口</span></span><br><span class="line">    url_proxy = <span class="string">&#x27;proxy.....url&#x27;</span></span><br><span class="line">    res = requests.get(url_proxy).json()  <span class="comment"># 获取到一个json数据</span></span><br><span class="line">    proxy = res[<span class="string">&#x27;&#x27;</span>] + <span class="string">&#x27;:&#x27;</span> + res[<span class="string">&#x27;port&#x27;</span>]  <span class="comment"># 处理json数据, 形成一个ip:port形式的字符串</span></span><br><span class="line">    </span><br><span class="line">    request.meta[<span class="string">&#x27;proxy&#x27;</span>] = <span class="string">&#x27;http://%s&#x27;</span>%proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
       </tags>
   </entry>
 </search>

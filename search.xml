@@ -162,46 +162,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
-    <url>/id_04/</url>
-    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
-<p>安装eCharts：npm install echarts @4.9.0</p>
-<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
-<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
-<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
-<p>然后在main.js中全局配置：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
-
-<p>现在上vue的代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>效果图：</p>
-<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx实现请求的负载均衡 + Keep Alive实现nginx的高可用</title>
     <url>/id_05/</url>
     <content><![CDATA[<h1 id="nginx实现请求的负载均衡-Keep-Alive实现nginx的高可用"><a href="#nginx实现请求的负载均衡-Keep-Alive实现nginx的高可用" class="headerlink" title="nginx实现请求的负载均衡 + Keep Alive实现nginx的高可用"></a>nginx实现请求的负载均衡 + Keep Alive实现nginx的高可用</h1><blockquote>
@@ -359,62 +319,37 @@
       </tags>
   </entry>
   <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
+    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
+    <url>/id_04/</url>
+    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用python+django集成钉钉三方扫码登陆</title>
-    <url>/id_09/</url>
-    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
-<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
-<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
-<ol>
-<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
-<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
-</li>
-</ol>
-<span id="more"></span>
 
-<ol start="2">
-<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
-</ol>
-<p>   <img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/20191221095537_44738.png"> </p>
-<ol start="3">
-<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
 
-<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
-<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
-</li>
-</ol>
-<ol start="4">
-<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>   最后我们访问路由就可以得到自己的个人信息。</p>
+<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
+<p>安装eCharts：npm install echarts @4.9.0</p>
+<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
+<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
+<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
+<p>然后在main.js中全局配置：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
+
+<p>现在上vue的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>效果图：</p>
+<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
 ]]></content>
       <categories>
         <category>项目开发</category>
@@ -556,6 +491,71 @@
       </categories>
       <tags>
         <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用python+django集成钉钉三方扫码登陆</title>
+    <url>/id_09/</url>
+    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
+<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
+<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
+<ol>
+<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<ol start="2">
+<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
+</ol>
+<p>   <img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/20191221095537_44738.png"> </p>
+<ol start="3">
+<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
+
+<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>   最后我们访问路由就可以得到自己的个人信息。</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
+
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -727,37 +727,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python深浅拷贝的区别</title>
-    <url>/id_14/</url>
-    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<ul>
-<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
-<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
-</ul>
-</blockquote>
-<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
-<br/>
-
-<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
-<p>代码展示：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<br/>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-        <category>语法基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo博客搭建之在文章中插入图片</title>
     <url>/id_13/</url>
     <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
@@ -790,6 +759,52 @@
       </categories>
       <tags>
         <tag>Hexo博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python深浅拷贝的区别</title>
+    <url>/id_14/</url>
+    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<ul>
+<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
+<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
+</ul>
+</blockquote>
+<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
+<br/>
+
+<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
+<p>代码展示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<br/>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+        <category>语法基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -868,21 +883,6 @@
 <li>生成一个实例的构造函数，从而导致静态类不能实例化；非静态类可以，并且静态成员的访问只能通过类来进行访问，因为静态成员是属于类的。</li>
 </ul>
 <p>参考博客：<a href="https://zhuanlan.zhihu.com/p/61168074">https://zhuanlan.zhihu.com/p/61168074</a></p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-
-
 ]]></content>
       <categories>
         <category>Python基础</category>
@@ -1221,45 +1221,6 @@
       </tags>
   </entry>
   <entry>
-    <title>钉钉机器人消息通知</title>
-    <url>/id_20/</url>
-    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
-<ol>
-<li>先创建一个钉钉群，将所有人添加到群里。 </li>
-</ol>
-<ol start="2">
-<li>创建一个钉钉机器人。 </li>
-</ol>
-<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
-<p>   <img src="/imgs/1608125490600.png"></p>
-<span id="more"></span>
-
-
-<ol start="3">
-<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
-</ol>
-<ol start="4">
-<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
-<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
-</ol>
-<p>代码示例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
-<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
-<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
-<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python内存管理机制</title>
     <url>/id_21/</url>
     <content><![CDATA[<h1 id="Python内存管理机制"><a href="#Python内存管理机制" class="headerlink" title="Python内存管理机制"></a>Python内存管理机制</h1><hr>
@@ -1340,27 +1301,39 @@
       </tags>
   </entry>
   <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
 <span id="more"></span>
 
 
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>项目开发</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -1419,6 +1392,33 @@
       </tags>
   </entry>
   <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决GitHub打不开的问题</title>
     <url>/id_24/</url>
     <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
@@ -1467,6 +1467,57 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>django安装M2Crypto报错</title>
+    <url>/id_26/</url>
+    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>问题如下：</p>
+<br/>
+
+<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
+<br/>
+
+<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
+<br/>
+
+<p>先 sudo apt install libssl-dev swig</p>
+<p>执行命令后报错</p>
+<br/>
+
+<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
+<br/>
+
+<p>E: 无法定位软件包 swig</p>
+<br/>
+
+<blockquote>
+<p>问题解析：</p>
+<p>发生这个问题有以下几种情况：</p>
+<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
+<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
+<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
+</blockquote>
+<br/>
+
+<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
+<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
+<br/>
+
+<p>在执行 pip3 install M2Crypto</p>
+]]></content>
+      <categories>
+        <category>django</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -1531,57 +1582,6 @@
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>django安装M2Crypto报错</title>
-    <url>/id_26/</url>
-    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>问题如下：</p>
-<br/>
-
-<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
-<br/>
-
-<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
-<br/>
-
-<p>先 sudo apt install libssl-dev swig</p>
-<p>执行命令后报错</p>
-<br/>
-
-<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
-<br/>
-
-<p>E: 无法定位软件包 swig</p>
-<br/>
-
-<blockquote>
-<p>问题解析：</p>
-<p>发生这个问题有以下几种情况：</p>
-<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
-<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
-<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
-</blockquote>
-<br/>
-
-<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
-<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
-<br/>
-
-<p>在执行 pip3 install M2Crypto</p>
-]]></content>
-      <categories>
-        <category>django</category>
-      </categories>
-      <tags>
-        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -1807,93 +1807,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
-    <url>/id_31/</url>
-    <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
-
-<blockquote>
-<p>Xshell是一个安全终端模拟软件，可以进行远程登录。我使用XShell的主要目的是在Windows环境下登录Linux终端，传输一些大文件到Linux环境上去。 </p>
-</blockquote>
-<br/>
-
-<h2 id="第一步：-下载安装xshell客户端"><a href="#第一步：-下载安装xshell客户端" class="headerlink" title="第一步： 下载安装xshell客户端"></a>第一步： 下载安装xshell客户端</h2><p>免费版Xshell下载地址:<a href="https://www.netsarang.com/download/down_form.html?code=622">https://www.netsarang.com/download/down_form.html?code=622</a> ) </p>
-<br/>
-
-<p>第二步： 安装完成之后，如果你直接连接Ubuntu主机会发现连接不上，这是因为Ubuntu主机没有开启SSH服务，需要开启openssh-server： </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>使用下面这个命令可以查看ssh是否启动</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>如果只有ssh-agent表示还没启动，需要 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/etc/init.d/ssh start</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>如果显示sshd则说明已启动成功 </p>
-<p><img src="/imgs/id_31/1616741589822.png" alt="1616741589822"></p>
-<br/>
-
-<h2 id="第三步：打开Xshell客户端"><a href="#第三步：打开Xshell客户端" class="headerlink" title="第三步：打开Xshell客户端"></a>第三步：打开Xshell客户端</h2><p>打开Xshell，选择“新建”，“连接”设置里选择SSH，主机填入需要连接的主机的IP地址。在“用户身份验证”中填入可用的登录Ubuntu的用户名和密码。 </p>
-<p><img src="/imgs/id_31/1616741797210.png" alt="1616741797210"></p>
-<br/>
-
-<p>终端中输入ifconfig -a 命令查看主机IP </p>
-<p><img src="/imgs/id_31/1616742651621.png" alt="1616742651621"></p>
-<br/>
-
-<p><img src="/imgs/id_31/1616741880012.png" alt="1616741880012"></p>
-<br/>
-
-<p>输入好用户名和密码后点击确定即可连接Ubuntu</p>
-<br/>
-
-<p> <code>注：如果你确认输入的用户名和密码都没有问题，但登录还是显示如下情况，拒绝你的输入的密码的话：</code></p>
-<p><img src="/imgs/id_31/1616742033575.png" alt="1616742033575"> </p>
-<br/>
-
-<p>需要编辑一下/etc/ssh/sshd_config文件： </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>将 PermitRootLogin改为yes： </p>
-<p> <img src="/imgs/id_31/1616742167833.png" alt="1616742167833"></p>
-<p>改为：</p>
-<p><img src="/imgs/id_31/1616742337904.png" alt="1616742337904"></p>
-<br/>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br><span class="line">点击字母a即可编辑</span><br><span class="line">编辑完成之后 点击Esc退出 输入:wq保存即可</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://www.cnblogs.com/tjw-bk/p/13968478.html">linux 进入编辑文件，保存退出相关命令</a></p>
-<br/>
-
-<p>之后重启ssh-server即可： </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
-
-<p><img src="/imgs/id_31/1616742529496.png" alt="1616742529496"></p>
-<p>如果还不行，重启一下虚拟机，之后应该就能连接上了。 </p>
-<br/>
-
-<h2 id="第四步：-从Windows上传文件到Linux"><a href="#第四步：-从Windows上传文件到Linux" class="headerlink" title="第四步： 从Windows上传文件到Linux"></a>第四步： 从Windows上传文件到Linux</h2><p>上传命令为rz；从Linux上传文件指令为rz，上传的文件在当前命令行的目录下 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@dev:~# rz</span><br></pre></td></tr></table></figure>
-
-<p>在Xshell命令行中输入rz命令后，会弹出对话框，选择你要上传的文件，选择打开要上传的文件就上传到Linux主机下 </p>
-<p><img src="/imgs/id_31/1616742906550.png" alt="1616742906550"></p>
-<p>找到要上传的目录文件，点击即可上传到linux</p>
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</title>
     <url>/id_30/</url>
     <content><![CDATA[<h1 id="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"><a href="#教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目" class="headerlink" title="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"></a>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</h1><br/>
@@ -2020,6 +1933,93 @@
       </tags>
   </entry>
   <entry>
+    <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
+    <url>/id_31/</url>
+    <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
+
+<blockquote>
+<p>Xshell是一个安全终端模拟软件，可以进行远程登录。我使用XShell的主要目的是在Windows环境下登录Linux终端，传输一些大文件到Linux环境上去。 </p>
+</blockquote>
+<br/>
+
+<h2 id="第一步：-下载安装xshell客户端"><a href="#第一步：-下载安装xshell客户端" class="headerlink" title="第一步： 下载安装xshell客户端"></a>第一步： 下载安装xshell客户端</h2><p>免费版Xshell下载地址:<a href="https://www.netsarang.com/download/down_form.html?code=622">https://www.netsarang.com/download/down_form.html?code=622</a> ) </p>
+<br/>
+
+<p>第二步： 安装完成之后，如果你直接连接Ubuntu主机会发现连接不上，这是因为Ubuntu主机没有开启SSH服务，需要开启openssh-server： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>使用下面这个命令可以查看ssh是否启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>如果只有ssh-agent表示还没启动，需要 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/etc/init.d/ssh start</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>如果显示sshd则说明已启动成功 </p>
+<p><img src="/imgs/id_31/1616741589822.png" alt="1616741589822"></p>
+<br/>
+
+<h2 id="第三步：打开Xshell客户端"><a href="#第三步：打开Xshell客户端" class="headerlink" title="第三步：打开Xshell客户端"></a>第三步：打开Xshell客户端</h2><p>打开Xshell，选择“新建”，“连接”设置里选择SSH，主机填入需要连接的主机的IP地址。在“用户身份验证”中填入可用的登录Ubuntu的用户名和密码。 </p>
+<p><img src="/imgs/id_31/1616741797210.png" alt="1616741797210"></p>
+<br/>
+
+<p>终端中输入ifconfig -a 命令查看主机IP </p>
+<p><img src="/imgs/id_31/1616742651621.png" alt="1616742651621"></p>
+<br/>
+
+<p><img src="/imgs/id_31/1616741880012.png" alt="1616741880012"></p>
+<br/>
+
+<p>输入好用户名和密码后点击确定即可连接Ubuntu</p>
+<br/>
+
+<p> <code>注：如果你确认输入的用户名和密码都没有问题，但登录还是显示如下情况，拒绝你的输入的密码的话：</code></p>
+<p><img src="/imgs/id_31/1616742033575.png" alt="1616742033575"> </p>
+<br/>
+
+<p>需要编辑一下/etc/ssh/sshd_config文件： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>将 PermitRootLogin改为yes： </p>
+<p> <img src="/imgs/id_31/1616742167833.png" alt="1616742167833"></p>
+<p>改为：</p>
+<p><img src="/imgs/id_31/1616742337904.png" alt="1616742337904"></p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br><span class="line">点击字母a即可编辑</span><br><span class="line">编辑完成之后 点击Esc退出 输入:wq保存即可</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.cnblogs.com/tjw-bk/p/13968478.html">linux 进入编辑文件，保存退出相关命令</a></p>
+<br/>
+
+<p>之后重启ssh-server即可： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/id_31/1616742529496.png" alt="1616742529496"></p>
+<p>如果还不行，重启一下虚拟机，之后应该就能连接上了。 </p>
+<br/>
+
+<h2 id="第四步：-从Windows上传文件到Linux"><a href="#第四步：-从Windows上传文件到Linux" class="headerlink" title="第四步： 从Windows上传文件到Linux"></a>第四步： 从Windows上传文件到Linux</h2><p>上传命令为rz；从Linux上传文件指令为rz，上传的文件在当前命令行的目录下 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@dev:~# rz</span><br></pre></td></tr></table></figure>
+
+<p>在Xshell命令行中输入rz命令后，会弹出对话框，选择你要上传的文件，选择打开要上传的文件就上传到Linux主机下 </p>
+<p><img src="/imgs/id_31/1616742906550.png" alt="1616742906550"></p>
+<p>找到要上传的目录文件，点击即可上传到linux</p>
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Selenium入门</title>
     <url>/id_33/</url>
     <content><![CDATA[<h1 id="Selenium入门"><a href="#Selenium入门" class="headerlink" title="Selenium入门"></a>Selenium入门</h1>]]></content>
@@ -2028,6 +2028,238 @@
       </categories>
       <tags>
         <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用虚拟机创建一个Ubuntu18.04</title>
+    <url>/id_34/</url>
+    <content><![CDATA[<h1 id="使用虚拟机创建一个Ubuntu18-04"><a href="#使用虚拟机创建一个Ubuntu18-04" class="headerlink" title="使用虚拟机创建一个Ubuntu18.04"></a>使用虚拟机创建一个Ubuntu18.04</h1><blockquote>
+<p><strong>Ubuntu</strong>是以桌面应用为主的 <a href="https://link.jianshu.com/?t=https://zh.wikipedia.org/wiki/Linux%E7%99%BC%E8%A1%8C%E7%89%88">Linux 发行版</a></p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>Ubuntu优点：</p>
+<p>1、高效的文件管理系统，一般情况下不需要碎片整理 。</p>
+<p>2、产生的系统垃圾很少，系统不会随着使用时间的增多而越来越卡 。</p>
+<p>3、拷贝文件速度快，Win10达到5M/S，Ubuntu达到20M/S 。</p>
+<p>4、系统安全稳定，漏洞修复快，极少中病毒 。</p>
+<p>5、权限管理很严格，避免用户误操作 。</p>
+<p>6、DIY界面，改善用户体验，自由度高(对UI有追求的同学可尽情折腾) 。</p>
+<p>7、强大的命令行，基本上所有操作可在上面执行(瞬间逼格升几个Lev) 。</p>
+<p>8、无软件捆绑行为，桌面无广告弹窗行为 。</p>
+<p>9、无盗版系统这一说法，开源免费正版。</p>
+</blockquote>
+<br/>
+
+
+
+<p>Ubuntu查看本机ip</p>
+<p><a href="https://blog.csdn.net/qq_34626094/article/details/113113380">https://blog.csdn.net/qq_34626094/article/details/113113380</a></p>
+<p>安装完Ubuntu系统之后想要下载软件 发现下载速度着实感人 于是切换成了国内的阿里云镜像。</p>
+<p><a href="https://www.bilibili.com/read/cv9868132/">https://www.bilibili.com/read/cv9868132/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/61228593">https://zhuanlan.zhihu.com/p/61228593</a></p>
+<p><a href="https://blog.csdn.net/hunt_er/article/details/82851557">https://blog.csdn.net/hunt_er/article/details/82851557</a></p>
+<p>在Ubuntu安装pycharm</p>
+<p><a href="https://www.jianshu.com/p/141230381097">https://www.jianshu.com/p/141230381097</a></p>
+<p><a href="https://blog.csdn.net/weixin_31484477/article/details/81133590">https://blog.csdn.net/weixin_31484477/article/details/81133590</a></p>
+<p>解决Ubuntu开机窗口默认居中</p>
+<p><a href="https://blog.csdn.net/Fusnemo/article/details/79420656">https://blog.csdn.net/Fusnemo/article/details/79420656</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>反爬虫系列----Scrapy爬虫搞定随机User-Agent</title>
+    <url>/id_35/</url>
+    <content><![CDATA[<h1 id="反爬虫系列—-Scrapy爬虫搞定随机User-Agent"><a href="#反爬虫系列—-Scrapy爬虫搞定随机User-Agent" class="headerlink" title="反爬虫系列—-Scrapy爬虫搞定随机User-Agent"></a>反爬虫系列—-Scrapy爬虫搞定随机User-Agent</h1><br/>
+
+<p>fake_useragent是github上的开源项目，官网 <a href="https://link.zhihu.com/?target=https://pypi.org/project/fake-useragent/">fake-useragent</a></p>
+<p>爬虫过程中的反爬措施非常重要，其中设置随机 User-Agent 是一项重要的反爬措施</p>
+<br/>
+
+<p>比较流行的办法还是在配置文件中手动添加一些 UA，然后通过 <code>random.choise</code> 方法随机调用，即可生成 UA，这种方便比较麻烦的就是需要自己去找 UA，而且增加了代码行数量。比较方便的方法是利用 <code>fake_useragent</code>包，这个包内置大量的 UA 可以随机替换。</p>
+<br/>
+
+<h2 id="第一种方法实现-手动添加一些-UA："><a href="#第一种方法实现-手动添加一些-UA：" class="headerlink" title="第一种方法实现 手动添加一些 UA："></a>第一种方法实现 手动添加一些 UA：</h2><br/>
+
+<h3 id="1-手动添加一些-UA"><a href="#1-手动添加一些-UA" class="headerlink" title="1.手动添加一些 UA"></a>1.手动添加一些 UA</h3><p>在文件中加入以下内容，这是一些浏览器的头信息（一般在setting.py中添加）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">用于反防爬虫,修订http header</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">useragents = [</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.172 YaBrowser/1.7.1364.22194 Safari/537.22&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/28.0.1500.71 Chrome/28.0.1500.71 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows; U; Windows NT 6.1; en rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3 (.NET CLR 3.5.30729)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPhone; CPU iPhone OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPhone; CPU iPhone OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Linux; Android 4.1.2; GT-I9100 Build/JZO54K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.82 Mobile Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3 (.NET CLR 3.5.30729)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.1) Gecko/20090718 Firefox/3.5.1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/532.1 (KHTML, like Gecko) Chrome/4.0.219.6 Safari/532.1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; InfoPath.2)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; SLCC1; .NET CLR 2.0.50727; .NET CLR 1.1.4322; .NET CLR 3.5.30729; .NET CLR 3.0.30729)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Win64; x64; Trident/4.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; SV1; .NET CLR 2.0.50727; InfoPath.2)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 6.0; en-US)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 6.1; Windows XP)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Opera/9.80 (Windows NT 5.2; U; ru) Presto/2.5.22 Version/10.51&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPhone; CPU iPhone OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPad; CPU OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/28.0.1500.71 Chrome/28.0.1500.71 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9) AppleWebKit/537.71 (KHTML, like Gecko) Version/7.0 Safari/537.71&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.59.10 (KHTML, like Gecko) Version/5.1.9 Safari/534.59.10&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:23.0) Gecko/20100101 Firefox/23.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1; rv:23.0) Gecko/20100101 Firefox/23.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPhone; CPU iPhone OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; rv:23.0) Gecko/20100101 Firefox/23.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/28.0.1500.71 Chrome/28.0.1500.71 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.16&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Linux; Android 4.1.2; GT-I9100 Build/JZO54K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.82 Mobile Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.0; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.65 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (iPad; CPU OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.63 Safari/537.31&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.69 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.3; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.66 Safari/537.36&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="2-创建随机UA中间件"><a href="#2-创建随机UA中间件" class="headerlink" title="2.创建随机UA中间件"></a>2.创建随机UA中间件</h3><p>在spider同级目录下建立一个MidWare文件夹里面写一个HeaderMidWare.py文件 内容为</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.utils.project <span class="keyword">import</span> get_project_settings</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">settings = get_project_settings()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProcessHeaderMidware</span>():</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;process request add request info&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_request</span>(<span class="params">self, request, spider</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        随机从列表中获得header， 并传给user_agent进行使用</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ua = random.choice(settings.get(<span class="string">&#x27;USER_AGENT_LIST&#x27;</span>))  </span><br><span class="line">        spider.logger.info(msg=<span class="string">&#x27;now entring download midware&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> ua:</span><br><span class="line">            request.headers[<span class="string">&#x27;User-Agent&#x27;</span>] = ua</span><br><span class="line">            <span class="comment"># Add desired logging message here.</span></span><br><span class="line">            spider.logger.info(<span class="string">u&#x27;User-Agent is : &#123;&#125; &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(request.headers.get(<span class="string">&#x27;User-Agent&#x27;</span>), request))</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="3-在setting-py文件中添加"><a href="#3-在setting-py文件中添加" class="headerlink" title="3.在setting.py文件中添加"></a>3.在setting.py文件中添加</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">     <span class="string">&#x27;projectName.MidWare.HeaderMidWare.ProcessHeaderMidware&#x27;</span>: <span class="number">543</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="第二种方法-fake-useragent包"><a href="#第二种方法-fake-useragent包" class="headerlink" title="第二种方法 fake-useragent包"></a>第二种方法 <code>fake-useragent</code>包</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install fake-useragent</span><br></pre></td></tr></table></figure>
+
+<p>**<code>注意</code>**：在第一次启用fake_userAgent的时候会有一些错，我认为是项目请求网络时需要缓存一些内容而导致的</p>
+<br/>
+
+<h3 id="生成一个UA字符串只需要如下代码"><a href="#生成一个UA字符串只需要如下代码" class="headerlink" title="生成一个UA字符串只需要如下代码"></a>生成一个UA字符串只需要如下代码</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> fake_useragent <span class="keyword">import</span> UserAgent</span><br><span class="line">ua = UserAgent() </span><br><span class="line">print(ua.random)</span><br></pre></td></tr></table></figure>
+
+<p>如果只想要某一个浏览器的，比如 Chrome ，那可以改成 <code>ua.chrome</code></p>
+<br/>
+
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> fake_useragent <span class="keyword">import</span> UserAgent</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">ua = UserAgent()</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line">headers = &#123;<span class="string">&quot;User-Agent&quot;</span>: ua.random&#125;</span><br><span class="line">response = requests.get(url, headers=headers)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="Scrapy框架中使用"><a href="#Scrapy框架中使用" class="headerlink" title="Scrapy框架中使用"></a>Scrapy框架中使用</h3><h4 id="middlewares-py"><a href="#middlewares-py" class="headerlink" title="middlewares.py"></a>middlewares.py</h4><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">from fake_useragent import UserAgent</span><br><span class="line">class RandomUserAgentMiddleware(object):</span><br><span class="line">    def process_request(self, request, spider):</span><br><span class="line">        ua = UserAgent()</span><br><span class="line">        request.headers[&#x27;User-Agent&#x27;] = ua.random</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h4 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a><strong>settings.py</strong></h4><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line"></span><br><span class="line">    &#x27;xxx项目名.middlewares.RandomUserAgentMiddleware&#x27;: 543,</span><br><span class="line">    &#x27;scrapy.downloadermiddlewares.useragent.UserAgentMiddleware&#x27;: None,</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>这里我们要将系统的UserAgent中间件设置为None，这样就不会启用，否则默认系统的这个中间会被启用。</p>
+<br/>
+
+<p>参考链接：<a href="http://blog.itpub.net/31556697/viewspace-2286531/">http://blog.itpub.net/31556697/viewspace-2286531/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/57114881">https://zhuanlan.zhihu.com/p/57114881</a></p>
+<p>​                </p>
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>反爬系列---自定义代理池</title>
+    <url>/id_36/</url>
+    <content><![CDATA[<h1 id="反爬系列—自定义代理池"><a href="#反爬系列—自定义代理池" class="headerlink" title="反爬系列—自定义代理池"></a>反爬系列—自定义代理池</h1><blockquote>
+<p>要解决爬虫被禁的问题，一个直观的思路就是使用代理池，每次爬取页面我们都使用不同的IP发出请求，这样就可以避免同一个IP频繁发出请求被禁的情况。</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>代理按照是否匿名，大致可分成这样几类</p>
+<ul>
+<li><p>透明代理</p>
+</li>
+<li><p>匿名代理</p>
+</li>
+<li><p>高匿代理</p>
+</li>
+</ul>
+<p>透明代理在HTTP头里设置了你的真实IP，服务器可以通过HTTP头知晓你真实的IP。</p>
+<p>匿名代理虽然隐藏了你的真实IP，但服务器还是知道你使用了代理。</p>
+<p>高匿代理不仅隐藏了你的真实IP，而且让服务器无法发现你在使用代理，这是我们自建代理池的最佳的选择，我们下一步自建代理池的步骤中用到的也是高匿代理。</p>
+</blockquote>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># IP的篡改</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proccess_request</span>():</span></span><br><span class="line">    <span class="comment"># 请求我的代理ip的接口</span></span><br><span class="line">    url_proxy = <span class="string">&#x27;proxy.....url&#x27;</span></span><br><span class="line">    res = requests.get(url_proxy).json()  <span class="comment"># 获取到一个json数据</span></span><br><span class="line">    proxy = res[<span class="string">&#x27;&#x27;</span>] + <span class="string">&#x27;:&#x27;</span> + res[<span class="string">&#x27;port&#x27;</span>]  <span class="comment"># 处理json数据, 形成一个ip:port形式的字符串</span></span><br><span class="line">    </span><br><span class="line">    request.meta[<span class="string">&#x27;proxy&#x27;</span>] = <span class="string">&#x27;http://%s&#x27;</span>%proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu18.04安装MySQL</title>
+    <url>/id_37/</url>
+    <content><![CDATA[<h1 id="Ubuntu18-04安装MySQL"><a href="#Ubuntu18-04安装MySQL" class="headerlink" title="Ubuntu18.04安装MySQL"></a>Ubuntu18.04安装MySQL</h1><br/>
+
+<blockquote>
+<p>环境信息：<br>OS：Ubuntu18.04<br>MySQL: 5.7.22</p>
+</blockquote>
+<br/>
+
+<h2 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h2><p>在<code>Ubuntu</code>中，默认情况下，只有最新版本的<code>MySQL</code>包含在<code>APT</code>软件包存储库中,要安装它，只需更新服务器上的包索引并安装默认包<code>apt-get</code>。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#命令1</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="comment">#命令2</span></span><br><span class="line">sudo apt-get install mysql-server</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_37/image-20210408173521769.png" alt="image-20210408173521769"></p>
+<br/>
+
+<p>安装完成之后可以使用如下命令来检查是否安装成功：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -tap | grep mysql</span><br></pre></td></tr></table></figure>
+
+<p>通过上述命令检查之后，如果看到有 mysql 的socket处于 LISTEN 状态则表示安装成功。</p>
+<p><img src="/imgs/id_37/image-20210408174335890.png" alt="image-20210408174335890"></p>
+<br/>
+
+<p>登录mysql数据库可以通过如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参数解析：</p>
+<p>-u 表示选择登陆的用户名 </p>
+<p>-p 表示登陆的用户密码，现在是mysql数据库是没有密码的，Enter password:处直接回车，就能够进入mysql数据库。</p>
+</blockquote>
+<p>注意：如果你当前是普通用户则需要先<code>sudo -i</code>进入到root用户下，或使用下方命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#查看当前的所有数据库</span><br><span class="line"></span><br><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="配置MySQL"><a href="#配置MySQL" class="headerlink" title="配置MySQL"></a>配置MySQL</h2><h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mysql_secure_installation</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>接下来，为了确保数据库的安全性和正常运转，对数据库进行初始化操作。这个初始化操作涉及下面5个步骤。</p>
+<p>（1）安装验证密码插件。</p>
+<p>（2）设置root管理员在数据库中的专有密码。</p>
+<p>（3）随后删除匿名账户，并使用root管理员从远程登录数据库，以确保数据库上运行的业务的安全性。</p>
+<p>（4）删除默认的测试数据库，取消测试数据库的一系列访问权限。</p>
+<p>（5）刷新授权列表，让初始化的设定立即生效。</p>
+<p>对于上述数据库初始化的操作步骤，在下面的输出信息旁边我做了简单注释。</p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1</span></span><br><span class="line">VALIDATE PASSWORD PLUGIN can be used to test passwords...</span><br><span class="line">Press y|Y <span class="keyword">for</span> Yes, <span class="built_in">any</span> other key <span class="keyword">for</span> No: N (我的选项)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2</span></span><br><span class="line">Please <span class="built_in">set</span> the password <span class="keyword">for</span> root here...</span><br><span class="line">New password: (输入密码)</span><br><span class="line">Re-enter new password: (重复输入)</span><br><span class="line"></span><br><span class="line"><span class="comment">#3</span></span><br><span class="line">By default, a MySQL installation has an anonymous user,</span><br><span class="line">allowing anyone to log into MySQL without having to have</span><br><span class="line">a user account created <span class="keyword">for</span> them...</span><br><span class="line">Remove anonymous users? (Press y|Y for Yes, any other key for No) : N (我的选项)</span><br><span class="line"></span><br><span class="line"><span class="comment">#4</span></span><br><span class="line">Normally, root should only be allowed to connect <span class="keyword">from</span></span><br><span class="line"><span class="string">&#x27;localhost&#x27;</span>. This ensures that someone cannot guess at</span><br><span class="line">the root password <span class="keyword">from</span> the network...</span><br><span class="line">Disallow root login remotely? (Press y|Y for Yes, any other key for No) : Y (我的选项)</span><br><span class="line"></span><br><span class="line"><span class="comment">#5</span></span><br><span class="line">By default, MySQL comes <span class="keyword">with</span> a database named <span class="string">&#x27;test&#x27;</span> that</span><br><span class="line">anyone can access...</span><br><span class="line">Remove test database and access to it? (Press y|Y for Yes, any other key for No) : N (我的选项)</span><br><span class="line"></span><br><span class="line"><span class="comment">#6</span></span><br><span class="line">Reloading the privilege tables will ensure that <span class="built_in">all</span> changes</span><br><span class="line">made so far will take effect immediately.</span><br><span class="line">Reload privilege tables now? (Press y|Y for Yes, any other key for No) : Y (我的选项)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="检查mysql服务状态"><a href="#检查mysql服务状态" class="headerlink" title="检查mysql服务状态"></a>检查mysql服务状态</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl status mysql.service</span><br></pre></td></tr></table></figure>
+
+<p>显示如下结果说明mysql服务是正常的：</p>
+<p><img src="/imgs/id_37/image-20210408175910376.png" alt="image-20210408175910376"></p>
+<br/>
+
+<p>再次用<code>sudo mysql -u root -p</code>命令，Enter password:处输入刚设置的密码，回车，就能够进入mysql数据库</p>
+<h2 id="配置mysql允许远程访问"><a href="#配置mysql允许远程访问" class="headerlink" title="配置mysql允许远程访问"></a>配置mysql允许远程访问</h2><p>编辑 /etc/mysql/mysql.conf.d/mysqld.cnf 配置文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/mysql/mysql.conf.d/mysqld.cnf</span><br></pre></td></tr></table></figure>
+
+<p>注释掉bind-address     = 127.0.0.1</p>
+<br/>
+
+<p><img src="/imgs/id_37/image-20210408180355268.png" alt="image-20210408180355268"></p>
+<p>使用<code>esc键</code>  <code>:wq</code>保存退出，然后进入mysql数据库，执行授权命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">进入mysql</span></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">执行授权命令</span></span><br><span class="line">grant all on *.* to root@&#x27;%&#x27; identified by &#x27;你的密码&#x27; with grant option;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 刷新权限</span></span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 退出mysql</span></span><br><span class="line"> exit</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行如下命令重启mysql</span></span><br><span class="line"> systemctl restart mysql</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<img src="/imgs/id_37/image-20210408181150090.png" alt="image-20210408181150090" style="zoom:80%;" />
+
+<br/>
+
+<p>现在Windows下可以使用Navicat图形化工具远程连接Ubuntu下的MySQL数据库，输入刚授权远程权限的密码。</p>
+<img src="/imgs/id_37/image-20210408181525030.png" alt="image-20210408181525030" style="zoom:80%;" />]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>

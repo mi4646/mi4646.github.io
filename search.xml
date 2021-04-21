@@ -359,92 +359,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
-
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入理解MVC</title>
-    <url>/id_07/</url>
-    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
-<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
- <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
-
-<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
-<span id="more"></span>
-<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
-
-<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
-]]></content>
-      <categories>
-        <category>Python 开发者手册</category>
-      </categories>
-      <tags>
-        <tag>开发者手册</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用python+django集成钉钉三方扫码登陆</title>
-    <url>/id_09/</url>
-    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
-<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
-<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
-<ol>
-<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
-<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
-</li>
-</ol>
-<span id="more"></span>
-
-<ol start="2">
-<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
-</ol>
-<p>   <img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/20191221095537_44738.png"> </p>
-<ol start="3">
-<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
-
-<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
-<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
-</li>
-</ol>
-<ol start="4">
-<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>   最后我们访问路由就可以得到自己的个人信息。</p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>理解什么是JWT(Json web token)及Python实现</title>
     <url>/id_06/</url>
     <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
@@ -559,6 +473,92 @@
       </tags>
   </entry>
   <entry>
+    <title>深入理解MVC</title>
+    <url>/id_07/</url>
+    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
+<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
+ <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
+
+<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
+<span id="more"></span>
+<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
+
+<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
+]]></content>
+      <categories>
+        <category>Python 开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
+
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用python+django集成钉钉三方扫码登陆</title>
+    <url>/id_09/</url>
+    <content><![CDATA[<h1 id="使用python-django集成钉钉三方扫码登陆"><a href="#使用python-django集成钉钉三方扫码登陆" class="headerlink" title="使用python+django集成钉钉三方扫码登陆"></a>使用python+django集成钉钉三方扫码登陆</h1><p>参考博客：<a href="https://v3u.cn/a_id_124">https://v3u.cn/a_id_124</a></p>
+<p>钉钉开发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6</a></p>
+<p>钉钉开放平台：<a href="https://open-dev.dingtalk.com/#/loginMan">https://open-dev.dingtalk.com/#/loginMan</a></p>
+<ol>
+<li><p>进入钉钉开放平台—》点击左下角 —-》移动接入应用—-》登陆—-》点击创建扫码登陆应用授权。</p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460008581.png"></p>
+</li>
+</ol>
+<span id="more"></span>
+
+<ol start="2">
+<li>  创建一个网站应用，其中有用的信息是appid,appsecret，还有回调网址 。</li>
+</ol>
+<p>   <img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/20191221095537_44738.png"> </p>
+<ol start="3">
+<li><p>根据<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6">官方文档</a>构建登陆扫码url。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#构造钉钉登录url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_url</span>(<span class="params">request</span>):</span></span><br><span class="line">    appid = <span class="string">&#x27;dingoaukgkwqknzjvamdqh&#x27;</span>	<span class="comment">#替换成自己的appid</span></span><br><span class="line">    redirect_uri = <span class="string">&#x27;http://localhost:8000/dingding_back/&#x27;</span>	<span class="comment">#替换成自己的回调路由</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&#x27;https://oapi.dingtalk.com/connect/qrconnect?appid=&#x27;</span>+appid+<span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE&amp;redirect_uri=&#x27;</span>+redirect_uri)</span><br></pre></td></tr></table></figure>
+
+<p> 然后访问<a href="http://localhost:7878/ding_url%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%89%AB%E7%A0%81">http://localhost:7878/ding_url，就可以进行扫码</a> </p>
+<p><img src="/imgs/%E4%BD%BF%E7%94%A8python+django%E9%9B%86%E6%88%90%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%89%AB%E7%A0%81%E7%99%BB%E9%99%86/1608460292853.png"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>最后我们编写回调url。将时间戳，秘钥进行hmac加密</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造钉钉回调方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ding_back</span>(<span class="params">request</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取code</span></span><br><span class="line">    code = request.GET.get(<span class="string">&quot;code&quot;</span>)</span><br><span class="line"></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="comment">#时间戳</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>((<span class="built_in">int</span>(<span class="built_in">round</span>(t * <span class="number">1000</span>))))</span><br><span class="line">	<span class="comment">#替换成自己的appSecret</span></span><br><span class="line">    appSecret =<span class="string">&#x27;ly-AzMKMmCKQP3geaILT_An32kEfKO3HeOtApy5CgKwjytevVZC0WYsT2gxMB160&#x27;</span></span><br><span class="line">    <span class="comment">#构造签名</span></span><br><span class="line">    signature = base64.b64encode(hmac.new(appSecret.encode(<span class="string">&#x27;utf-8&#x27;</span>),timestamp.encode(<span class="string">&#x27;utf-8&#x27;</span>), digestmod=sha256).digest())</span><br><span class="line">    <span class="comment">#请求接口，换取钉钉用户名</span></span><br><span class="line">    payload = &#123;<span class="string">&#x27;tmp_auth_code&#x27;</span>:code&#125;</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    res = requests.post(<span class="string">&#x27;https://oapi.dingtalk.com/sns/getuserinfo_bycode?signature=&#x27;</span>+urllib.parse.quote(signature.decode(<span class="string">&quot;utf-8&quot;</span>))+<span class="string">&quot;&amp;timestamp=&quot;</span>+timestamp+<span class="string">&quot;&amp;accessKey=dingoaukgkwqknzjvamdqh&quot;</span>,data=json.dumps(payload),headers=headers)	<span class="comment">#accessKey替换成自己的appid</span></span><br><span class="line"></span><br><span class="line">    res_dict = json.loads(res.text)</span><br><span class="line">    print(res_dict)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(res.text)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>   最后我们访问路由就可以得到自己的个人信息。</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python +django 实现码云（gitee）三方登陆</title>
     <url>/id_10/</url>
     <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
@@ -598,6 +598,43 @@
 <p><strong>总结</strong>：</p>
 <p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
 ]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用redis数据库+python实现获取在线用户人数</title>
+    <url>/id_12/</url>
+    <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
+<p>这里使用的是redis集合：</p>
+<p>Redis集是字符串的无序集合。可以在O(1)中添加，删除和检查成员的存在（恒定时间，而与Set中包含的元素数量无关）。</p>
+<p>一个集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
+<span id="more"></span>
+
+<p>应用范围:</p>
+<ul>
+<li>您可以使用Redis集来跟踪独特的事物。想知道访问指定博客帖子的所有唯一IP地址吗？每次处理页面视图时，只需使用SADD。这样避免插入重复的IP。</li>
+<li>Redis集很好地表示关系。您可以使用Set代表每个标签，使用Redis创建标签系统。然后，可以使用SADD命令将具有给定标签的所有对象的所有ID添加到代表该特定标签的Set中。您是否希望所有对象的所有ID同时具有三个不同的标签？只需使用SINTER即可。</li>
+<li>您可以使用Set使用SPOP或SRANDMEMBER命令随机提取元素。</li>
+</ul>
+<p><strong>redis集合底层实现</strong>？</p>
+<ul>
+<li>底层封装的是 <strong>哈希(Hash)</strong> ，也就是我们常说的字典，它利用的是字典的特性。</li>
+<li>集合在业界也被成为是没有<code>值(vaue)</code>的字典，只有key。无论是哈希(Hash)还是字典。</li>
+</ul>
+<p>大家在做网站排行榜等有序的数据时，可以使用redis数据库中的 <strong>有序集合（Sorted Sets）</strong> </p>
+<p>与Redis集类似，Redis排序集是非重复的String集合。区别在于，排序集的每个成员都与得分相关联，该得分用于从最小到最大得分中获取排序的排序集。虽然成员是唯一的，但分数可能会重复。</p>
+<p>一个有序集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
+<p>应用范围:</p>
+<ul>
+<li>在大型在线游戏中担任排行榜，每次提交新分数时，您就可以使用ZADD对其进行更新。您可以轻松地使用ZRANGE吸引顶级用户，也可以给定用户名，使用ZRANK返回其在列表中的排名。一起使用ZRANK和ZRANGE可以向用户显示得分与给定用户相似的得分。速度很快。</li>
+<li>排序集通常用于索引Redis中存储的数据。例如，如果您有许多代表用户的哈希，则可以使用已排序的集合，其元素具有用户的年龄作为得分，而用户的ID作为值。因此，使用ZRANGEBYSCORE检索具有给定年龄段的所有用户将非常简单快捷。</li>
+</ul>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接redis</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">5</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 获取当前在线用户人数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetOnLines</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    		<span class="comment">#获取用户ip地址</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;HTTP_X_FORWARDED_FOR&quot;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;HTTP_X_FOGWARDED_FOR&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> r.scard(<span class="string">&quot;set_ip&quot;</span>):</span><br><span class="line">          <span class="comment">#添加用户ip</span></span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">            r.expire(<span class="string">&quot;set_ip&quot;</span>, <span class="number">30</span>)	<span class="comment">#因为没有办法判断人是否走了，使用相对性 设置一个时间，清除一下这个ip 再添加</span></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&quot;online&quot;</span>: r.scard(<span class="string">&quot;set_ip&quot;</span>)&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>项目开发</category>
       </categories>
@@ -690,52 +727,31 @@
       </tags>
   </entry>
   <entry>
-    <title>使用redis数据库+python实现获取在线用户人数</title>
-    <url>/id_12/</url>
-    <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
-<p>这里使用的是redis集合：</p>
-<p>Redis集是字符串的无序集合。可以在O(1)中添加，删除和检查成员的存在（恒定时间，而与Set中包含的元素数量无关）。</p>
-<p>一个集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
-<span id="more"></span>
+    <title>Python深浅拷贝的区别</title>
+    <url>/id_14/</url>
+    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<ul>
+<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
+<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
+</ul>
+</blockquote>
+<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
+<br/>
 
-<p>应用范围:</p>
-<ul>
-<li>您可以使用Redis集来跟踪独特的事物。想知道访问指定博客帖子的所有唯一IP地址吗？每次处理页面视图时，只需使用SADD。这样避免插入重复的IP。</li>
-<li>Redis集很好地表示关系。您可以使用Set代表每个标签，使用Redis创建标签系统。然后，可以使用SADD命令将具有给定标签的所有对象的所有ID添加到代表该特定标签的Set中。您是否希望所有对象的所有ID同时具有三个不同的标签？只需使用SINTER即可。</li>
-<li>您可以使用Set使用SPOP或SRANDMEMBER命令随机提取元素。</li>
-</ul>
-<p><strong>redis集合底层实现</strong>？</p>
-<ul>
-<li>底层封装的是 <strong>哈希(Hash)</strong> ，也就是我们常说的字典，它利用的是字典的特性。</li>
-<li>集合在业界也被成为是没有<code>值(vaue)</code>的字典，只有key。无论是哈希(Hash)还是字典。</li>
-</ul>
-<p>大家在做网站排行榜等有序的数据时，可以使用redis数据库中的 <strong>有序集合（Sorted Sets）</strong> </p>
-<p>与Redis集类似，Redis排序集是非重复的String集合。区别在于，排序集的每个成员都与得分相关联，该得分用于从最小到最大得分中获取排序的排序集。虽然成员是唯一的，但分数可能会重复。</p>
-<p>一个有序集合的**<code>最大长度为232 （4294967295，每列表可以存储超过40亿个元素）</code>**。</p>
-<p>应用范围:</p>
-<ul>
-<li>在大型在线游戏中担任排行榜，每次提交新分数时，您就可以使用ZADD对其进行更新。您可以轻松地使用ZRANGE吸引顶级用户，也可以给定用户名，使用ZRANK返回其在列表中的排名。一起使用ZRANK和ZRANGE可以向用户显示得分与给定用户相似的得分。速度很快。</li>
-<li>排序集通常用于索引Redis中存储的数据。例如，如果您有许多代表用户的哈希，则可以使用已排序的集合，其元素具有用户的年龄作为得分，而用户的ID作为值。因此，使用ZRANGEBYSCORE检索具有给定年龄段的所有用户将非常简单快捷。</li>
-</ul>
-<p>代码实现：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接redis</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">5</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 获取当前在线用户人数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetOnLines</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    		<span class="comment">#获取用户ip地址</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;HTTP_X_FORWARDED_FOR&quot;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;HTTP_X_FOGWARDED_FOR&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">&quot;REMOTE_ADDR&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> r.scard(<span class="string">&quot;set_ip&quot;</span>):</span><br><span class="line">          <span class="comment">#添加用户ip</span></span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r.sadd(<span class="string">&quot;set_ip&quot;</span>, ip)</span><br><span class="line">            r.expire(<span class="string">&quot;set_ip&quot;</span>, <span class="number">30</span>)	<span class="comment">#因为没有办法判断人是否走了，使用相对性 设置一个时间，清除一下这个ip 再添加</span></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&quot;online&quot;</span>: r.scard(<span class="string">&quot;set_ip&quot;</span>)&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
+<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
+<p>代码展示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
+
+<br/>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Python基础</category>
+        <category>语法基础</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -777,31 +793,99 @@
       </tags>
   </entry>
   <entry>
-    <title>Python深浅拷贝的区别</title>
-    <url>/id_14/</url>
-    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<ul>
-<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
-<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
-</ul>
-</blockquote>
-<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
-<br/>
-
-<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
-<p>代码展示：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 
-
-<br/>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Python基础</category>
-        <category>语法基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python中的类方法、实例方法、静态方法、构造方法</title>
+    <url>/id_16/</url>
+    <content><![CDATA[<h1 id="Python中的类方法、实例方法、静态方法、构造方法"><a href="#Python中的类方法、实例方法、静态方法、构造方法" class="headerlink" title="Python中的类方法、实例方法、静态方法、构造方法"></a>Python中的类方法、实例方法、静态方法、构造方法</h1><hr>
+<h2 id="python基础知识回顾"><a href="#python基础知识回顾" class="headerlink" title="python基础知识回顾"></a>python基础知识回顾</h2><ul>
+<li><strong>类(Class):</strong> 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。</li>
+<li><strong>方法：</strong>类中定义的函数。</li>
+<li><strong>类变量：</strong>类变量在整个实例化的对象中是公用的。类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用。</li>
+<li><strong>数据成员：</strong>类变量或者实例变量用于处理类及其实例对象的相关的数据。</li>
+<li><strong>方法重写：</strong>如果从父类继承的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖（override），也称为方法的重写。</li>
+<li><strong>局部变量：</strong>定义在方法中的变量，只作用于当前实例的类。</li>
+<li><strong>实例变量：</strong>在类的声明中，属性是用变量来表示的。这种变量就称为实例变量，是在类声明的内部但是在类的其他成员方法之外声明的。</li>
+<li><strong>继承：</strong>即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟”是一个（is-a）”关系（例如，Dog是一个Animal）。</li>
+<li><strong>实例化：</strong>创建一个类的实例，类的具体对象。</li>
+<li><strong>对象：</strong>通过类定义的数据结构实例。对象包括两个数据成员（类变量和实例变量）和方法。</li>
+</ul>
+<span id="more"></span>
+
+<p>类实例化后，可以使用其属性，实际上，创建一个类之后，可以通过类名访问其属性。</p>
+<p><strong>类对象</strong>支持两种操作：<strong>属性引用和实例化</strong>。</p>
+<p>1.属性引用使用和 Python 中所有的属性引用一样的标准语法：<strong>obj.name</strong>。</p>
+<p>2.类对象创建后，类命名空间中所有的命名都是有效属性名。</p>
+<p>类有一个名为 <strong>init</strong>() 的特殊方法（<strong>构造方法</strong>），该方法在类实例化时会自动调用，也就是说，我们在实例化对象时，这个方法就是用来初始化实例对象的属性的。</p>
+<p>当然， <strong>init</strong>() 方法可以有参数，参数通过 <strong>init</strong>() 传递到类的实例化操作上。例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Computer:</span><br><span class="line">    def __init__(self, cpu, hd):</span><br><span class="line">        self.cpu &#x3D; cpu</span><br><span class="line">        self.hd &#x3D; hd</span><br><span class="line">c1 &#x3D; Computer(&#39;i7&#39;,&#39;512&#39;)</span><br><span class="line">print(c1.cpu, c1.hd)   # 输出结果：i7 512</span><br></pre></td></tr></table></figure>
+
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="self代表类的实例，而非类"><a href="#self代表类的实例，而非类" class="headerlink" title="self代表类的实例，而非类"></a>self代表类的实例，而非类</h2><p>类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的<strong>第一个参数名称</strong>, 按照惯例它的名称是 self。（也就是说，用其他名称也可以，但通常我们写成self）</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">class Test:</span><br><span class="line">    def prt(self):</span><br><span class="line">        print(self)</span><br><span class="line">        print(self.__class__)</span><br><span class="line"> </span><br><span class="line">t = Test()</span><br><span class="line">t.prt()</span><br><span class="line">#运行结果</span><br><span class="line">&lt;__main__.Test object at 0x000002CA3CA28748&gt;</span><br><span class="line">&lt;class &#x27;__main__.Test&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>从执行结果可以很明显的看出，self 代表的是类的实例，代表当前对象的地址，而 self.class 则指向类。</p>
+<p>self 不是 python 关键字，我们把他换成 其他名称也是可以正常执行的。</p>
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="类的方法"><a href="#类的方法" class="headerlink" title="类的方法"></a>类的方法</h2><p>在类的内部，使用 <strong>def</strong> 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数 self, 且为第一个参数，self 代表的是类的实例。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">#类定义</span><br><span class="line">class people:</span><br><span class="line">    #定义基本属性</span><br><span class="line">    name = &#x27;&#x27;</span><br><span class="line">    age = 0</span><br><span class="line">    #定义私有属性,私有属性在类外部无法直接进行访问</span><br><span class="line">    __weight = 0</span><br><span class="line">    #定义构造方法</span><br><span class="line">    def __init__(self,n,a,w):</span><br><span class="line">        self.name = n</span><br><span class="line">        self.age = a</span><br><span class="line">        self.__weight = w</span><br><span class="line">    def speak(self):</span><br><span class="line">        print(&quot;%s 说: 我 %d 岁了&quot; %(self.name,self.age))</span><br><span class="line"> </span><br><span class="line"># 实例化类</span><br><span class="line">p = people(&#x27;jack&#x27;,10,120)</span><br><span class="line">p.speak()</span><br><span class="line">#运行结果</span><br><span class="line">jack 说: 我 10 岁了</span><br></pre></td></tr></table></figure>
+
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="类的私有属性"><a href="#类的私有属性" class="headerlink" title="类的私有属性"></a>类的私有属性</h2><p><strong>__private_attrs</strong>：两个下划线开头，声明该属性为私有，不能在类的外部被使用或直接访问。在类内部的方法中使用时 <strong>self.__private_attrs</strong>。</p>
+<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
+<h2 id="类的私有方法"><a href="#类的私有方法" class="headerlink" title="类的私有方法"></a>类的私有方法</h2><p><strong>__private_method</strong>：两个下划线开头，声明该方法为私有方法，只能在类的内部调用 ，不能在类的外部调用。<strong>self.__private_methods</strong>。</p>
+<blockquote>
+<p>类的专有方法<br><strong><strong>init</strong> :** 构造函数，在生成对象时调用<br>**<strong>del</strong> :** 析构函数，释放对象时使用<br>**<strong>repr</strong> :** 打印，转换<br>**<strong>setitem</strong> :** 按照索引赋值<br>**<strong>getitem</strong>:** 按照索引获取值<br>**<strong>len</strong>:** 获得长度<br>**<strong>cmp</strong>:** 比较运算<br>**<strong>call</strong>:** 函数调用<br>**<strong>add</strong>:** 加运算<br>**<strong>sub</strong>:** 减运算<br>**<strong>mul</strong>:** 乘运算<br>**<strong>truediv</strong>:** 除运算<br>**<strong>mod</strong>:** 求余运算<br>**<strong>pow</strong>:</strong> 乘方</p>
+</blockquote>
+<p>实例方法只能被实例对象调用，静态方法(由@staticmethod装饰的方法)、类方法(由@classmethod装饰的方法)，可以被类或类的实例对象调用。</p>
+<p>总结：</p>
+<p><strong>1.实例方法</strong>：第一个参数必须要默认传实例对象，一般习惯用self。</p>
+<p>通过self引用的可能是类属性、也有可能是实例属性（这个需要具体分析），不过在存在相同名称的类属性和实例属性的情况下，实例属性优先级更高</p>
+<p><strong>2.静态方法</strong>：修饰器@staticmethod来标识其为静态方法</p>
+<p>静态方法中引用类属性的话，必须通过类对象来引用，不能访问实例属性</p>
+<p><strong>3.类方法</strong>：修饰器@classmethod来标识其为类方法</p>
+<p>第一个参数必须要默认传类，一般习惯用cls(表示类本身)。</p>
+<p>类方法是只与类本身有关而与实例无关的方法。</p>
+<p>通过cls引用的必定是类对象的属性和方法，不能访问实例属性</p>
+<p>能够通过实例对象和类对象去访问类方法</p>
+<blockquote>
+<p>@staticmethod和@classmethod都可以直接类名.方法名()来调用，那他们有什么区别呢<br>从它们的使用上来看,<br>@staticmethod不需要表示自身对象的self和自身类的cls参数，就跟使用函数一样。<br>@classmethod也不需要self参数，但第一个参数需要是表示自身类的cls参数。<br>如果在@staticmethod中要调用到这个类的一些属性方法，只能直接类名.属性名或类名.方法名。<br>而@classmethod因为持有cls参数，可以来调用类的属性，类的方法，实例化对象等，避免硬编码。</p>
+</blockquote>
+<p><strong>方法（method）与函数（function）的区别：</strong></p>
+<p>1、方法用于类，且包含在类里（静态方法可以写在外面，但一般不这么做，静态方法本可以理解为函数），方法是特殊的函数。</p>
+<p>2、具体可以用type()来区分</p>
+<p>3、区别方法和函数最本质的办法还是看是否绑定类或实例，比如实例方法如果用类调用就会成为函数，用实例调用就是方法，而静态方法没有绑定任何类或实例，自然就是函数</p>
+<p>4、*装饰器不会改变被装饰对象的类型</p>
+<h2 id="静态方法与普通方法区别"><a href="#静态方法与普通方法区别" class="headerlink" title="静态方法与普通方法区别"></a>静态方法与普通方法区别</h2><ul>
+<li>静态的内存空间是固定的，相对来说更省资源。创实例的创一个实例就要开辟一个新内存，耗费资源</li>
+<li>静态方法属于类所有，类实例化前即可使用；</li>
+<li>非静态方法可以访问类中的任何成员，静态方法只能访问类中的静态成员；</li>
+<li>因为静态方法在类实例化前就可以使用，而类中的非静态变量必须在实例化之后才能分配内存；</li>
+<li>static内部只能出现static变量和其他static方法!而且static方法中还不能使用this等关键字，因为它是属于整个类；</li>
+<li>静态方法效率上要比实例化高，静态方法的缺点是不自动进行销毁，而实例化的则可以做销毁；</li>
+<li>静态方法和静态变量创建后始终使用同一块内存，而使用实例的方式会创建多个内存。<br><strong>主要区别</strong>：静态方法在创建对象前就可以使用了，非静态方法必须通过new出来的对象调用。</li>
+<li>静态方法可以通过 类名::方法名直接调用。普通方法需要创建一个实例，也就是new一个对象，然后通过 对象名-&gt;方法名的方式来调用</li>
+<li>静态类只能包含静态成员，否则会抛出编译错误；然而非静态类既可以包含非静态成员也可以包含静态成员</li>
+<li>静态类是不能实例化,之所以不能实例化,是因为静态类会导致C#编译器将该类同时标记为abstract和sealed,并且编译器不会在类型中</li>
+<li>生成一个实例的构造函数，从而导致静态类不能实例化；非静态类可以，并且静态成员的访问只能通过类来进行访问，因为静态成员是属于类的。</li>
+</ul>
+<p>参考博客：<a href="https://zhuanlan.zhihu.com/p/61168074">https://zhuanlan.zhihu.com/p/61168074</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -1082,90 +1166,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python中的类方法、实例方法、静态方法、构造方法</title>
-    <url>/id_16/</url>
-    <content><![CDATA[<h1 id="Python中的类方法、实例方法、静态方法、构造方法"><a href="#Python中的类方法、实例方法、静态方法、构造方法" class="headerlink" title="Python中的类方法、实例方法、静态方法、构造方法"></a>Python中的类方法、实例方法、静态方法、构造方法</h1><hr>
-<h2 id="python基础知识回顾"><a href="#python基础知识回顾" class="headerlink" title="python基础知识回顾"></a>python基础知识回顾</h2><ul>
-<li><strong>类(Class):</strong> 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。</li>
-<li><strong>方法：</strong>类中定义的函数。</li>
-<li><strong>类变量：</strong>类变量在整个实例化的对象中是公用的。类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用。</li>
-<li><strong>数据成员：</strong>类变量或者实例变量用于处理类及其实例对象的相关的数据。</li>
-<li><strong>方法重写：</strong>如果从父类继承的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖（override），也称为方法的重写。</li>
-<li><strong>局部变量：</strong>定义在方法中的变量，只作用于当前实例的类。</li>
-<li><strong>实例变量：</strong>在类的声明中，属性是用变量来表示的。这种变量就称为实例变量，是在类声明的内部但是在类的其他成员方法之外声明的。</li>
-<li><strong>继承：</strong>即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟”是一个（is-a）”关系（例如，Dog是一个Animal）。</li>
-<li><strong>实例化：</strong>创建一个类的实例，类的具体对象。</li>
-<li><strong>对象：</strong>通过类定义的数据结构实例。对象包括两个数据成员（类变量和实例变量）和方法。</li>
-</ul>
-<span id="more"></span>
-
-<p>类实例化后，可以使用其属性，实际上，创建一个类之后，可以通过类名访问其属性。</p>
-<p><strong>类对象</strong>支持两种操作：<strong>属性引用和实例化</strong>。</p>
-<p>1.属性引用使用和 Python 中所有的属性引用一样的标准语法：<strong>obj.name</strong>。</p>
-<p>2.类对象创建后，类命名空间中所有的命名都是有效属性名。</p>
-<p>类有一个名为 <strong>init</strong>() 的特殊方法（<strong>构造方法</strong>），该方法在类实例化时会自动调用，也就是说，我们在实例化对象时，这个方法就是用来初始化实例对象的属性的。</p>
-<p>当然， <strong>init</strong>() 方法可以有参数，参数通过 <strong>init</strong>() 传递到类的实例化操作上。例如:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Computer:</span><br><span class="line">    def __init__(self, cpu, hd):</span><br><span class="line">        self.cpu &#x3D; cpu</span><br><span class="line">        self.hd &#x3D; hd</span><br><span class="line">c1 &#x3D; Computer(&#39;i7&#39;,&#39;512&#39;)</span><br><span class="line">print(c1.cpu, c1.hd)   # 输出结果：i7 512</span><br></pre></td></tr></table></figure>
-
-<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
-<h2 id="self代表类的实例，而非类"><a href="#self代表类的实例，而非类" class="headerlink" title="self代表类的实例，而非类"></a>self代表类的实例，而非类</h2><p>类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的<strong>第一个参数名称</strong>, 按照惯例它的名称是 self。（也就是说，用其他名称也可以，但通常我们写成self）</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">class Test:</span><br><span class="line">    def prt(self):</span><br><span class="line">        print(self)</span><br><span class="line">        print(self.__class__)</span><br><span class="line"> </span><br><span class="line">t = Test()</span><br><span class="line">t.prt()</span><br><span class="line">#运行结果</span><br><span class="line">&lt;__main__.Test object at 0x000002CA3CA28748&gt;</span><br><span class="line">&lt;class &#x27;__main__.Test&#x27;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>从执行结果可以很明显的看出，self 代表的是类的实例，代表当前对象的地址，而 self.class 则指向类。</p>
-<p>self 不是 python 关键字，我们把他换成 其他名称也是可以正常执行的。</p>
-<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
-<h2 id="类的方法"><a href="#类的方法" class="headerlink" title="类的方法"></a>类的方法</h2><p>在类的内部，使用 <strong>def</strong> 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数 self, 且为第一个参数，self 代表的是类的实例。</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">#类定义</span><br><span class="line">class people:</span><br><span class="line">    #定义基本属性</span><br><span class="line">    name = &#x27;&#x27;</span><br><span class="line">    age = 0</span><br><span class="line">    #定义私有属性,私有属性在类外部无法直接进行访问</span><br><span class="line">    __weight = 0</span><br><span class="line">    #定义构造方法</span><br><span class="line">    def __init__(self,n,a,w):</span><br><span class="line">        self.name = n</span><br><span class="line">        self.age = a</span><br><span class="line">        self.__weight = w</span><br><span class="line">    def speak(self):</span><br><span class="line">        print(&quot;%s 说: 我 %d 岁了&quot; %(self.name,self.age))</span><br><span class="line"> </span><br><span class="line"># 实例化类</span><br><span class="line">p = people(&#x27;jack&#x27;,10,120)</span><br><span class="line">p.speak()</span><br><span class="line">#运行结果</span><br><span class="line">jack 说: 我 10 岁了</span><br></pre></td></tr></table></figure>
-
-<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
-<h2 id="类的私有属性"><a href="#类的私有属性" class="headerlink" title="类的私有属性"></a>类的私有属性</h2><p><strong>__private_attrs</strong>：两个下划线开头，声明该属性为私有，不能在类的外部被使用或直接访问。在类内部的方法中使用时 <strong>self.__private_attrs</strong>。</p>
-<p><strong>$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$</strong></p>
-<h2 id="类的私有方法"><a href="#类的私有方法" class="headerlink" title="类的私有方法"></a>类的私有方法</h2><p><strong>__private_method</strong>：两个下划线开头，声明该方法为私有方法，只能在类的内部调用 ，不能在类的外部调用。<strong>self.__private_methods</strong>。</p>
-<blockquote>
-<p>类的专有方法<br><strong><strong>init</strong> :** 构造函数，在生成对象时调用<br>**<strong>del</strong> :** 析构函数，释放对象时使用<br>**<strong>repr</strong> :** 打印，转换<br>**<strong>setitem</strong> :** 按照索引赋值<br>**<strong>getitem</strong>:** 按照索引获取值<br>**<strong>len</strong>:** 获得长度<br>**<strong>cmp</strong>:** 比较运算<br>**<strong>call</strong>:** 函数调用<br>**<strong>add</strong>:** 加运算<br>**<strong>sub</strong>:** 减运算<br>**<strong>mul</strong>:** 乘运算<br>**<strong>truediv</strong>:** 除运算<br>**<strong>mod</strong>:** 求余运算<br>**<strong>pow</strong>:</strong> 乘方</p>
-</blockquote>
-<p>实例方法只能被实例对象调用，静态方法(由@staticmethod装饰的方法)、类方法(由@classmethod装饰的方法)，可以被类或类的实例对象调用。</p>
-<p>总结：</p>
-<p><strong>1.实例方法</strong>：第一个参数必须要默认传实例对象，一般习惯用self。</p>
-<p>通过self引用的可能是类属性、也有可能是实例属性（这个需要具体分析），不过在存在相同名称的类属性和实例属性的情况下，实例属性优先级更高</p>
-<p><strong>2.静态方法</strong>：修饰器@staticmethod来标识其为静态方法</p>
-<p>静态方法中引用类属性的话，必须通过类对象来引用，不能访问实例属性</p>
-<p><strong>3.类方法</strong>：修饰器@classmethod来标识其为类方法</p>
-<p>第一个参数必须要默认传类，一般习惯用cls(表示类本身)。</p>
-<p>类方法是只与类本身有关而与实例无关的方法。</p>
-<p>通过cls引用的必定是类对象的属性和方法，不能访问实例属性</p>
-<p>能够通过实例对象和类对象去访问类方法</p>
-<blockquote>
-<p>@staticmethod和@classmethod都可以直接类名.方法名()来调用，那他们有什么区别呢<br>从它们的使用上来看,<br>@staticmethod不需要表示自身对象的self和自身类的cls参数，就跟使用函数一样。<br>@classmethod也不需要self参数，但第一个参数需要是表示自身类的cls参数。<br>如果在@staticmethod中要调用到这个类的一些属性方法，只能直接类名.属性名或类名.方法名。<br>而@classmethod因为持有cls参数，可以来调用类的属性，类的方法，实例化对象等，避免硬编码。</p>
-</blockquote>
-<p><strong>方法（method）与函数（function）的区别：</strong></p>
-<p>1、方法用于类，且包含在类里（静态方法可以写在外面，但一般不这么做，静态方法本可以理解为函数），方法是特殊的函数。</p>
-<p>2、具体可以用type()来区分</p>
-<p>3、区别方法和函数最本质的办法还是看是否绑定类或实例，比如实例方法如果用类调用就会成为函数，用实例调用就是方法，而静态方法没有绑定任何类或实例，自然就是函数</p>
-<p>4、*装饰器不会改变被装饰对象的类型</p>
-<h2 id="静态方法与普通方法区别"><a href="#静态方法与普通方法区别" class="headerlink" title="静态方法与普通方法区别"></a>静态方法与普通方法区别</h2><ul>
-<li>静态的内存空间是固定的，相对来说更省资源。创实例的创一个实例就要开辟一个新内存，耗费资源</li>
-<li>静态方法属于类所有，类实例化前即可使用；</li>
-<li>非静态方法可以访问类中的任何成员，静态方法只能访问类中的静态成员；</li>
-<li>因为静态方法在类实例化前就可以使用，而类中的非静态变量必须在实例化之后才能分配内存；</li>
-<li>static内部只能出现static变量和其他static方法!而且static方法中还不能使用this等关键字，因为它是属于整个类；</li>
-<li>静态方法效率上要比实例化高，静态方法的缺点是不自动进行销毁，而实例化的则可以做销毁；</li>
-<li>静态方法和静态变量创建后始终使用同一块内存，而使用实例的方式会创建多个内存。<br><strong>主要区别</strong>：静态方法在创建对象前就可以使用了，非静态方法必须通过new出来的对象调用。</li>
-<li>静态方法可以通过 类名::方法名直接调用。普通方法需要创建一个实例，也就是new一个对象，然后通过 对象名-&gt;方法名的方式来调用</li>
-<li>静态类只能包含静态成员，否则会抛出编译错误；然而非静态类既可以包含非静态成员也可以包含静态成员</li>
-<li>静态类是不能实例化,之所以不能实例化,是因为静态类会导致C#编译器将该类同时标记为abstract和sealed,并且编译器不会在类型中</li>
-<li>生成一个实例的构造函数，从而导致静态类不能实例化；非静态类可以，并且静态成员的访问只能通过类来进行访问，因为静态成员是属于类的。</li>
-</ul>
-<p>参考博客：<a href="https://zhuanlan.zhihu.com/p/61168074">https://zhuanlan.zhihu.com/p/61168074</a></p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP和UDP协议到底是什么</title>
     <url>/id_19/</url>
     <content><![CDATA[<h1 id="TCP-UDP协议到底是什么"><a href="#TCP-UDP协议到底是什么" class="headerlink" title="TCP/UDP协议到底是什么"></a>TCP/UDP协议到底是什么</h1><p>TCP详解推荐博客：<a href="https://www.jianshu.com/p/ef892323e68f">https://www.jianshu.com/p/ef892323e68f</a></p>
@@ -1218,6 +1218,45 @@
       </categories>
       <tags>
         <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
+<span id="more"></span>
+
+
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1301,6 +1340,33 @@
       </tags>
   </entry>
   <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora里面如何快捷改变字体颜色？</title>
     <url>/id_23/</url>
     <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
@@ -1353,69 +1419,54 @@
       </tags>
   </entry>
   <entry>
-    <title>钉钉机器人消息通知</title>
-    <url>/id_20/</url>
-    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
-<ol>
-<li>先创建一个钉钉群，将所有人添加到群里。 </li>
-</ol>
-<ol start="2">
-<li>创建一个钉钉机器人。 </li>
-</ol>
-<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
-<p>   <img src="/imgs/1608125490600.png"></p>
-<span id="more"></span>
+    <title>解决GitHub打不开的问题</title>
+    <url>/id_24/</url>
+    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
+<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+<br/>
 
+<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
+<p>查看GitHub的ip地址。</p>
+<p><img src="/imgs/id_24/1616318075440.png"></p>
+<br/>
 
-<ol start="3">
-<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
-</ol>
-<ol start="4">
-<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
-<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
-</ol>
-<p>代码示例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>140.82.114.4  github.com </p>
+</blockquote>
+<br/>
 
+<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
+<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<br/>
 
+<blockquote>
+<p> 199.232.69.194 github.global.ssl.fastly.net </p>
+</blockquote>
+<br/>
 
-<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
-<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
-<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
-<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
+<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<br/>
+
+<blockquote>
+<p>185.199.108.153 assets-cdn.github.com</p>
+<p>185.199.110.153 assets-cdn.github.com</p>
+<p>185.199.111.153 assets-cdn.github.com</p>
+</blockquote>
+<br/>
+
+<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
+
+<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<br/>
+
+<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
 ]]></content>
       <categories>
-        <category>项目开发</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1483,57 +1534,6 @@
       </tags>
   </entry>
   <entry>
-    <title>解决GitHub打不开的问题</title>
-    <url>/id_24/</url>
-    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
-<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
-<br/>
-
-<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
-<p>查看GitHub的ip地址。</p>
-<p><img src="/imgs/id_24/1616318075440.png"></p>
-<br/>
-
-<blockquote>
-<p>140.82.114.4  github.com </p>
-</blockquote>
-<br/>
-
-<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
-<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
-<br/>
-
-<blockquote>
-<p> 199.232.69.194 github.global.ssl.fastly.net </p>
-</blockquote>
-<br/>
-
-<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
-<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
-<br/>
-
-<blockquote>
-<p>185.199.108.153 assets-cdn.github.com</p>
-<p>185.199.110.153 assets-cdn.github.com</p>
-<p>185.199.111.153 assets-cdn.github.com</p>
-</blockquote>
-<br/>
-
-<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
-
-<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
-<br/>
-
-<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>django安装M2Crypto报错</title>
     <url>/id_26/</url>
     <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
@@ -1582,6 +1582,77 @@
       </categories>
       <tags>
         <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu 18.04安装/全局配置java环境</title>
+    <url>/id_28/</url>
+    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
+
+<p>环境信息：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
+<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
+</ol>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<ol start="2">
+<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
+</ol>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
+
+<p> 使用如下命令打开~/.bashrc文件</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 使用source命令使配置立即生效 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<blockquote>
+<p>注意：</p>
+<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
+</blockquote>
+<br/>
+
+<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>在终端输入javac命令，得到javac的可选项 </p>
+<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1736,77 +1807,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu 18.04安装/全局配置java环境</title>
-    <url>/id_28/</url>
-    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
-
-<p>环境信息：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
-<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
-</ol>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<ol start="2">
-<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
-</ol>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
-
-<p> 使用如下命令打开~/.bashrc文件</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 使用source命令使配置立即生效 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<blockquote>
-<p>注意：</p>
-<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
-</blockquote>
-<br/>
-
-<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
-<br/>
-
-<p>在终端输入javac命令，得到javac的可选项 </p>
-<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
-<br/>
-
-<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</title>
     <url>/id_30/</url>
     <content><![CDATA[<h1 id="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"><a href="#教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目" class="headerlink" title="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"></a>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</h1><br/>
@@ -1873,6 +1873,93 @@
 <br/>
 
 <h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><img src="/imgs/id_30/1591859377945.png" alt="1591859377945"></p>
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
+    <url>/id_31/</url>
+    <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
+
+<blockquote>
+<p>Xshell是一个安全终端模拟软件，可以进行远程登录。我使用XShell的主要目的是在Windows环境下登录Linux终端，传输一些大文件到Linux环境上去。 </p>
+</blockquote>
+<br/>
+
+<h2 id="第一步：-下载安装xshell客户端"><a href="#第一步：-下载安装xshell客户端" class="headerlink" title="第一步： 下载安装xshell客户端"></a>第一步： 下载安装xshell客户端</h2><p>免费版Xshell下载地址:<a href="https://www.netsarang.com/download/down_form.html?code=622">https://www.netsarang.com/download/down_form.html?code=622</a> ) </p>
+<br/>
+
+<p>第二步： 安装完成之后，如果你直接连接Ubuntu主机会发现连接不上，这是因为Ubuntu主机没有开启SSH服务，需要开启openssh-server： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>使用下面这个命令可以查看ssh是否启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>如果只有ssh-agent表示还没启动，需要 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/etc/init.d/ssh start</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>如果显示sshd则说明已启动成功 </p>
+<p><img src="/imgs/id_31/1616741589822.png" alt="1616741589822"></p>
+<br/>
+
+<h2 id="第三步：打开Xshell客户端"><a href="#第三步：打开Xshell客户端" class="headerlink" title="第三步：打开Xshell客户端"></a>第三步：打开Xshell客户端</h2><p>打开Xshell，选择“新建”，“连接”设置里选择SSH，主机填入需要连接的主机的IP地址。在“用户身份验证”中填入可用的登录Ubuntu的用户名和密码。 </p>
+<p><img src="/imgs/id_31/1616741797210.png" alt="1616741797210"></p>
+<br/>
+
+<p>终端中输入ifconfig -a 命令查看主机IP </p>
+<p><img src="/imgs/id_31/1616742651621.png" alt="1616742651621"></p>
+<br/>
+
+<p><img src="/imgs/id_31/1616741880012.png" alt="1616741880012"></p>
+<br/>
+
+<p>输入好用户名和密码后点击确定即可连接Ubuntu</p>
+<br/>
+
+<p> <code>注：如果你确认输入的用户名和密码都没有问题，但登录还是显示如下情况，拒绝你的输入的密码的话：</code></p>
+<p><img src="/imgs/id_31/1616742033575.png" alt="1616742033575"> </p>
+<br/>
+
+<p>需要编辑一下/etc/ssh/sshd_config文件： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>将 PermitRootLogin改为yes： </p>
+<p> <img src="/imgs/id_31/1616742167833.png" alt="1616742167833"></p>
+<p>改为：</p>
+<p><img src="/imgs/id_31/1616742337904.png" alt="1616742337904"></p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br><span class="line">点击字母a即可编辑</span><br><span class="line">编辑完成之后 点击Esc退出 输入:wq保存即可</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.cnblogs.com/tjw-bk/p/13968478.html">linux 进入编辑文件，保存退出相关命令</a></p>
+<br/>
+
+<p>之后重启ssh-server即可： </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/id_31/1616742529496.png" alt="1616742529496"></p>
+<p>如果还不行，重启一下虚拟机，之后应该就能连接上了。 </p>
+<br/>
+
+<h2 id="第四步：-从Windows上传文件到Linux"><a href="#第四步：-从Windows上传文件到Linux" class="headerlink" title="第四步： 从Windows上传文件到Linux"></a>第四步： 从Windows上传文件到Linux</h2><p>上传命令为rz；从Linux上传文件指令为rz，上传的文件在当前命令行的目录下 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@dev:~# rz</span><br></pre></td></tr></table></figure>
+
+<p>在Xshell命令行中输入rz命令后，会弹出对话框，选择你要上传的文件，选择打开要上传的文件就上传到Linux主机下 </p>
+<p><img src="/imgs/id_31/1616742906550.png" alt="1616742906550"></p>
+<p>找到要上传的目录文件，点击即可上传到linux</p>
 ]]></content>
       <categories>
         <category>spider</category>
@@ -1976,93 +2063,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
-    <url>/id_31/</url>
-    <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
-
-<blockquote>
-<p>Xshell是一个安全终端模拟软件，可以进行远程登录。我使用XShell的主要目的是在Windows环境下登录Linux终端，传输一些大文件到Linux环境上去。 </p>
-</blockquote>
-<br/>
-
-<h2 id="第一步：-下载安装xshell客户端"><a href="#第一步：-下载安装xshell客户端" class="headerlink" title="第一步： 下载安装xshell客户端"></a>第一步： 下载安装xshell客户端</h2><p>免费版Xshell下载地址:<a href="https://www.netsarang.com/download/down_form.html?code=622">https://www.netsarang.com/download/down_form.html?code=622</a> ) </p>
-<br/>
-
-<p>第二步： 安装完成之后，如果你直接连接Ubuntu主机会发现连接不上，这是因为Ubuntu主机没有开启SSH服务，需要开启openssh-server： </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>使用下面这个命令可以查看ssh是否启动</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>如果只有ssh-agent表示还没启动，需要 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/etc/init.d/ssh start</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>如果显示sshd则说明已启动成功 </p>
-<p><img src="/imgs/id_31/1616741589822.png" alt="1616741589822"></p>
-<br/>
-
-<h2 id="第三步：打开Xshell客户端"><a href="#第三步：打开Xshell客户端" class="headerlink" title="第三步：打开Xshell客户端"></a>第三步：打开Xshell客户端</h2><p>打开Xshell，选择“新建”，“连接”设置里选择SSH，主机填入需要连接的主机的IP地址。在“用户身份验证”中填入可用的登录Ubuntu的用户名和密码。 </p>
-<p><img src="/imgs/id_31/1616741797210.png" alt="1616741797210"></p>
-<br/>
-
-<p>终端中输入ifconfig -a 命令查看主机IP </p>
-<p><img src="/imgs/id_31/1616742651621.png" alt="1616742651621"></p>
-<br/>
-
-<p><img src="/imgs/id_31/1616741880012.png" alt="1616741880012"></p>
-<br/>
-
-<p>输入好用户名和密码后点击确定即可连接Ubuntu</p>
-<br/>
-
-<p> <code>注：如果你确认输入的用户名和密码都没有问题，但登录还是显示如下情况，拒绝你的输入的密码的话：</code></p>
-<p><img src="/imgs/id_31/1616742033575.png" alt="1616742033575"> </p>
-<br/>
-
-<p>需要编辑一下/etc/ssh/sshd_config文件： </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>将 PermitRootLogin改为yes： </p>
-<p> <img src="/imgs/id_31/1616742167833.png" alt="1616742167833"></p>
-<p>改为：</p>
-<p><img src="/imgs/id_31/1616742337904.png" alt="1616742337904"></p>
-<br/>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config </span><br><span class="line">点击字母a即可编辑</span><br><span class="line">编辑完成之后 点击Esc退出 输入:wq保存即可</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://www.cnblogs.com/tjw-bk/p/13968478.html">linux 进入编辑文件，保存退出相关命令</a></p>
-<br/>
-
-<p>之后重启ssh-server即可： </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
-
-<p><img src="/imgs/id_31/1616742529496.png" alt="1616742529496"></p>
-<p>如果还不行，重启一下虚拟机，之后应该就能连接上了。 </p>
-<br/>
-
-<h2 id="第四步：-从Windows上传文件到Linux"><a href="#第四步：-从Windows上传文件到Linux" class="headerlink" title="第四步： 从Windows上传文件到Linux"></a>第四步： 从Windows上传文件到Linux</h2><p>上传命令为rz；从Linux上传文件指令为rz，上传的文件在当前命令行的目录下 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@dev:~# rz</span><br></pre></td></tr></table></figure>
-
-<p>在Xshell命令行中输入rz命令后，会弹出对话框，选择你要上传的文件，选择打开要上传的文件就上传到Linux主机下 </p>
-<p><img src="/imgs/id_31/1616742906550.png" alt="1616742906550"></p>
-<p>找到要上传的目录文件，点击即可上传到linux</p>
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Selenium入门</title>
     <url>/id_33/</url>
     <content><![CDATA[<h1 id="Selenium入门"><a href="#Selenium入门" class="headerlink" title="Selenium入门"></a>Selenium入门</h1>]]></content>
@@ -2138,75 +2138,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu18.04安装Redis</title>
-    <url>/id_39/</url>
-    <content><![CDATA[<h1 id="Ubuntu18-04安装Redis"><a href="#Ubuntu18-04安装Redis" class="headerlink" title="Ubuntu18.04安装Redis"></a>Ubuntu18.04安装Redis</h1><h2 id="Redis的特点："><a href="#Redis的特点：" class="headerlink" title="Redis的特点："></a>Redis的特点：</h2><ul>
-<li>内存数据库，速度快，也支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
-<li>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
-<li>Redis支持数据的备份，即master-slave模式的数据备份。</li>
-<li>支持事务</li>
-</ul>
-<h2 id="Redis的优势："><a href="#Redis的优势：" class="headerlink" title="Redis的优势："></a>Redis的优势：</h2><ul>
-<li>性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。</li>
-<li>丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。</li>
-<li>原子 – Redis的所有操作都是原子性的，同时Redis还支持对几个操作合并后的原子性执行。（事务）</li>
-<li>丰富的特性 – Redis还支持 publish/subscribe, 通知, key 过期等等特性。</li>
-</ul>
-<h2 id="Redis与其他key-value存储有什么不同？"><a href="#Redis与其他key-value存储有什么不同？" class="headerlink" title="Redis与其他key-value存储有什么不同？"></a>Redis与其他key-value存储有什么不同？</h2><ul>
-<li>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。</li>
-<li>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</li>
-</ul>
-<h2 id="安装redis服务端"><a href="#安装redis服务端" class="headerlink" title="安装redis服务端"></a><strong>安装redis服务端</strong></h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install redis-server</span><br></pre></td></tr></table></figure>
-
-<p> 安装完成后，Redis服务器会自动启动。 </p>
-<br/>
-
-<h2 id="检查Redis服务器系统进程"><a href="#检查Redis服务器系统进程" class="headerlink" title="检查Redis服务器系统进程"></a>检查Redis服务器系统进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -agx|grep redis</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="通过启动命令检查Redis服务器状态"><a href="#通过启动命令检查Redis服务器状态" class="headerlink" title="通过启动命令检查Redis服务器状态"></a>通过启动命令检查Redis服务器状态</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -nlt|grep 6379 </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="通过命令行客户端访问Redis"><a href="#通过命令行客户端访问Redis" class="headerlink" title="通过命令行客户端访问Redis"></a>通过命令行客户端访问Redis</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="Redis服务器基本配置"><a href="#Redis服务器基本配置" class="headerlink" title="Redis服务器基本配置"></a>Redis服务器基本配置</h2><h3 id="开启Redis的远程连接"><a href="#开启Redis的远程连接" class="headerlink" title="开启Redis的远程连接"></a><strong>开启Redis的远程连接</strong></h3><p>我们可以切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">注释掉绑定地址# bind 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<p><img src="/imgs/id_39/Snipaste_2021-04-12_15-49-43.png"></p>
-<br/>
-
-<h2 id="windows下的redisDesktopManager怎么连接Ubuntu-server"><a href="#windows下的redisDesktopManager怎么连接Ubuntu-server" class="headerlink" title="windows下的redisDesktopManager怎么连接Ubuntu server"></a>windows下的redisDesktopManager怎么连接Ubuntu server</h2><p> 首先我们将ubuntu上的防火墙关闭 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">service iptables stop</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把bind 127.0.0.1修改成 bind 0.0.0.0</span></span><br><span class="line"><span class="comment"># 按esc键后输入:wq保存退出</span></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>退出后输入reboot重启 redis-server</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">停止 sudo service redis-server stop</span><br><span class="line">启动 sudo service redis-server start</span><br><span class="line">重启 sudo service redis-server restart</span><br></pre></td></tr></table></figure>
-
-
-
-<p>最后我们可以在windows下打开 <code>redis desktop manager</code> 点击：</p>
-<p><img src="/imgs/id_39/1618215112436.png" alt="1618215112436"></p>
-<p>将连接所需进行填写，Auth为密码，未设置则不需填写，点击OK就可以了 </p>
-<p> <img src="/imgs/id_39/20181110111458721.png" alt="img"> </p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>反爬系列---自定义代理池</title>
     <url>/id_36/</url>
     <content><![CDATA[<h1 id="反爬系列—Python搭建代理池"><a href="#反爬系列—Python搭建代理池" class="headerlink" title="反爬系列—Python搭建代理池"></a>反爬系列—Python搭建代理池</h1><blockquote>
@@ -2214,15 +2145,20 @@
 </blockquote>
 <br/>
 
-<h2 id="获取IP代理两种方式"><a href="#获取IP代理两种方式" class="headerlink" title="获取IP代理两种方式"></a>获取IP代理两种方式</h2><ol>
-<li>付费API接口（IP量多，稳定）</li>
-<li>免费IP代理 （IP量少，不稳定，但免费呀，基础爬虫已够）</li>
-<li>github上有很多优秀的项目，这里分享两个 <ul>
-<li><a href="https://www.oschina.net/action/GoToLink?url=https://github.com/jhao104/proxy_pool">https://github.com/jhao104/proxy_pool</a></li>
-<li><a href="https://www.oschina.net/action/GoToLink?url=https://github.com/Python3WebSpider/ProxyPool">https://github.com/Python3WebSpider/ProxyPool</a></li>
+<h2 id="获取IP代理两种方式"><a href="#获取IP代理两种方式" class="headerlink" title="获取IP代理两种方式"></a>获取IP代理两种方式</h2><ul>
+<li><p>付费API接口（IP量多，稳定）</p>
+</li>
+<li><p>免费IP代理 （IP量少，不稳定，但免费呀，基础爬虫已够）</p>
+</li>
+<li><p>github上有很多优秀的项目，这里分享两个 </p>
+<ul>
+<li><p><a href="https://github.com/jhao104/proxy_pool">https://github.com/jhao104/proxy_pool</a></p>
+</li>
+<li><p><a href="https://github.com/Python3WebSpider/ProxyPool">https://github.com/Python3WebSpider/ProxyPool</a></p>
+</li>
 </ul>
 </li>
-</ol>
+</ul>
 <br/>
 
 <h2 id="代理IP的分类"><a href="#代理IP的分类" class="headerlink" title="代理IP的分类"></a>代理IP的分类</h2><p>代理按照是否匿名，大致可分成这样几类</p>
@@ -2398,6 +2334,155 @@
       </categories>
       <tags>
         <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu18.04安装Redis</title>
+    <url>/id_39/</url>
+    <content><![CDATA[<h1 id="Ubuntu18-04安装Redis"><a href="#Ubuntu18-04安装Redis" class="headerlink" title="Ubuntu18.04安装Redis"></a>Ubuntu18.04安装Redis</h1><h2 id="Redis的特点："><a href="#Redis的特点：" class="headerlink" title="Redis的特点："></a>Redis的特点：</h2><ul>
+<li>内存数据库，速度快，也支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
+<li>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
+<li>Redis支持数据的备份，即master-slave模式的数据备份。</li>
+<li>支持事务</li>
+</ul>
+<h2 id="Redis的优势："><a href="#Redis的优势：" class="headerlink" title="Redis的优势："></a>Redis的优势：</h2><ul>
+<li>性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。</li>
+<li>丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。</li>
+<li>原子 – Redis的所有操作都是原子性的，同时Redis还支持对几个操作合并后的原子性执行。（事务）</li>
+<li>丰富的特性 – Redis还支持 publish/subscribe, 通知, key 过期等等特性。</li>
+</ul>
+<h2 id="Redis与其他key-value存储有什么不同？"><a href="#Redis与其他key-value存储有什么不同？" class="headerlink" title="Redis与其他key-value存储有什么不同？"></a>Redis与其他key-value存储有什么不同？</h2><ul>
+<li>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。</li>
+<li>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</li>
+</ul>
+<h2 id="安装redis服务端"><a href="#安装redis服务端" class="headerlink" title="安装redis服务端"></a><strong>安装redis服务端</strong></h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install redis-server</span><br></pre></td></tr></table></figure>
+
+<p> 安装完成后，Redis服务器会自动启动。 </p>
+<br/>
+
+<h2 id="检查Redis服务器系统进程"><a href="#检查Redis服务器系统进程" class="headerlink" title="检查Redis服务器系统进程"></a>检查Redis服务器系统进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -agx|grep redis</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="通过启动命令检查Redis服务器状态"><a href="#通过启动命令检查Redis服务器状态" class="headerlink" title="通过启动命令检查Redis服务器状态"></a>通过启动命令检查Redis服务器状态</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -nlt|grep 6379 </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="通过命令行客户端访问Redis"><a href="#通过命令行客户端访问Redis" class="headerlink" title="通过命令行客户端访问Redis"></a>通过命令行客户端访问Redis</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="Redis服务器基本配置"><a href="#Redis服务器基本配置" class="headerlink" title="Redis服务器基本配置"></a>Redis服务器基本配置</h2><h3 id="开启Redis的远程连接"><a href="#开启Redis的远程连接" class="headerlink" title="开启Redis的远程连接"></a><strong>开启Redis的远程连接</strong></h3><p>我们可以切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">注释掉绑定地址# bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/id_39/Snipaste_2021-04-12_15-49-43.png"></p>
+<br/>
+
+<h2 id="windows下的redisDesktopManager怎么连接Ubuntu-server"><a href="#windows下的redisDesktopManager怎么连接Ubuntu-server" class="headerlink" title="windows下的redisDesktopManager怎么连接Ubuntu server"></a>windows下的redisDesktopManager怎么连接Ubuntu server</h2><p> 首先我们将ubuntu上的防火墙关闭 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">service iptables stop</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把bind 127.0.0.1修改成 bind 0.0.0.0</span></span><br><span class="line"><span class="comment"># 按esc键后输入:wq保存退出</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>退出后输入reboot重启 redis-server</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">停止 sudo service redis-server stop</span><br><span class="line">启动 sudo service redis-server start</span><br><span class="line">重启 sudo service redis-server restart</span><br></pre></td></tr></table></figure>
+
+
+
+<p>最后我们可以在windows下打开 <code>redis desktop manager</code> 点击：</p>
+<p><img src="/imgs/id_39/1618215112436.png" alt="1618215112436"></p>
+<p>将连接所需进行填写，Auth为密码，未设置则不需填写，点击OK就可以了 </p>
+<p> <img src="/imgs/id_39/20181110111458721.png" alt="img"> </p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git常见错误---git branch不显示本地分支的问题</title>
+    <url>/id_41/</url>
+    <content><![CDATA[<h1 id="Git常见错误—git-branch不显示本地分支的问题"><a href="#Git常见错误—git-branch不显示本地分支的问题" class="headerlink" title="Git常见错误—git branch不显示本地分支的问题"></a>Git常见错误—git branch不显示本地分支的问题</h1><br/>
+
+<p>使用git init命令创建仓库，执行<code>git add . </code>和<code>git commit</code>,再使用<code>git branch</code>命令</p>
+<p>即可查看到远程分支<code>master</code></p>
+<p>再新建分支及上传就可以了详情可看：<a href="http://tjw5.cn/id_27/">http://tjw5.cn/id_27/</a></p>
+<br/>
+
+<p>参考链接：<a href="https://blog.csdn.net/qq_39671159/article/details/81261049">https://blog.csdn.net/qq_39671159/article/details/81261049</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【在家办公】代码上传公司远端GitLab仓库</title>
+    <url>/id_40/</url>
+    <content><![CDATA[<h1 id="【在家办公】代码上传公司远端GitLab仓库"><a href="#【在家办公】代码上传公司远端GitLab仓库" class="headerlink" title="【在家办公】代码上传公司远端GitLab仓库"></a>【在家办公】代码上传公司远端GitLab仓库</h1><br/>
+
+<h2 id="查看本地的git-如何添加远程仓库"><a href="#查看本地的git-如何添加远程仓库" class="headerlink" title="查看本地的git 如何添加远程仓库"></a>查看本地的git 如何添加远程仓库</h2><h3 id="1-查看远程仓库地址"><a href="#1-查看远程仓库地址" class="headerlink" title="1.查看远程仓库地址"></a>1.查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<p>此时若什么都没有显示说明，git无远程仓库。</p>
+<br/>
+
+<h3 id="2-添加ssh协议的远程仓库"><a href="#2-添加ssh协议的远程仓库" class="headerlink" title="2.添加ssh协议的远程仓库"></a>2.添加ssh协议的远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:**********.git</span><br></pre></td></tr></table></figure>
+
+<p>再次查看，即可查看到2个远程仓库的链接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">origin	git@gitlab.com:**********.git (fetch)</span><br><span class="line">origin	git@gitlab.com::**********.git (push)</span><br></pre></td></tr></table></figure>
+
+<p>当前，我本机就是用的这种方式连接的github，好处是每次提交代码时，不需要重复来回输入用户名和密码，这就是ssh秘钥的好处。</p>
+<br/>
+
+<p>使用家里的WiFi长传到github上的代码时，报出如下错误：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin 分支名称</span></span><br><span class="line">ssh: connect to host github.com port 22: Connection refused</span><br><span class="line">fatal: Could not read from remote repository.</span><br></pre></td></tr></table></figure>
+
+<p>得知第一种协议被禁掉后，只能换一种连接进行合并本地仓库了。继续往下看另一种协议。</p>
+<br/>
+
+<h3 id="3-切换成-https协议连接github"><a href="#3-切换成-https协议连接github" class="headerlink" title="3.切换成 https协议连接github"></a>3.切换成 https协议连接github</h3><p>建立本地仓库和远端GitLab仓库的关联关系</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>在这一步时如果出现错误：<code>fatal:remote origin already exists</code>先清除一下关联关系：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>再重新关联：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
+
+</br>
+
+<p>检查关联是否已建立且正确</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<br/>
+注意：因为我们是在家办公，我们公司的gitlab域名映射成了ip我们直接把`域名换成IP地址`
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 添加http链接协议</span></span><br><span class="line">git remote add origin http://ip:port/*********************.git</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+
+
+<p>参考链接：<a href="https://blog.csdn.net/s740556472/article/details/80318886">https://blog.csdn.net/s740556472/article/details/80318886</a></p>
+<p>​                <a href="https://www.jianshu.com/p/c74ae40b5127">https://www.jianshu.com/p/c74ae40b5127</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
 </search>

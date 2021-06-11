@@ -359,54 +359,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python解释器</title>
-    <url>/id_08/</url>
-    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
-<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
-<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<span id="more"></span>
-
-<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
-<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
-<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
-<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
-<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
-<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
-<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
-<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
-<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
-<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入理解MVC</title>
-    <url>/id_07/</url>
-    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
-<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
- <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
-
-<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
-<span id="more"></span>
-<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
-
-<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
-]]></content>
-      <categories>
-        <category>Python 开发者手册</category>
-      </categories>
-      <tags>
-        <tag>开发者手册</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>理解什么是JWT(Json web token)及Python实现</title>
     <url>/id_06/</url>
     <content><![CDATA[<h1 id="理解什么是JWT-Json-web-token-及Python实现"><a href="#理解什么是JWT-Json-web-token-及Python实现" class="headerlink" title="理解什么是JWT(Json web token)及Python实现"></a>理解什么是JWT(Json web token)及Python实现</h1><p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a> </p>
@@ -512,6 +464,54 @@
 <h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><p>我们可以使用 <a href="https://github.com/jpadilla/pyjwt/">pyjwt：https://github.com/jpadilla/pyjwt/</a> </p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 sanic 作为restful api 框架 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_token</span>(<span class="params">request</span>):</span></span><br><span class="line">    grant_type = request.json.get(<span class="string">&#x27;grant_type&#x27;</span>)</span><br><span class="line">    username = request.json[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">    password = request.json[<span class="string">&#x27;password&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> grant_type == <span class="string">&#x27;password&#x27;</span>:</span><br><span class="line">        account = verify_password(username, password)</span><br><span class="line">    <span class="keyword">elif</span> grant_type == <span class="string">&#x27;wxapp&#x27;</span>:</span><br><span class="line">        account = verify_wxapp(username, password)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> account:</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;iss&quot;</span>: <span class="string">&quot;gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;iat&quot;</span>: <span class="built_in">int</span>(time.time()),</span><br><span class="line">         <span class="string">&quot;exp&quot;</span>: <span class="built_in">int</span>(time.time()) + <span class="number">86400</span> * <span class="number">7</span>,</span><br><span class="line">         <span class="string">&quot;aud&quot;</span>: <span class="string">&quot;www.gusibi.com&quot;</span>,</span><br><span class="line">         <span class="string">&quot;sub&quot;</span>: account[<span class="string">&#x27;_id&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;username&quot;</span>: account[<span class="string">&#x27;username&#x27;</span>],</span><br><span class="line">         <span class="string">&quot;scopes&quot;</span>: [<span class="string">&#x27;open&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    token = jwt.encode(payload, <span class="string">&#x27;secret&#x27;</span>, algorithm=<span class="string">&#x27;HS256&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span>, &#123;<span class="string">&#x27;access_token&#x27;</span>: token, <span class="string">&#x27;account_id&#x27;</span>: account[<span class="string">&#x27;_id&#x27;</span>]&#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_bearer_token</span>(<span class="params">token</span>):</span></span><br><span class="line">    <span class="comment">#  如果在生成token的时候使用了aud参数，那么校验的时候也需要添加此参数</span></span><br><span class="line">    payload = jwt.decode(token, <span class="string">&#x27;secret&#x27;</span>, audience=<span class="string">&#x27;www.gusibi.com&#x27;</span>, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>, token</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span>, token</span><br></pre></td></tr></table></figure>
 
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解MVC</title>
+    <url>/id_07/</url>
+    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
+<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
+ <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
+
+<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
+<span id="more"></span>
+<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
+
+<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
+]]></content>
+      <categories>
+        <category>Python 开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python解释器</title>
+    <url>/id_08/</url>
+    <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
+<p>我们编写Python代码时，我们得到的是一个包含Python代码的以<code>.py</code>为扩展名的文本文件。要运行代码，就需要Python解释器去执行<code>.py</code>文件。</p>
+<p>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<span id="more"></span>
+
+<h3 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h3><p>当我们从<a href="https://www.python.org/">Python官方网站</a>下载并安装好Python 3后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行<code>python</code>就是启动CPython解释器。</p>
+<p>CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。</p>
+<h3 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h3><p>IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。</p>
+<p>CPython用<code>&gt;&gt;&gt;</code>作为提示符，而IPython用<code>In [序号]:</code>作为提示符。</p>
+<h3 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h3><p>PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用<a href="http://en.wikipedia.org/wiki/Just-in-time_compilation">JIT技术</a>，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</p>
+<p>绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解<a href="http://pypy.readthedocs.org/en/latest/cpython_differences.html">PyPy和CPython的不同点</a>。</p>
+<h3 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h3><p>Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</p>
+<h3 id="IronPython"><a href="#IronPython" class="headerlink" title="IronPython"></a>IronPython</h3><p>IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Python的解释器很多，但使用最广泛的还是CPython。如果要和Java或.Net平台交互，最好的办法不是用Jython或IronPython，而是通过网络调用来交互，确保各程序之间的独立性。</p>
+<p>本教程的所有代码只确保在CPython 2.7版本下运行。请务必在本地安装CPython（也就是从Python官方网站下载的安装程序）。</p>
+<p>此外，教程还内嵌一个IPython的Web版本，用来在浏览器内练习执行一些Python代码。要注意两者功能一样，输入的代码一样，但是提示符有所不同。另外，不是所有代码都能在Web版本的IPython中执行，出于安全原因，很多操作（比如文件操作）是受限的，所以有些代码必须在本地环境执行代码。</p>
 ]]></content>
       <categories>
         <category>Python基础</category>
@@ -690,18 +690,38 @@
       </tags>
   </entry>
   <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>Hexo博客搭建之在文章中插入图片</title>
+    <url>/id_13/</url>
+    <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
+<ul>
+<li>在写文章时，常常有配图说明的需求。Hexo有多种图片插入方式，可以将图片存放在本地引用或者将图片放在CDN上引用。</li>
+</ul>
+<h3 id="本地引用—–》绝对路径"><a href="#本地引用—–》绝对路径" class="headerlink" title="本地引用—–》绝对路径"></a>本地引用—–》绝对路径</h3><p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。</p>
+<p>比如：source/images/image.jpg</p>
+<p><code>最近在写Hexo博客的时候，都是使用的绝地路径。非常好用</code></p>
+<p>比如：/imgs/1608460008581.png</p>
+<p><img src="/images/image.jpg"> </p>
 <span id="more"></span>
 
+<p><strong>效果</strong>：图片既可以在首页内容中访问到，也可以在文章正文中访问到。</p>
+<h3 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h3><p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过配置_config.yml来生成。</p>
+<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
+<p>_posts/post_name/image.jpg</p>
+<p><img src="image.jpg"> </p>
+<p><strong>效果</strong>：上述是markdown的引用方式，图片只能在文章中显示，但无法在首页中正常显示。</p>
+<p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
+<p>_posts/post_name/image.jpg</p>
+ 
 
+
+
+<h3 id="CDN引用"><a href="#CDN引用" class="headerlink" title="CDN引用"></a>CDN引用</h3><p>除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。</p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>Hexo博客搭建</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>Hexo博客搭建</tag>
       </tags>
   </entry>
   <entry>
@@ -742,38 +762,49 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo博客搭建之在文章中插入图片</title>
-    <url>/id_13/</url>
-    <content><![CDATA[<h1 id="Hexo博客搭建之在文章中插入图片"><a href="#Hexo博客搭建之在文章中插入图片" class="headerlink" title="Hexo博客搭建之在文章中插入图片"></a>Hexo博客搭建之在文章中插入图片</h1><p><strong>前言</strong>：</p>
-<ul>
-<li>在写文章时，常常有配图说明的需求。Hexo有多种图片插入方式，可以将图片存放在本地引用或者将图片放在CDN上引用。</li>
-</ul>
-<h3 id="本地引用—–》绝对路径"><a href="#本地引用—–》绝对路径" class="headerlink" title="本地引用—–》绝对路径"></a>本地引用—–》绝对路径</h3><p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。</p>
-<p>比如：source/images/image.jpg</p>
-<p><code>最近在写Hexo博客的时候，都是使用的绝地路径。非常好用</code></p>
-<p>比如：/imgs/1608460008581.png</p>
-<p><img src="/images/image.jpg"> </p>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 
-<p><strong>效果</strong>：图片既可以在首页内容中访问到，也可以在文章正文中访问到。</p>
-<h3 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h3><p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过配置_config.yml来生成。</p>
-<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
-<p>_posts/post_name/image.jpg</p>
-<p><img src="image.jpg"> </p>
-<p><strong>效果</strong>：上述是markdown的引用方式，图片只能在文章中显示，但无法在首页中正常显示。</p>
-<p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
-<p>_posts/post_name/image.jpg</p>
- 
 
-
-
-<h3 id="CDN引用"><a href="#CDN引用" class="headerlink" title="CDN引用"></a>CDN引用</h3><p>除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。</p>
 ]]></content>
       <categories>
-        <category>Hexo博客搭建</category>
+        <category>Python基础</category>
       </categories>
       <tags>
-        <tag>Hexo博客搭建</tag>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python深浅拷贝的区别</title>
+    <url>/id_14/</url>
+    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<ul>
+<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
+<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
+</ul>
+</blockquote>
+<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
+<br/>
+
+<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
+<p>代码展示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<br/>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+        <category>语法基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -861,37 +892,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python深浅拷贝的区别</title>
-    <url>/id_14/</url>
-    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<ul>
-<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
-<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
-</ul>
-</blockquote>
-<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
-<br/>
-
-<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
-<p>代码展示：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<br/>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-        <category>语法基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis实现分布式单点登录</title>
     <url>/id_17/</url>
     <content><![CDATA[<h1 id="Redis实现分布式单点登录"><a href="#Redis实现分布式单点登录" class="headerlink" title="Redis实现分布式单点登录"></a>Redis实现分布式单点登录</h1><h2 id="什么是单点登录？"><a href="#什么是单点登录？" class="headerlink" title="什么是单点登录？"></a>什么是单点登录？</h2><p>单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
@@ -925,45 +925,6 @@
       </categories>
       <tags>
         <tag>Redis数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>钉钉机器人消息通知</title>
-    <url>/id_20/</url>
-    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
-<ol>
-<li>先创建一个钉钉群，将所有人添加到群里。 </li>
-</ol>
-<ol start="2">
-<li>创建一个钉钉机器人。 </li>
-</ol>
-<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
-<p>   <img src="/imgs/1608125490600.png"></p>
-<span id="more"></span>
-
-
-<ol start="3">
-<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
-</ol>
-<ol start="4">
-<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
-<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
-</ol>
-<p>代码示例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
-<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
-<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
-<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1259,78 +1220,39 @@
       </tags>
   </entry>
   <entry>
-    <title>解决GitHub打不开的问题</title>
-    <url>/id_24/</url>
-    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
-<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
-<br/>
-
-<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
-<p>查看GitHub的ip地址。</p>
-<p><img src="/imgs/id_24/1616318075440.png"></p>
-<br/>
-
-<blockquote>
-<p>140.82.114.4  github.com </p>
-</blockquote>
-<br/>
-
-<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
-<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
-<br/>
-
-<blockquote>
-<p> 199.232.69.194 github.global.ssl.fastly.net </p>
-</blockquote>
-<br/>
-
-<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
-<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
-<br/>
-
-<blockquote>
-<p>185.199.108.153 assets-cdn.github.com</p>
-<p>185.199.110.153 assets-cdn.github.com</p>
-<p>185.199.111.153 assets-cdn.github.com</p>
-</blockquote>
-<br/>
-
-<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
-
-<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
-<br/>
-
-<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
-</li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
 <span id="more"></span>
 
 
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>项目开发</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -1417,6 +1339,84 @@
       </tags>
   </entry>
   <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决GitHub打不开的问题</title>
+    <url>/id_24/</url>
+    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
+<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+<br/>
+
+<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
+<p>查看GitHub的ip地址。</p>
+<p><img src="/imgs/id_24/1616318075440.png"></p>
+<br/>
+
+<blockquote>
+<p>140.82.114.4  github.com </p>
+</blockquote>
+<br/>
+
+<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
+<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<br/>
+
+<blockquote>
+<p> 199.232.69.194 github.global.ssl.fastly.net </p>
+</blockquote>
+<br/>
+
+<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
+<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<br/>
+
+<blockquote>
+<p>185.199.108.153 assets-cdn.github.com</p>
+<p>185.199.110.153 assets-cdn.github.com</p>
+<p>185.199.111.153 assets-cdn.github.com</p>
+</blockquote>
+<br/>
+
+<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
+
+<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<br/>
+
+<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora里面如何快捷改变字体颜色？</title>
     <url>/id_23/</url>
     <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
@@ -1466,6 +1466,57 @@
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>django安装M2Crypto报错</title>
+    <url>/id_26/</url>
+    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>问题如下：</p>
+<br/>
+
+<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
+<br/>
+
+<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
+<br/>
+
+<p>先 sudo apt install libssl-dev swig</p>
+<p>执行命令后报错</p>
+<br/>
+
+<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
+<br/>
+
+<p>E: 无法定位软件包 swig</p>
+<br/>
+
+<blockquote>
+<p>问题解析：</p>
+<p>发生这个问题有以下几种情况：</p>
+<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
+<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
+<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
+</blockquote>
+<br/>
+
+<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
+<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
+<br/>
+
+<p>在执行 pip3 install M2Crypto</p>
+]]></content>
+      <categories>
+        <category>django</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -1534,54 +1585,138 @@
       </tags>
   </entry>
   <entry>
-    <title>django安装M2Crypto报错</title>
-    <url>/id_26/</url>
-    <content><![CDATA[<h1 id="django安装M2Crypto报错"><a href="#django安装M2Crypto报错" class="headerlink" title="django安装M2Crypto报错"></a>django安装M2Crypto报错</h1><p>运行环境：</p>
+    <title>gitlab创建分支及上传代码</title>
+    <url>/id_27/</url>
+    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
+
+<p>1.查看所有分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
+
 <br/>
 
+<p>查看本地分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616577735277.png"></p>
+<br/>
+
+<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
+<br/>
+
+<p>2.创建分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>3.切换分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>4.查看本地代码状态 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>这个我在第一次上传的时候没有执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 5.做一次提交，指定提交的远程分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
+<br/>
+
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu 18.04安装/全局配置java环境</title>
+    <url>/id_28/</url>
+    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
+
+<p>环境信息：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<p>问题如下：</p>
+<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
+<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
+</ol>
 <br/>
 
-<p><img src="/imgs/id_25/Snipaste_2021-03-23_14-24-23.png" alt="Snipaste_2021-03-23_14-24-23"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<p>看到这个问题，我也是面向百度编程直接搜索一波，我们可以先换源</p>
+<ol start="2">
+<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
+</ol>
 <br/>
 
-<p>先 sudo apt install libssl-dev swig</p>
-<p>执行命令后报错</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<p><img src="/imgs/id_25/f1ad733e6709c93d392713fb953df8dcd000541a.jpg" alt="img"></p>
+<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
+
+<p> 使用如下命令打开~/.bashrc文件</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<p>E: 无法定位软件包 swig</p>
+<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 使用source命令使配置立即生效 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
 <br/>
 
 <blockquote>
-<p>问题解析：</p>
-<p>发生这个问题有以下几种情况：</p>
-<p>第一 ，你的ubuntu系统需要更新，用以下命令： sudo apt-get update </p>
-<p>第二，你的系统软件需要升级，用以下命令：sudo apt-get upgrade</p>
-<p>第三，你要安装的软件版本，与ubuntu版本不对应，此种情况，你需要自己阅读要安装软件的安装文档，查找问题。</p>
+<p>注意：</p>
+<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
 </blockquote>
 <br/>
 
-<p>我怎么解决的 <strong>换源</strong> 使用的第二种方法</p>
-<p><a href="https://blog.csdn.net/dyxcome/article/details/85240232">https://blog.csdn.net/dyxcome/article/details/85240232</a></p>
+<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<p>在执行 pip3 install M2Crypto</p>
+<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>在终端输入javac命令，得到javac的可选项 </p>
+<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
 ]]></content>
       <categories>
-        <category>django</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>django</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1672,149 +1807,6 @@
       </tags>
   </entry>
   <entry>
-    <title>gitlab创建分支及上传代码</title>
-    <url>/id_27/</url>
-    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
-
-<p>1.查看所有分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>查看本地分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616577735277.png"></p>
-<br/>
-
-<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
-<br/>
-
-<p>2.创建分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>3.切换分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.查看本地代码状态 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
-<br/>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>这个我在第一次上传的时候没有执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 5.做一次提交，指定提交的远程分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
-<br/>
-
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</title>
-    <url>/id_30/</url>
-    <content><![CDATA[<h1 id="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"><a href="#教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目" class="headerlink" title="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"></a>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</h1><br/>
-
-<blockquote>
-<p><strong>Scrapy的优点：</strong></p>
-<p>1）scrapy  是异步的框架<br>2）采取可读性更强的  xpath 代替正则<br>3）强大的统计和  log  系统<br>4）同时在不同的  url 上爬行<br>5）支持  shell 方式，方便独立调试<br>6）写 middleware（中间件）,方便写一些统一的过滤器<br>7）通过管道的方式存入数据库</p>
-</blockquote>
-<p>scrapy的优点缺点：<a href="https://blog.csdn.net/z434890/article/details/103127205">https://blog.csdn.net/z434890/article/details/103127205</a></p>
-<br/>
-
-<h2 id="一、如何安装Scrapy："><a href="#一、如何安装Scrapy：" class="headerlink" title="一、如何安装Scrapy："></a>一、如何安装Scrapy：</h2><p> <a href="https://link.jianshu.com/?t=https://scrapy.org/">Scrapy官网</a> 在醒目的地方告诉我们，只需要一条命令即可安装Scrapy：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="二、新建Scrapy项目"><a href="#二、新建Scrapy项目" class="headerlink" title="二、新建Scrapy项目"></a>二、新建Scrapy项目</h2><p>开始新建Scrapy项目，输入创建Scrapy爬虫项目命令“scrapy startproject article”，其中article是爬虫项目的名称，可以自行更改的。 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">scrapy startproject article</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_30/1616654364639.png" alt="1616654364639"></p>
-<br/>
-
-<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># scrapy</span></span><br><span class="line"></span><br><span class="line">scrapy startproject 项目名 <span class="comment">#创建项目</span></span><br><span class="line">scrapy genspider 文件名 baidu.com <span class="comment">#创建爬虫</span></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行</span></span><br><span class="line">scrapy crawl 文件名</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行命令 ---nolog就是不在控制台打印日志</span></span><br><span class="line">scrapy crawl 文件名 --nolog  </span><br><span class="line"></span><br><span class="line"><span class="comment">#注意事项：</span></span><br><span class="line">--nolog：不打印日志，同样如果抛出异常，也不会打印异常</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="三、工程目录的介绍"><a href="#三、工程目录的介绍" class="headerlink" title="三、工程目录的介绍"></a>三、工程目录的介绍</h2><p><img src="/imgs/id_30/1591847984484.png" alt="1591847984484"></p>
-<br/>
-
-<p><img src="/imgs/id_30/image-20210325153641412.png" alt="image-20210325153641412"></p>
-<br/>
-
-<h3 id="下面记录一下setting-py里面的设置"><a href="#下面记录一下setting-py里面的设置" class="headerlink" title="下面记录一下setting.py里面的设置"></a>下面记录一下setting.py里面的设置</h3><br/>
-
-<p><strong>注意：每次新建项目后都需要到setting.py中去修改以下3项 其他配置看需求自己配置</strong></p>
-<br/>
-
-<p><img src="/imgs/id_30/1616655762741.png" alt="1616655762741"></p>
-<br/>
-
-<p><img src="/imgs/id_30/1616655823673.png" alt="1616655823673"></p>
-<br/>
-
-<p><img src="/imgs/id_30/1616655849251.png" alt="1616655849251"></p>
-<br/>
-
-<h2 id="四、核心组件与数据流向"><a href="#四、核心组件与数据流向" class="headerlink" title="四、核心组件与数据流向"></a>四、核心组件与数据流向</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#五大核心组件</span></span><br><span class="line"><span class="number">1.</span>引擎组件：整个框架的调度者，负责各个组件之间的通信与数据的传递</span><br><span class="line"><span class="number">2.</span>爬虫组件：定义爬取行为和解析规则</span><br><span class="line"><span class="number">3.</span>调度器组件：负责调度所有请求</span><br><span class="line"><span class="number">4.</span>下载器：负责爬取页面</span><br><span class="line"><span class="number">5.</span>管道：负责数据持久化</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_30/20191118181419940.png" alt="20191118181419940"></p>
-<br/>
-
-<p><img src="/imgs/id_30/20191118181449833.png" alt="20191118181449833"></p>
-<br/>
-
-<h2 id="五、确定要爬取的字段"><a href="#五、确定要爬取的字段" class="headerlink" title="五、确定要爬取的字段"></a>五、确定要爬取的字段</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstSpriderItem</span>(<span class="params">scrapy.Item</span>):</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    name = scrapy.Field()	<span class="comment">#定义在数据库中的字段名称</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    date = scrapy.Field()</span><br><span class="line">    category = scrapy.Field()</span><br><span class="line">    brief = scrapy.Field()</span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_30/1616656348562.png" alt="1616656348562"></p>
-<br/>
-
-<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><img src="/imgs/id_30/1591859377945.png" alt="1591859377945"></p>
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</title>
     <url>/id_31/</url>
     <content><![CDATA[<h1 id="使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输"><a href="#使用xshell远程连接Ubuntu18-04并使用Xshell在Windows系统和Linux系统之间进行文件传输" class="headerlink" title="使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输"></a>使用xshell远程连接Ubuntu18.04并使用Xshell在Windows系统和Linux系统之间进行文件传输</h1><br/>
@@ -1902,74 +1894,82 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu 18.04安装/全局配置java环境</title>
-    <url>/id_28/</url>
-    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
-
-<p>环境信息：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
-<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
-</ol>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<ol start="2">
-<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
-</ol>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
-
-<p> 使用如下命令打开~/.bashrc文件</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 使用source命令使配置立即生效 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<br/>
+    <title>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</title>
+    <url>/id_30/</url>
+    <content><![CDATA[<h1 id="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"><a href="#教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目" class="headerlink" title="教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目"></a>教你如何安装爬虫框架Scrapy及新建一个Scrapy爬虫项目</h1><br/>
 
 <blockquote>
-<p>注意：</p>
-<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
+<p><strong>Scrapy的优点：</strong></p>
+<p>1）scrapy  是异步的框架<br>2）采取可读性更强的  xpath 代替正则<br>3）强大的统计和  log  系统<br>4）同时在不同的  url 上爬行<br>5）支持  shell 方式，方便独立调试<br>6）写 middleware（中间件）,方便写一些统一的过滤器<br>7）通过管道的方式存入数据库</p>
 </blockquote>
+<p>scrapy的优点缺点：<a href="https://blog.csdn.net/z434890/article/details/103127205">https://blog.csdn.net/z434890/article/details/103127205</a></p>
 <br/>
 
-<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+<h2 id="一、如何安装Scrapy："><a href="#一、如何安装Scrapy：" class="headerlink" title="一、如何安装Scrapy："></a>一、如何安装Scrapy：</h2><p> <a href="https://link.jianshu.com/?t=https://scrapy.org/">Scrapy官网</a> 在醒目的地方告诉我们，只需要一条命令即可安装Scrapy：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
+<h2 id="二、新建Scrapy项目"><a href="#二、新建Scrapy项目" class="headerlink" title="二、新建Scrapy项目"></a>二、新建Scrapy项目</h2><p>开始新建Scrapy项目，输入创建Scrapy爬虫项目命令“scrapy startproject article”，其中article是爬虫项目的名称，可以自行更改的。 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">scrapy startproject article</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<p>在终端输入javac命令，得到javac的可选项 </p>
-<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
+<p><img src="/imgs/id_30/1616654364639.png" alt="1616654364639"></p>
 <br/>
 
-<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
+<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># scrapy</span></span><br><span class="line"></span><br><span class="line">scrapy startproject 项目名 <span class="comment">#创建项目</span></span><br><span class="line">scrapy genspider 文件名 baidu.com <span class="comment">#创建爬虫</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行</span></span><br><span class="line">scrapy crawl 文件名</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行命令 ---nolog就是不在控制台打印日志</span></span><br><span class="line">scrapy crawl 文件名 --nolog  </span><br><span class="line"></span><br><span class="line"><span class="comment">#注意事项：</span></span><br><span class="line">--nolog：不打印日志，同样如果抛出异常，也不会打印异常</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="三、工程目录的介绍"><a href="#三、工程目录的介绍" class="headerlink" title="三、工程目录的介绍"></a>三、工程目录的介绍</h2><p><img src="/imgs/id_30/1591847984484.png" alt="1591847984484"></p>
+<br/>
+
+<p><img src="/imgs/id_30/image-20210325153641412.png" alt="image-20210325153641412"></p>
+<br/>
+
+<h3 id="下面记录一下setting-py里面的设置"><a href="#下面记录一下setting-py里面的设置" class="headerlink" title="下面记录一下setting.py里面的设置"></a>下面记录一下setting.py里面的设置</h3><br/>
+
+<p><strong>注意：每次新建项目后都需要到setting.py中去修改以下3项 其他配置看需求自己配置</strong></p>
+<br/>
+
+<p><img src="/imgs/id_30/1616655762741.png" alt="1616655762741"></p>
+<br/>
+
+<p><img src="/imgs/id_30/1616655823673.png" alt="1616655823673"></p>
+<br/>
+
+<p><img src="/imgs/id_30/1616655849251.png" alt="1616655849251"></p>
+<br/>
+
+<h2 id="四、核心组件与数据流向"><a href="#四、核心组件与数据流向" class="headerlink" title="四、核心组件与数据流向"></a>四、核心组件与数据流向</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#五大核心组件</span></span><br><span class="line"><span class="number">1.</span>引擎组件：整个框架的调度者，负责各个组件之间的通信与数据的传递</span><br><span class="line"><span class="number">2.</span>爬虫组件：定义爬取行为和解析规则</span><br><span class="line"><span class="number">3.</span>调度器组件：负责调度所有请求</span><br><span class="line"><span class="number">4.</span>下载器：负责爬取页面</span><br><span class="line"><span class="number">5.</span>管道：负责数据持久化</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_30/20191118181419940.png" alt="20191118181419940"></p>
+<br/>
+
+<p><img src="/imgs/id_30/20191118181449833.png" alt="20191118181449833"></p>
+<br/>
+
+<h2 id="五、确定要爬取的字段"><a href="#五、确定要爬取的字段" class="headerlink" title="五、确定要爬取的字段"></a>五、确定要爬取的字段</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstSpriderItem</span>(<span class="params">scrapy.Item</span>):</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    name = scrapy.Field()	<span class="comment">#定义在数据库中的字段名称</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    date = scrapy.Field()</span><br><span class="line">    category = scrapy.Field()</span><br><span class="line">    brief = scrapy.Field()</span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_30/1616656348562.png" alt="1616656348562"></p>
+<br/>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><img src="/imgs/id_30/1591859377945.png" alt="1591859377945"></p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>spider</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>spider</tag>
       </tags>
   </entry>
   <entry>
@@ -2035,49 +2035,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用虚拟机创建一个Ubuntu18.04</title>
-    <url>/id_34/</url>
-    <content><![CDATA[<h1 id="使用虚拟机创建一个Ubuntu18-04"><a href="#使用虚拟机创建一个Ubuntu18-04" class="headerlink" title="使用虚拟机创建一个Ubuntu18.04"></a>使用虚拟机创建一个Ubuntu18.04</h1><blockquote>
-<p><strong>Ubuntu</strong>是以桌面应用为主的 <a href="https://link.jianshu.com/?t=https://zh.wikipedia.org/wiki/Linux%E7%99%BC%E8%A1%8C%E7%89%88">Linux 发行版</a></p>
-</blockquote>
-<br/>
-
-<blockquote>
-<p>Ubuntu优点：</p>
-<p>1、高效的文件管理系统，一般情况下不需要碎片整理 。</p>
-<p>2、产生的系统垃圾很少，系统不会随着使用时间的增多而越来越卡 。</p>
-<p>3、拷贝文件速度快，Win10达到5M/S，Ubuntu达到20M/S 。</p>
-<p>4、系统安全稳定，漏洞修复快，极少中病毒 。</p>
-<p>5、权限管理很严格，避免用户误操作 。</p>
-<p>6、DIY界面，改善用户体验，自由度高(对UI有追求的同学可尽情折腾) 。</p>
-<p>7、强大的命令行，基本上所有操作可在上面执行(瞬间逼格升几个Lev) 。</p>
-<p>8、无软件捆绑行为，桌面无广告弹窗行为 。</p>
-<p>9、无盗版系统这一说法，开源免费正版。</p>
-</blockquote>
-<br/>
-
-
-
-<p>Ubuntu查看本机ip</p>
-<p><a href="https://blog.csdn.net/qq_34626094/article/details/113113380">https://blog.csdn.net/qq_34626094/article/details/113113380</a></p>
-<p>安装完Ubuntu系统之后想要下载软件 发现下载速度着实感人 于是切换成了国内的阿里云镜像。</p>
-<p><a href="https://www.bilibili.com/read/cv9868132/">https://www.bilibili.com/read/cv9868132/</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/61228593">https://zhuanlan.zhihu.com/p/61228593</a></p>
-<p><a href="https://blog.csdn.net/hunt_er/article/details/82851557">https://blog.csdn.net/hunt_er/article/details/82851557</a></p>
-<p>在Ubuntu安装pycharm</p>
-<p><a href="https://www.jianshu.com/p/141230381097">https://www.jianshu.com/p/141230381097</a></p>
-<p><a href="https://blog.csdn.net/weixin_31484477/article/details/81133590">https://blog.csdn.net/weixin_31484477/article/details/81133590</a></p>
-<p>解决Ubuntu开机窗口默认居中</p>
-<p><a href="https://blog.csdn.net/Fusnemo/article/details/79420656">https://blog.csdn.net/Fusnemo/article/details/79420656</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>反爬虫系列----Scrapy爬虫搞定随机User-Agent</title>
     <url>/id_35/</url>
     <content><![CDATA[<h1 id="反爬虫系列—-Scrapy爬虫搞定随机User-Agent"><a href="#反爬虫系列—-Scrapy爬虫搞定随机User-Agent" class="headerlink" title="反爬虫系列—-Scrapy爬虫搞定随机User-Agent"></a>反爬虫系列—-Scrapy爬虫搞定随机User-Agent</h1><br/>
@@ -2139,6 +2096,49 @@
       </categories>
       <tags>
         <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用虚拟机创建一个Ubuntu18.04</title>
+    <url>/id_34/</url>
+    <content><![CDATA[<h1 id="使用虚拟机创建一个Ubuntu18-04"><a href="#使用虚拟机创建一个Ubuntu18-04" class="headerlink" title="使用虚拟机创建一个Ubuntu18.04"></a>使用虚拟机创建一个Ubuntu18.04</h1><blockquote>
+<p><strong>Ubuntu</strong>是以桌面应用为主的 <a href="https://link.jianshu.com/?t=https://zh.wikipedia.org/wiki/Linux%E7%99%BC%E8%A1%8C%E7%89%88">Linux 发行版</a></p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>Ubuntu优点：</p>
+<p>1、高效的文件管理系统，一般情况下不需要碎片整理 。</p>
+<p>2、产生的系统垃圾很少，系统不会随着使用时间的增多而越来越卡 。</p>
+<p>3、拷贝文件速度快，Win10达到5M/S，Ubuntu达到20M/S 。</p>
+<p>4、系统安全稳定，漏洞修复快，极少中病毒 。</p>
+<p>5、权限管理很严格，避免用户误操作 。</p>
+<p>6、DIY界面，改善用户体验，自由度高(对UI有追求的同学可尽情折腾) 。</p>
+<p>7、强大的命令行，基本上所有操作可在上面执行(瞬间逼格升几个Lev) 。</p>
+<p>8、无软件捆绑行为，桌面无广告弹窗行为 。</p>
+<p>9、无盗版系统这一说法，开源免费正版。</p>
+</blockquote>
+<br/>
+
+
+
+<p>Ubuntu查看本机ip</p>
+<p><a href="https://blog.csdn.net/qq_34626094/article/details/113113380">https://blog.csdn.net/qq_34626094/article/details/113113380</a></p>
+<p>安装完Ubuntu系统之后想要下载软件 发现下载速度着实感人 于是切换成了国内的阿里云镜像。</p>
+<p><a href="https://www.bilibili.com/read/cv9868132/">https://www.bilibili.com/read/cv9868132/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/61228593">https://zhuanlan.zhihu.com/p/61228593</a></p>
+<p><a href="https://blog.csdn.net/hunt_er/article/details/82851557">https://blog.csdn.net/hunt_er/article/details/82851557</a></p>
+<p>在Ubuntu安装pycharm</p>
+<p><a href="https://www.jianshu.com/p/141230381097">https://www.jianshu.com/p/141230381097</a></p>
+<p><a href="https://blog.csdn.net/weixin_31484477/article/details/81133590">https://blog.csdn.net/weixin_31484477/article/details/81133590</a></p>
+<p>解决Ubuntu开机窗口默认居中</p>
+<p><a href="https://blog.csdn.net/Fusnemo/article/details/79420656">https://blog.csdn.net/Fusnemo/article/details/79420656</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2221,134 +2221,6 @@
       </categories>
       <tags>
         <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>反爬虫系列----爬取66免费代理(多线程)</title>
-    <url>/id_38/</url>
-    <content><![CDATA[<h1 id="反爬虫系列—-爬取66免费代理-多线程"><a href="#反爬虫系列—-爬取66免费代理-多线程" class="headerlink" title="反爬虫系列—-爬取66免费代理(多线程)"></a>反爬虫系列—-爬取66免费代理(多线程)</h1><p>搭建IP代理池我在之前的博客 <a href="http://tjw5.cn/id_36/">反爬系列—自定义代理池</a> 中已经介绍过了，这里就不做赘述了，话不多说直接上代码</p>
-<br/>
-
-<h2 id="多线程架构图"><a href="#多线程架构图" class="headerlink" title="多线程架构图"></a>多线程架构图</h2><ol>
-<li>url,发请求, 获取响应</li>
-<li>数据解析</li>
-<li>数据持久化</li>
-</ol>
-<br/>
-
-<p><img src="/imgs/id_38/image-20200608094520215.png" alt="image-20200608094520215"></p>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Lock</span><br><span class="line"><span class="keyword">from</span> fake_useragent <span class="keyword">import</span> UserAgent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬虫类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SpiderThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name, url_queue, res_queue</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.name = name</span><br><span class="line">        self.url_queue = url_queue</span><br><span class="line">        self.headers = &#123;</span><br><span class="line">            <span class="string">&#x27;User_agent&#x27;</span>: UserAgent().random,</span><br><span class="line">            <span class="string">&#x27;referer&#x27;</span>: <span class="string">&#x27;http://www.66ip.cn/index.html&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;www.66ip.cn&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        self.res_queue = res_queue</span><br><span class="line">	<span class="comment"># 爬取数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        base_url = <span class="string">&#x27;http://www.66ip.cn/%s.html&#x27;</span></span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">          <span class="comment"># block 代表阻塞，block为True即为阻塞。block为False为不阻塞</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                page = self.url_queue.get(block=<span class="literal">False</span>)</span><br><span class="line">                print(<span class="string">&#x27;%s正在爬取数据&#x27;</span> % self.name)</span><br><span class="line">                res = requests.get(url=base_url % page, headers=self.headers)</span><br><span class="line">                self.res_queue.put(res.text)</span><br><span class="line">                print(<span class="string">&#x27;%s提交数据完毕&#x27;</span> % self.name)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解析类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ParseThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name, res_queue, lock</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.name = name</span><br><span class="line">        self.res_queue = res_queue</span><br><span class="line">        self.lock = lock</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># 调用解析</span></span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                html = self.res_queue.get(block=<span class="literal">False</span>)</span><br><span class="line">                print(<span class="string">&#x27;%s正在解析数据&#x27;</span> % self.name)</span><br><span class="line">                self.parse(html)</span><br><span class="line">                print(<span class="string">&#x27;%s解析数据完毕&#x27;</span> % self.name)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">self, html</span>):</span></span><br><span class="line">        html = etree.HTML(html)</span><br><span class="line">        content_lists = html.xpath(<span class="string">&#x27;//div[@align=&quot;center&quot;]/table/tr&#x27;</span>)[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">for</span> content_list <span class="keyword">in</span> content_lists:</span><br><span class="line">            ip = content_list.xpath(<span class="string">&#x27;./td[1]/text()&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">            port = content_list.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">            result = <span class="string">&quot;http://&quot;</span> + ip + <span class="string">&quot;:&quot;</span> + port</span><br><span class="line">            <span class="comment"># return result</span></span><br><span class="line">            <span class="keyword">if</span> result:</span><br><span class="line">                <span class="comment"># with self.lock:</span></span><br><span class="line">                self.check_ip(result)</span><br><span class="line">	<span class="comment">#查看ip是否可用</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">check_ip</span>(<span class="params">self, result</span>):</span></span><br><span class="line">        url = <span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line">        proxy = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: result,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: result</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            requests.get(url, timeout=<span class="number">5</span>, proxies=proxy)</span><br><span class="line">            print(<span class="string">&quot;可以使用的代理IP：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(result))</span><br><span class="line"></span><br><span class="line">            fileWriter = <span class="built_in">open</span>(<span class="string">&#x27;UsabelIP.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">            fileWriter.write(result + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            time.sleep(random.randint(<span class="number">4</span>, <span class="number">8</span>))</span><br><span class="line">            fileWriter.flush()</span><br><span class="line">            fileWriter.close()</span><br><span class="line">               </span><br><span class="line">            <span class="comment"># with self.lock:</span></span><br><span class="line">            <span class="comment">#     self.save(&#123;</span></span><br><span class="line">            <span class="comment">#         &#x27;ip&#x27;: result,</span></span><br><span class="line">            <span class="comment">#     &#125;)</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;破烂IP，服务器辣鸡：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(result))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">	<span class="comment"># 存储数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        sql = <span class="string">&#x27;insert into joke values (&quot;%s&quot;,&quot;%s&quot;)&#x27;</span> % (data[<span class="string">&#x27;title&#x27;</span>], data[<span class="string">&#x27;content&#x27;</span>])</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.cursor.execute(sql)</span><br><span class="line">            self.conn.commit()</span><br><span class="line">            print(<span class="string">&#x27;%s存储数据成功&#x27;</span> % self.pname)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br><span class="line">            self.conn.rollback()</span><br><span class="line"></span><br><span class="line"><span class="comment">#主函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="comment"># 盛放url的地方 url队列</span></span><br><span class="line">    url_queue = Queue()</span><br><span class="line">    <span class="comment"># 放置响应数据</span></span><br><span class="line">    res_queue = Queue()</span><br><span class="line">    lock = Lock()</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        url_queue.put(page)</span><br><span class="line">    sname = [<span class="string">&#x27;蜘蛛一号&#x27;</span>, <span class="string">&#x27;蜘蛛二号&#x27;</span>, <span class="string">&#x27;蜘蛛三号&#x27;</span>]</span><br><span class="line">    slst = []</span><br><span class="line">    <span class="keyword">for</span> var <span class="keyword">in</span> sname:</span><br><span class="line">     	<span class="comment"># 开启爬虫线程</span></span><br><span class="line">        st = SpiderThread(var, url_queue, res_queue)</span><br><span class="line">     	<span class="comment"># 开启线程</span></span><br><span class="line">        st.start()</span><br><span class="line">        slst.append(st)</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> slst:</span><br><span class="line">        s.join()</span><br><span class="line">		</span><br><span class="line">    pname = [<span class="string">&#x27;解析1号&#x27;</span>, <span class="string">&#x27;解析2号&#x27;</span>, <span class="string">&#x27;解析3号&#x27;</span>]</span><br><span class="line">    plst = []</span><br><span class="line">    <span class="keyword">for</span> var <span class="keyword">in</span> pname:</span><br><span class="line">        pt = ParseThread(var, res_queue, lock)</span><br><span class="line">        pt.start()</span><br><span class="line">        plst.append(pt)</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> plst:</span><br><span class="line">        p.join()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 程序入口</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【在家办公】代码上传公司远端GitLab仓库</title>
-    <url>/id_40/</url>
-    <content><![CDATA[<h1 id="【在家办公】代码上传公司远端GitLab仓库"><a href="#【在家办公】代码上传公司远端GitLab仓库" class="headerlink" title="【在家办公】代码上传公司远端GitLab仓库"></a>【在家办公】代码上传公司远端GitLab仓库</h1><br/>
-
-<h2 id="查看本地的git-如何添加远程仓库"><a href="#查看本地的git-如何添加远程仓库" class="headerlink" title="查看本地的git 如何添加远程仓库"></a>查看本地的git 如何添加远程仓库</h2><h3 id="1-查看远程仓库地址"><a href="#1-查看远程仓库地址" class="headerlink" title="1.查看远程仓库地址"></a>1.查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-
-<p>此时若什么都没有显示说明，git无远程仓库。</p>
-<br/>
-
-<h3 id="2-添加ssh协议的远程仓库"><a href="#2-添加ssh协议的远程仓库" class="headerlink" title="2.添加ssh协议的远程仓库"></a>2.添加ssh协议的远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:**********.git</span><br></pre></td></tr></table></figure>
-
-<p>再次查看，即可查看到2个远程仓库的链接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">origin	git@gitlab.com:**********.git (fetch)</span><br><span class="line">origin	git@gitlab.com::**********.git (push)</span><br></pre></td></tr></table></figure>
-
-<p>当前，我本机就是用的这种方式连接的github，好处是每次提交代码时，不需要重复来回输入用户名和密码，这就是ssh秘钥的好处。</p>
-<br/>
-
-<p>使用家里的WiFi长传到github上的代码时，报出如下错误：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin 分支名称</span></span><br><span class="line">ssh: connect to host github.com port 22: Connection refused</span><br><span class="line">fatal: Could not read from remote repository.</span><br></pre></td></tr></table></figure>
-
-<p>得知第一种协议被禁掉后，只能换一种连接进行合并本地仓库了。继续往下看另一种协议。</p>
-<br/>
-
-<h3 id="3-切换成-https协议连接github"><a href="#3-切换成-https协议连接github" class="headerlink" title="3.切换成 https协议连接github"></a>3.切换成 https协议连接github</h3><p>建立本地仓库和远端GitLab仓库的关联关系</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>在这一步时如果出现错误：<code>fatal:remote origin already exists</code>先清除一下关联关系：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>再重新关联：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
-
-</br>
-
-<p>检查关联是否已建立且正确</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-
-<br/>
-注意：因为我们是在家办公，我们公司的gitlab域名映射成了ip我们直接把`域名换成IP地址`
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 添加http链接协议</span></span><br><span class="line">git remote add origin http://ip:port/*********************.git</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-
-
-<p>参考链接：<a href="https://blog.csdn.net/s740556472/article/details/80318886">https://blog.csdn.net/s740556472/article/details/80318886</a></p>
-<p>​                <a href="https://www.jianshu.com/p/c74ae40b5127">https://www.jianshu.com/p/c74ae40b5127</a></p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git常见错误---git branch不显示本地分支的问题</title>
-    <url>/id_41/</url>
-    <content><![CDATA[<h1 id="Git常见错误—git-branch不显示本地分支的问题"><a href="#Git常见错误—git-branch不显示本地分支的问题" class="headerlink" title="Git常见错误—git branch不显示本地分支的问题"></a>Git常见错误—git branch不显示本地分支的问题</h1><br/>
-
-<p>使用git init命令创建仓库，执行<code>git add . </code>和<code>git commit</code>,再使用<code>git branch</code>命令</p>
-<p>即可查看到远程分支<code>master</code></p>
-<p>再新建分支及上传就可以了详情可看：<a href="http://tjw5.cn/id_27/">http://tjw5.cn/id_27/</a></p>
-<br/>
-
-<p>参考链接：<a href="https://blog.csdn.net/qq_39671159/article/details/81261049">https://blog.csdn.net/qq_39671159/article/details/81261049</a></p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scrapy项目如何运行和debug断点调试</title>
-    <url>/id_42/</url>
-    <content><![CDATA[<h1 id="Scrapy项目运行和debug断点调试"><a href="#Scrapy项目运行和debug断点调试" class="headerlink" title="Scrapy项目运行和debug断点调试"></a>Scrapy项目运行和debug断点调试</h1><ol>
-<li><p>在项目的文件夹下增加一个文件<code>debug.py</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#debug.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加当前项目的绝对地址</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行 scrapy 内置的函数方法execute，  使用 crawl 爬取并调试，最后一个参数example 是我的爬虫文件名</span></span><br><span class="line">execute([<span class="string">&#x27;scrapy&#x27;</span>, <span class="string">&#x27;crawl&#x27;</span>, <span class="string">&#x27;example&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/></li>
-<li><p>然后直接运行debug.py文件，即可添加断点进行调试</p>
-</li>
-</ol>
-<br/>
-
-<p>参考博客：<a href="https://www.cnblogs.com/grimm/p/13884670.html">https://www.cnblogs.com/grimm/p/13884670.html</a></p>
-]]></content>
-      <categories>
-        <category>scrapy</category>
-      </categories>
-      <tags>
-        <tag>scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -2443,6 +2315,32 @@
       </tags>
   </entry>
   <entry>
+    <title>反爬虫系列----爬取66免费代理(多线程)</title>
+    <url>/id_38/</url>
+    <content><![CDATA[<h1 id="反爬虫系列—-爬取66免费代理-多线程"><a href="#反爬虫系列—-爬取66免费代理-多线程" class="headerlink" title="反爬虫系列—-爬取66免费代理(多线程)"></a>反爬虫系列—-爬取66免费代理(多线程)</h1><p>搭建IP代理池我在之前的博客 <a href="http://tjw5.cn/id_36/">反爬系列—自定义代理池</a> 中已经介绍过了，这里就不做赘述了，话不多说直接上代码</p>
+<br/>
+
+<h2 id="多线程架构图"><a href="#多线程架构图" class="headerlink" title="多线程架构图"></a>多线程架构图</h2><ol>
+<li>url,发请求, 获取响应</li>
+<li>数据解析</li>
+<li>数据持久化</li>
+</ol>
+<br/>
+
+<p><img src="/imgs/id_38/image-20200608094520215.png" alt="image-20200608094520215"></p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Lock</span><br><span class="line"><span class="keyword">from</span> fake_useragent <span class="keyword">import</span> UserAgent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬虫类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SpiderThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name, url_queue, res_queue</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.name = name</span><br><span class="line">        self.url_queue = url_queue</span><br><span class="line">        self.headers = &#123;</span><br><span class="line">            <span class="string">&#x27;User_agent&#x27;</span>: UserAgent().random,</span><br><span class="line">            <span class="string">&#x27;referer&#x27;</span>: <span class="string">&#x27;http://www.66ip.cn/index.html&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;www.66ip.cn&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        self.res_queue = res_queue</span><br><span class="line">	<span class="comment"># 爬取数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        base_url = <span class="string">&#x27;http://www.66ip.cn/%s.html&#x27;</span></span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">          <span class="comment"># block 代表阻塞，block为True即为阻塞。block为False为不阻塞</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                page = self.url_queue.get(block=<span class="literal">False</span>)</span><br><span class="line">                print(<span class="string">&#x27;%s正在爬取数据&#x27;</span> % self.name)</span><br><span class="line">                res = requests.get(url=base_url % page, headers=self.headers)</span><br><span class="line">                self.res_queue.put(res.text)</span><br><span class="line">                print(<span class="string">&#x27;%s提交数据完毕&#x27;</span> % self.name)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解析类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ParseThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name, res_queue, lock</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.name = name</span><br><span class="line">        self.res_queue = res_queue</span><br><span class="line">        self.lock = lock</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># 调用解析</span></span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                html = self.res_queue.get(block=<span class="literal">False</span>)</span><br><span class="line">                print(<span class="string">&#x27;%s正在解析数据&#x27;</span> % self.name)</span><br><span class="line">                self.parse(html)</span><br><span class="line">                print(<span class="string">&#x27;%s解析数据完毕&#x27;</span> % self.name)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">self, html</span>):</span></span><br><span class="line">        html = etree.HTML(html)</span><br><span class="line">        content_lists = html.xpath(<span class="string">&#x27;//div[@align=&quot;center&quot;]/table/tr&#x27;</span>)[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">for</span> content_list <span class="keyword">in</span> content_lists:</span><br><span class="line">            ip = content_list.xpath(<span class="string">&#x27;./td[1]/text()&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">            port = content_list.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">            result = <span class="string">&quot;http://&quot;</span> + ip + <span class="string">&quot;:&quot;</span> + port</span><br><span class="line">            <span class="comment"># return result</span></span><br><span class="line">            <span class="keyword">if</span> result:</span><br><span class="line">                <span class="comment"># with self.lock:</span></span><br><span class="line">                self.check_ip(result)</span><br><span class="line">	<span class="comment">#查看ip是否可用</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">check_ip</span>(<span class="params">self, result</span>):</span></span><br><span class="line">        url = <span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line">        proxy = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: result,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: result</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            requests.get(url, timeout=<span class="number">5</span>, proxies=proxy)</span><br><span class="line">            print(<span class="string">&quot;可以使用的代理IP：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(result))</span><br><span class="line"></span><br><span class="line">            fileWriter = <span class="built_in">open</span>(<span class="string">&#x27;UsabelIP.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">            fileWriter.write(result + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            time.sleep(random.randint(<span class="number">4</span>, <span class="number">8</span>))</span><br><span class="line">            fileWriter.flush()</span><br><span class="line">            fileWriter.close()</span><br><span class="line">               </span><br><span class="line">            <span class="comment"># with self.lock:</span></span><br><span class="line">            <span class="comment">#     self.save(&#123;</span></span><br><span class="line">            <span class="comment">#         &#x27;ip&#x27;: result,</span></span><br><span class="line">            <span class="comment">#     &#125;)</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;破烂IP，服务器辣鸡：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(result))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">	<span class="comment"># 存储数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        sql = <span class="string">&#x27;insert into joke values (&quot;%s&quot;,&quot;%s&quot;)&#x27;</span> % (data[<span class="string">&#x27;title&#x27;</span>], data[<span class="string">&#x27;content&#x27;</span>])</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.cursor.execute(sql)</span><br><span class="line">            self.conn.commit()</span><br><span class="line">            print(<span class="string">&#x27;%s存储数据成功&#x27;</span> % self.pname)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br><span class="line">            self.conn.rollback()</span><br><span class="line"></span><br><span class="line"><span class="comment">#主函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="comment"># 盛放url的地方 url队列</span></span><br><span class="line">    url_queue = Queue()</span><br><span class="line">    <span class="comment"># 放置响应数据</span></span><br><span class="line">    res_queue = Queue()</span><br><span class="line">    lock = Lock()</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        url_queue.put(page)</span><br><span class="line">    sname = [<span class="string">&#x27;蜘蛛一号&#x27;</span>, <span class="string">&#x27;蜘蛛二号&#x27;</span>, <span class="string">&#x27;蜘蛛三号&#x27;</span>]</span><br><span class="line">    slst = []</span><br><span class="line">    <span class="keyword">for</span> var <span class="keyword">in</span> sname:</span><br><span class="line">     	<span class="comment"># 开启爬虫线程</span></span><br><span class="line">        st = SpiderThread(var, url_queue, res_queue)</span><br><span class="line">     	<span class="comment"># 开启线程</span></span><br><span class="line">        st.start()</span><br><span class="line">        slst.append(st)</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> slst:</span><br><span class="line">        s.join()</span><br><span class="line">		</span><br><span class="line">    pname = [<span class="string">&#x27;解析1号&#x27;</span>, <span class="string">&#x27;解析2号&#x27;</span>, <span class="string">&#x27;解析3号&#x27;</span>]</span><br><span class="line">    plst = []</span><br><span class="line">    <span class="keyword">for</span> var <span class="keyword">in</span> pname:</span><br><span class="line">        pt = ParseThread(var, res_queue, lock)</span><br><span class="line">        pt.start()</span><br><span class="line">        plst.append(pt)</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> plst:</span><br><span class="line">        p.join()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 程序入口</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu18.04安装Redis</title>
     <url>/id_39/</url>
     <content><![CDATA[<h1 id="Ubuntu18-04安装Redis"><a href="#Ubuntu18-04安装Redis" class="headerlink" title="Ubuntu18.04安装Redis"></a>Ubuntu18.04安装Redis</h1><h2 id="Redis的特点："><a href="#Redis的特点：" class="headerlink" title="Redis的特点："></a>Redis的特点：</h2><ul>
@@ -2512,42 +2410,83 @@
       </tags>
   </entry>
   <entry>
-    <title>爬虫利器Pyppeteer：比 selenium 更高效</title>
-    <url>/id_43/</url>
-    <content><![CDATA[<h1 id="爬虫利器Pyppeteer：比-selenium-更高效"><a href="#爬虫利器Pyppeteer：比-selenium-更高效" class="headerlink" title="爬虫利器Pyppeteer：比 selenium 更高效"></a>爬虫利器Pyppeteer：比 selenium 更高效</h1><p>API 接口文档：API Reference：<a href="https://miyakogi.github.io/pyppeteer/reference.html">https://miyakogi.github.io/pyppeteer/reference.html</a></p>
-<p>pyppeteer github 地址：<a href="https://github.com/miyakogi/pyppeteer">https://github.com/miyakogi/pyppeteer</a></p>
-<p>pyppeteer 英文文档地址：<a href="https://miyakogi.github.io/pyppeteer/">https://miyakogi.github.io/pyppeteer/</a><br>pyppeteer 官方文档 API Reference ：<a href="https://miyakogi.github.io/pyppeteer/reference.html">https://miyakogi.github.io/pyppeteer/reference.html</a></p>
-<p>puppeteer（ Nodejs 版 selenium ）快速入门：<a href="https://blog.csdn.net/freeking101/article/details/91542887">https://blog.csdn.net/freeking101/article/details/91542887</a></p>
-<p>python爬虫利器 pyppeteer(模拟浏览器) 实战：<a href="https://blog.csdn.net/xiaoming0018/article/details/89841728">https://blog.csdn.net/xiaoming0018/article/details/89841728</a></p>
-<p><strong>重点：pyppeteer使用遇到的 bug 及解决方法</strong>：<a href="http://www.sanfenzui.com/pyppeteer-bug-collection.html">http://www.sanfenzui.com/pyppeteer-bug-collection.html</a></p>
-<p>pyppeteer 进阶技巧 （ Xvfb 配合实现 headless 效果 ）：<a href="https://www.cnblogs.com/dyfblog/p/10887940.html">https://www.cnblogs.com/dyfblog/p/10887940.html</a></p>
-<p>Python 爬虫之pyppeteer 的使用（爬虫、获取cookie、截屏插件、防爬绕过）：<a href="https://mohen.blog.csdn.net/article/details/107312709">https://mohen.blog.csdn.net/article/details/107312709</a></p>
-<p>爬虫神器 Pyppeteer 的使用：<a href="https://blog.csdn.net/weixin_38819889/article/details/108684254">https://blog.csdn.net/weixin_38819889/article/details/108684254</a></p>
+    <title>【在家办公】代码上传公司远端GitLab仓库</title>
+    <url>/id_40/</url>
+    <content><![CDATA[<h1 id="【在家办公】代码上传公司远端GitLab仓库"><a href="#【在家办公】代码上传公司远端GitLab仓库" class="headerlink" title="【在家办公】代码上传公司远端GitLab仓库"></a>【在家办公】代码上传公司远端GitLab仓库</h1><br/>
+
+<h2 id="查看本地的git-如何添加远程仓库"><a href="#查看本地的git-如何添加远程仓库" class="headerlink" title="查看本地的git 如何添加远程仓库"></a>查看本地的git 如何添加远程仓库</h2><h3 id="1-查看远程仓库地址"><a href="#1-查看远程仓库地址" class="headerlink" title="1.查看远程仓库地址"></a>1.查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<p>此时若什么都没有显示说明，git无远程仓库。</p>
+<br/>
+
+<h3 id="2-添加ssh协议的远程仓库"><a href="#2-添加ssh协议的远程仓库" class="headerlink" title="2.添加ssh协议的远程仓库"></a>2.添加ssh协议的远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:**********.git</span><br></pre></td></tr></table></figure>
+
+<p>再次查看，即可查看到2个远程仓库的链接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">origin	git@gitlab.com:**********.git (fetch)</span><br><span class="line">origin	git@gitlab.com::**********.git (push)</span><br></pre></td></tr></table></figure>
+
+<p>当前，我本机就是用的这种方式连接的github，好处是每次提交代码时，不需要重复来回输入用户名和密码，这就是ssh秘钥的好处。</p>
+<br/>
+
+<p>使用家里的WiFi长传到github上的代码时，报出如下错误：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin 分支名称</span></span><br><span class="line">ssh: connect to host github.com port 22: Connection refused</span><br><span class="line">fatal: Could not read from remote repository.</span><br></pre></td></tr></table></figure>
+
+<p>得知第一种协议被禁掉后，只能换一种连接进行合并本地仓库了。继续往下看另一种协议。</p>
+<br/>
+
+<h3 id="3-切换成-https协议连接github"><a href="#3-切换成-https协议连接github" class="headerlink" title="3.切换成 https协议连接github"></a>3.切换成 https协议连接github</h3><p>建立本地仓库和远端GitLab仓库的关联关系</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>在这一步时如果出现错误：<code>fatal:remote origin already exists</code>先清除一下关联关系：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>再重新关联：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
+
+</br>
+
+<p>检查关联是否已建立且正确</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<br/>
+注意：因为我们是在家办公，我们公司的gitlab域名映射成了ip我们直接把`域名换成IP地址`
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 添加http链接协议</span></span><br><span class="line">git remote add origin http://ip:port/*********************.git</span><br></pre></td></tr></table></figure>
+
 <br/>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<br/>
-
-<p>参考博客：<a href="https://blog.csdn.net/freeking101/article/details/93331204">https://blog.csdn.net/freeking101/article/details/93331204</a></p>
-<p><strong>$~~$</strong>      <a href="https://blog.csdn.net/freeking101/article/details/91542887">https://blog.csdn.net/freeking101/article/details/91542887</a></p>
-<p><strong>$~~$</strong>      <a href="https://blog.csdn.net/lly1122334/article/details/107364106">https://blog.csdn.net/lly1122334/article/details/107364106</a> </p>
+<p>参考链接：<a href="https://blog.csdn.net/s740556472/article/details/80318886">https://blog.csdn.net/s740556472/article/details/80318886</a></p>
+<p>​                <a href="https://www.jianshu.com/p/c74ae40b5127">https://www.jianshu.com/p/c74ae40b5127</a></p>
 ]]></content>
       <categories>
-        <category>spider</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>spider</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git常见错误---git branch不显示本地分支的问题</title>
+    <url>/id_41/</url>
+    <content><![CDATA[<h1 id="Git常见错误—git-branch不显示本地分支的问题"><a href="#Git常见错误—git-branch不显示本地分支的问题" class="headerlink" title="Git常见错误—git branch不显示本地分支的问题"></a>Git常见错误—git branch不显示本地分支的问题</h1><br/>
+
+<p>使用git init命令创建仓库，执行<code>git add . </code>和<code>git commit</code>,再使用<code>git branch</code>命令</p>
+<p>即可查看到远程分支<code>master</code></p>
+<p>再新建分支及上传就可以了详情可看：<a href="http://tjw5.cn/id_27/">http://tjw5.cn/id_27/</a></p>
+<br/>
+
+<p>参考链接：<a href="https://blog.csdn.net/qq_39671159/article/details/81261049">https://blog.csdn.net/qq_39671159/article/details/81261049</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -2603,49 +2542,64 @@
       </tags>
   </entry>
   <entry>
-    <title>爬虫必备工具 curl</title>
-    <url>/id_47/</url>
-    <content><![CDATA[<h1 id="爬虫必备工具-curl"><a href="#爬虫必备工具-curl" class="headerlink" title="爬虫必备工具 curl"></a>爬虫必备工具 curl</h1><h2 id="在windows-10-安装"><a href="#在windows-10-安装" class="headerlink" title="在windows 10 安装"></a>在windows 10 安装</h2><p>1.进入<a href="https://curl.haxx.se/download.html">curl官网</a> 下载合适的版本，我这里下载的是Windows 64位的curl.</p>
-<p><img src="/imgs/id_47/1722637-20190622170922926-1096464134.png" alt="img"></p>
+    <title>爬虫利器Pyppeteer：比 selenium 更高效</title>
+    <url>/id_43/</url>
+    <content><![CDATA[<h1 id="爬虫利器Pyppeteer：比-selenium-更高效"><a href="#爬虫利器Pyppeteer：比-selenium-更高效" class="headerlink" title="爬虫利器Pyppeteer：比 selenium 更高效"></a>爬虫利器Pyppeteer：比 selenium 更高效</h1><p>API 接口文档：API Reference：<a href="https://miyakogi.github.io/pyppeteer/reference.html">https://miyakogi.github.io/pyppeteer/reference.html</a></p>
+<p>pyppeteer github 地址：<a href="https://github.com/miyakogi/pyppeteer">https://github.com/miyakogi/pyppeteer</a></p>
+<p>pyppeteer 英文文档地址：<a href="https://miyakogi.github.io/pyppeteer/">https://miyakogi.github.io/pyppeteer/</a><br>pyppeteer 官方文档 API Reference ：<a href="https://miyakogi.github.io/pyppeteer/reference.html">https://miyakogi.github.io/pyppeteer/reference.html</a></p>
+<p>puppeteer（ Nodejs 版 selenium ）快速入门：<a href="https://blog.csdn.net/freeking101/article/details/91542887">https://blog.csdn.net/freeking101/article/details/91542887</a></p>
+<p>python爬虫利器 pyppeteer(模拟浏览器) 实战：<a href="https://blog.csdn.net/xiaoming0018/article/details/89841728">https://blog.csdn.net/xiaoming0018/article/details/89841728</a></p>
+<p><strong>重点：pyppeteer使用遇到的 bug 及解决方法</strong>：<a href="http://www.sanfenzui.com/pyppeteer-bug-collection.html">http://www.sanfenzui.com/pyppeteer-bug-collection.html</a></p>
+<p>pyppeteer 进阶技巧 （ Xvfb 配合实现 headless 效果 ）：<a href="https://www.cnblogs.com/dyfblog/p/10887940.html">https://www.cnblogs.com/dyfblog/p/10887940.html</a></p>
+<p>Python 爬虫之pyppeteer 的使用（爬虫、获取cookie、截屏插件、防爬绕过）：<a href="https://mohen.blog.csdn.net/article/details/107312709">https://mohen.blog.csdn.net/article/details/107312709</a></p>
+<p>爬虫神器 Pyppeteer 的使用：<a href="https://blog.csdn.net/weixin_38819889/article/details/108684254">https://blog.csdn.net/weixin_38819889/article/details/108684254</a></p>
 <br/>
 
-<p>2.解压下载的curl</p>
-<p>3.可以给Windows增加curl命令的环境变量，增加CURL_HOME环境变量，给PATH环境变量加上%CURL_HOME%</p>
-<p>4.打开cmd ，输入 curl –help,显示入下，就代表成功了</p>
+
+
+
+
+
+
+
+
+
+
+
+
 <br/>
 
-<p>阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2019/09/curl-reference.html">http://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
-<p>Windows 10中安装curl详细教程：<a href="https://blog.csdn.net/qq_37289115/article/details/106665123">https://blog.csdn.net/qq_37289115/article/details/106665123</a></p>
-<p>解决Windows 10 中文乱码问题：<a href="https://blog.csdn.net/rfrder/article/details/108938583">https://blog.csdn.net/rfrder/article/details/108938583</a></p>
+<p>参考博客：<a href="https://blog.csdn.net/freeking101/article/details/93331204">https://blog.csdn.net/freeking101/article/details/93331204</a></p>
+<p><strong>$~~$</strong>      <a href="https://blog.csdn.net/freeking101/article/details/91542887">https://blog.csdn.net/freeking101/article/details/91542887</a></p>
+<p><strong>$~~$</strong>      <a href="https://blog.csdn.net/lly1122334/article/details/107364106">https://blog.csdn.net/lly1122334/article/details/107364106</a> </p>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>spider</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>spider</tag>
       </tags>
   </entry>
   <entry>
-    <title>Git 将当前修改提交到指定分支</title>
-    <url>/id_45/</url>
-    <content><![CDATA[<h1 id="Git-将当前修改提交到指定分支"><a href="#Git-将当前修改提交到指定分支" class="headerlink" title="Git 将当前修改提交到指定分支"></a>Git 将当前修改提交到指定分支</h1><p>当前在 master 分支，需要将此次修改的代码提交至 dev 分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建新分支</span></span><br><span class="line">git branch dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将工作区恢复到上次提交的内容，同时备份本地所做的修改</span></span><br><span class="line">git stash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换分支</span></span><br><span class="line">git checkout dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 从 git 栈中获取到最近一次 stash 的内容，之后会删除栈中对应的 stash</span></span><br><span class="line">git stash pop</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加所有（已修改）文件</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加到本地仓库，Win 注释用双引号</span></span><br><span class="line">git commit -am &quot;first commit init project&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取</span></span><br><span class="line">git pull origin 远程名称</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 推送</span></span><br><span class="line">git push origin 远程名称</span><br></pre></td></tr></table></figure>
+    <title>Scrapy项目如何运行和debug断点调试</title>
+    <url>/id_42/</url>
+    <content><![CDATA[<h1 id="Scrapy项目运行和debug断点调试"><a href="#Scrapy项目运行和debug断点调试" class="headerlink" title="Scrapy项目运行和debug断点调试"></a>Scrapy项目运行和debug断点调试</h1><ol>
+<li><p>在项目的文件夹下增加一个文件<code>debug.py</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#debug.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加当前项目的绝对地址</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行 scrapy 内置的函数方法execute，  使用 crawl 爬取并调试，最后一个参数example 是我的爬虫文件名</span></span><br><span class="line">execute([<span class="string">&#x27;scrapy&#x27;</span>, <span class="string">&#x27;crawl&#x27;</span>, <span class="string">&#x27;example&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-
-
-
-
+<br/></li>
+<li><p>然后直接运行debug.py文件，即可添加断点进行调试</p>
+</li>
+</ol>
 <br/>
 
-
-
-<p>克隆指定分支：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b git*************.git</span><br></pre></td></tr></table></figure>]]></content>
+<p>参考博客：<a href="https://www.cnblogs.com/grimm/p/13884670.html">https://www.cnblogs.com/grimm/p/13884670.html</a></p>
+]]></content>
       <categories>
-        <category>git</category>
+        <category>scrapy</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -2689,37 +2643,49 @@
       </tags>
   </entry>
   <entry>
-    <title>python 时间转换</title>
-    <url>/id_51/</url>
-    <content><![CDATA[<h1 id="python-时间转换"><a href="#python-时间转换" class="headerlink" title="python 时间转换"></a>python 时间转换</h1><h2 id="python-xxxx年xx月xx日转换成日期-xxxx-xx-xx"><a href="#python-xxxx年xx月xx日转换成日期-xxxx-xx-xx" class="headerlink" title="python xxxx年xx月xx日转换成日期 xxxx-xx-xx"></a>python xxxx年xx月xx日转换成日期 xxxx-xx-xx</h2><br/>
+    <title>Git 将当前修改提交到指定分支</title>
+    <url>/id_45/</url>
+    <content><![CDATA[<h1 id="Git-将当前修改提交到指定分支"><a href="#Git-将当前修改提交到指定分支" class="headerlink" title="Git 将当前修改提交到指定分支"></a>Git 将当前修改提交到指定分支</h1><p>当前在 master 分支，需要将此次修改的代码提交至 dev 分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建新分支</span></span><br><span class="line">git branch dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将工作区恢复到上次提交的内容，同时备份本地所做的修改</span></span><br><span class="line">git stash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换分支</span></span><br><span class="line">git checkout dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 从 git 栈中获取到最近一次 stash 的内容，之后会删除栈中对应的 stash</span></span><br><span class="line">git stash pop</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加所有（已修改）文件</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加到本地仓库，Win 注释用双引号</span></span><br><span class="line">git commit -am &quot;first commit init project&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取</span></span><br><span class="line">git pull origin 远程名称</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 推送</span></span><br><span class="line">git push origin 远程名称</span><br></pre></td></tr></table></figure>
 
 
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datetrans</span>(<span class="params">text</span>):</span></span><br><span class="line">    dates = time.strptime(text, <span class="string">&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br></pre></td></tr></table></figure>
 
 
 
 <br/>
 
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">publish_Time = <span class="string">&quot;2018年10月10日&quot;</span></span><br><span class="line">array = time.strptime(publish_Time, <span class="string">u&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>：</span><br><span class="line">    publishTime = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, array)</span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"><span class="built_in">print</span> publishTime</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="python-时间转换-年月日时分秒只保留年月日"><a href="#python-时间转换-年月日时分秒只保留年月日" class="headerlink" title="python 时间转换 年月日时分秒只保留年月日"></a>python 时间转换 年月日时分秒只保留年月日</h2><br/>
 
 
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;2021-05-18 15:13:40 只保留年月日&quot;&quot;&quot;</span></span><br><span class="line">date=<span class="string">&quot;2021-05-18 15:13:40&quot;</span></span><br><span class="line">dates = time.strptime(date, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">dates = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br><span class="line">print(dates)</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>博客推荐：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616">https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616</a></p>
-]]></content>
+<p>克隆指定分支：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b git*************.git</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>python</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爬虫必备工具 curl</title>
+    <url>/id_47/</url>
+    <content><![CDATA[<h1 id="爬虫必备工具-curl"><a href="#爬虫必备工具-curl" class="headerlink" title="爬虫必备工具 curl"></a>爬虫必备工具 curl</h1><h2 id="在windows-10-安装"><a href="#在windows-10-安装" class="headerlink" title="在windows 10 安装"></a>在windows 10 安装</h2><p>1.进入<a href="https://curl.haxx.se/download.html">curl官网</a> 下载合适的版本，我这里下载的是Windows 64位的curl.</p>
+<p><img src="/imgs/id_47/1722637-20190622170922926-1096464134.png" alt="img"></p>
+<br/>
+
+<p>2.解压下载的curl</p>
+<p>3.可以给Windows增加curl命令的环境变量，增加CURL_HOME环境变量，给PATH环境变量加上%CURL_HOME%</p>
+<p>4.打开cmd ，输入 curl –help,显示入下，就代表成功了</p>
+<br/>
+
+<p>阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2019/09/curl-reference.html">http://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
+<p>Windows 10中安装curl详细教程：<a href="https://blog.csdn.net/qq_37289115/article/details/106665123">https://blog.csdn.net/qq_37289115/article/details/106665123</a></p>
+<p>解决Windows 10 中文乱码问题：<a href="https://blog.csdn.net/rfrder/article/details/108938583">https://blog.csdn.net/rfrder/article/details/108938583</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -2830,16 +2796,37 @@
       </tags>
   </entry>
   <entry>
-    <title>ubuntu 18.04 设置静态ip方法</title>
-    <url>/id_53/</url>
-    <content><![CDATA[<h1 id="ubuntu-18-04-设置静态ip方法"><a href="#ubuntu-18-04-设置静态ip方法" class="headerlink" title="ubuntu 18.04 设置静态ip方法"></a>ubuntu 18.04 设置静态ip方法</h1><p>参考博客：<a href="https://www.cnblogs.com/yaohong/p/11593989.html">https://www.cnblogs.com/yaohong/p/11593989.html</a></p>
-<h2 id="修改成桥接模式"><a href="#修改成桥接模式" class="headerlink" title="修改成桥接模式"></a>修改成桥接模式</h2><p>参考博客：<a href="https://www.cnblogs.com/hdcoder/p/6079743.html">https://www.cnblogs.com/hdcoder/p/6079743.html</a></p>
+    <title>python 时间转换</title>
+    <url>/id_51/</url>
+    <content><![CDATA[<h1 id="python-时间转换"><a href="#python-时间转换" class="headerlink" title="python 时间转换"></a>python 时间转换</h1><h2 id="python-xxxx年xx月xx日转换成日期-xxxx-xx-xx"><a href="#python-xxxx年xx月xx日转换成日期-xxxx-xx-xx" class="headerlink" title="python xxxx年xx月xx日转换成日期 xxxx-xx-xx"></a>python xxxx年xx月xx日转换成日期 xxxx-xx-xx</h2><br/>
+
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datetrans</span>(<span class="params">text</span>):</span></span><br><span class="line">    dates = time.strptime(text, <span class="string">&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br></pre></td></tr></table></figure>
+
+
+
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">publish_Time = <span class="string">&quot;2018年10月10日&quot;</span></span><br><span class="line">array = time.strptime(publish_Time, <span class="string">u&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>：</span><br><span class="line">    publishTime = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, array)</span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"><span class="built_in">print</span> publishTime</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="python-时间转换-年月日时分秒只保留年月日"><a href="#python-时间转换-年月日时分秒只保留年月日" class="headerlink" title="python 时间转换 年月日时分秒只保留年月日"></a>python 时间转换 年月日时分秒只保留年月日</h2><br/>
+
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;2021-05-18 15:13:40 只保留年月日&quot;&quot;&quot;</span></span><br><span class="line">date=<span class="string">&quot;2021-05-18 15:13:40&quot;</span></span><br><span class="line">dates = time.strptime(date, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">dates = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br><span class="line">print(dates)</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>博客推荐：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616">https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616</a></p>
 ]]></content>
       <categories>
-        <category>mysql</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -2935,6 +2922,19 @@
       </tags>
   </entry>
   <entry>
+    <title>ubuntu 18.04 设置静态ip方法</title>
+    <url>/id_53/</url>
+    <content><![CDATA[<h1 id="ubuntu-18-04-设置静态ip方法"><a href="#ubuntu-18-04-设置静态ip方法" class="headerlink" title="ubuntu 18.04 设置静态ip方法"></a>ubuntu 18.04 设置静态ip方法</h1><p>参考博客：<a href="https://www.cnblogs.com/yaohong/p/11593989.html">https://www.cnblogs.com/yaohong/p/11593989.html</a></p>
+<h2 id="修改成桥接模式"><a href="#修改成桥接模式" class="headerlink" title="修改成桥接模式"></a>修改成桥接模式</h2><p>参考博客：<a href="https://www.cnblogs.com/hdcoder/p/6079743.html">https://www.cnblogs.com/hdcoder/p/6079743.html</a></p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python -- 列表嵌套字典排序</title>
     <url>/id_54/</url>
     <content><![CDATA[<h1 id="Python-–-列表嵌套字典排序"><a href="#Python-–-列表嵌套字典排序" class="headerlink" title="Python – 列表嵌套字典排序"></a>Python – 列表嵌套字典排序</h1><p>使用operator的itemgetter（）方法，</p>
@@ -2950,6 +2950,22 @@
 <p>列表嵌套字典排序 reverse=True 正序</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以count排序 True正序</span></span><br><span class="line">result.sort(key=operator.itemgetter(<span class="string">&#x27;count&#x27;</span>), reverse=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python--django 实现文件下载功能</title>
+    <url>/id_55/</url>
+    <content><![CDATA[<h1 id="Python–django-实现文件下载功能"><a href="#Python–django-实现文件下载功能" class="headerlink" title="Python–django 实现文件下载功能"></a>Python–django 实现文件下载功能</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadTextObject</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        self.params = <span class="literal">None</span></span><br><span class="line">        self.request = request</span><br><span class="line">        self.msg = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        self.query = self.request.query_params</span><br><span class="line">        self.body = self.request.data</span><br><span class="line">        self.page = self.request.GET.get(<span class="string">&#x27;page&#x27;</span>, <span class="number">1</span>)</span><br><span class="line">        self.size = self.request.GET.get(<span class="string">&#x27;size&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        self.txt_name = self.request.GET.get(<span class="string">&#x27;txt_name&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        self.userid = request.user.<span class="built_in">id</span></span><br><span class="line">        self.status = <span class="number">200</span></span><br><span class="line">        self.result = &#123;&#125;</span><br><span class="line">        self.total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">file_down</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        下载压缩文件</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        file_name = self.txt_name  <span class="comment"># 文件名</span></span><br><span class="line"></span><br><span class="line">        file_path = os.path.join(FILEPATH, file_name)  <span class="comment"># 下载文件的绝对路径</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isfile(file_path):  <span class="comment"># 判断下载文件是否存在</span></span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Sorry but Not Found the File&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">file_iterator</span>(<span class="params">file_path, chunk_size=<span class="number">512</span></span>):</span></span><br><span class="line">            <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            文件生成器,防止文件过大，导致内存溢出</span></span><br><span class="line"><span class="string">            :param file_path: 文件绝对路径</span></span><br><span class="line"><span class="string">            :param chunk_size: 块大小</span></span><br><span class="line"><span class="string">            :return: 生成器</span></span><br><span class="line"><span class="string">            &quot;&quot;&quot;</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, mode=<span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                    c = f.read(chunk_size)</span><br><span class="line">                    <span class="keyword">if</span> c:</span><br><span class="line">                        <span class="keyword">yield</span> c</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 设置响应头</span></span><br><span class="line">            <span class="comment"># StreamingHttpResponse将文件内容进行流式传输，数据量大可以用这个方法</span></span><br><span class="line">            response = StreamingHttpResponse(file_iterator(file_path))</span><br><span class="line">            <span class="comment"># 以流的形式下载文件,这样可以实现任意格式的文件下载</span></span><br><span class="line">            response[<span class="string">&#x27;Content-Type&#x27;</span>] = <span class="string">&#x27;application/octet-stream&#x27;</span></span><br><span class="line">            <span class="comment"># Content-Disposition就是当用户想把请求所得的内容存为一个文件的时候提供一个默认的文件名</span></span><br><span class="line">            response[<span class="string">&#x27;Content-Disposition&#x27;</span>] = <span class="string">&#x27;attachment;filename=&quot;&#123;&#125;&quot;&#x27;</span>.<span class="built_in">format</span>(file_name)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Sorry but Not Found the File&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>参考博客：<a href="https://blog.csdn.net/wen61995120/article/details/80311142">https://blog.csdn.net/wen61995120/article/details/80311142</a></p>
 ]]></content>
       <categories>
         <category>python</category>
@@ -3086,22 +3102,6 @@ vim：
 
         如：cat -n test.log |grep &quot;debug&quot;  &gt;debug.txt
 </code></pre>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python--django 实现文件下载功能</title>
-    <url>/id_55/</url>
-    <content><![CDATA[<h1 id="Python–django-实现文件下载功能"><a href="#Python–django-实现文件下载功能" class="headerlink" title="Python–django 实现文件下载功能"></a>Python–django 实现文件下载功能</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadTextObject</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        self.params = <span class="literal">None</span></span><br><span class="line">        self.request = request</span><br><span class="line">        self.msg = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        self.query = self.request.query_params</span><br><span class="line">        self.body = self.request.data</span><br><span class="line">        self.page = self.request.GET.get(<span class="string">&#x27;page&#x27;</span>, <span class="number">1</span>)</span><br><span class="line">        self.size = self.request.GET.get(<span class="string">&#x27;size&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        self.txt_name = self.request.GET.get(<span class="string">&#x27;txt_name&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        self.userid = request.user.<span class="built_in">id</span></span><br><span class="line">        self.status = <span class="number">200</span></span><br><span class="line">        self.result = &#123;&#125;</span><br><span class="line">        self.total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">file_down</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        下载压缩文件</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        file_name = self.txt_name  <span class="comment"># 文件名</span></span><br><span class="line"></span><br><span class="line">        file_path = os.path.join(FILEPATH, file_name)  <span class="comment"># 下载文件的绝对路径</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isfile(file_path):  <span class="comment"># 判断下载文件是否存在</span></span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Sorry but Not Found the File&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">file_iterator</span>(<span class="params">file_path, chunk_size=<span class="number">512</span></span>):</span></span><br><span class="line">            <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            文件生成器,防止文件过大，导致内存溢出</span></span><br><span class="line"><span class="string">            :param file_path: 文件绝对路径</span></span><br><span class="line"><span class="string">            :param chunk_size: 块大小</span></span><br><span class="line"><span class="string">            :return: 生成器</span></span><br><span class="line"><span class="string">            &quot;&quot;&quot;</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, mode=<span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                    c = f.read(chunk_size)</span><br><span class="line">                    <span class="keyword">if</span> c:</span><br><span class="line">                        <span class="keyword">yield</span> c</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 设置响应头</span></span><br><span class="line">            <span class="comment"># StreamingHttpResponse将文件内容进行流式传输，数据量大可以用这个方法</span></span><br><span class="line">            response = StreamingHttpResponse(file_iterator(file_path))</span><br><span class="line">            <span class="comment"># 以流的形式下载文件,这样可以实现任意格式的文件下载</span></span><br><span class="line">            response[<span class="string">&#x27;Content-Type&#x27;</span>] = <span class="string">&#x27;application/octet-stream&#x27;</span></span><br><span class="line">            <span class="comment"># Content-Disposition就是当用户想把请求所得的内容存为一个文件的时候提供一个默认的文件名</span></span><br><span class="line">            response[<span class="string">&#x27;Content-Disposition&#x27;</span>] = <span class="string">&#x27;attachment;filename=&quot;&#123;&#125;&quot;&#x27;</span>.<span class="built_in">format</span>(file_name)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Sorry but Not Found the File&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>参考博客：<a href="https://blog.csdn.net/wen61995120/article/details/80311142">https://blog.csdn.net/wen61995120/article/details/80311142</a></p>
 ]]></content>
       <categories>
         <category>python</category>

@@ -74,46 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
-    <url>/id_04/</url>
-    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
-<p>安装eCharts：npm install echarts @4.9.0</p>
-<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
-<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
-<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
-<p>然后在main.js中全局配置：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
-
-<p>现在上vue的代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>效果图：</p>
-<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基于Docker安装关系型数据库PostgrelSQL替代Mysql</title>
     <url>/id_02/</url>
     <content><![CDATA[<h1 id="基于Docker安装关系型数据库PostgrelSQL替代Mysql"><a href="#基于Docker安装关系型数据库PostgrelSQL替代Mysql" class="headerlink" title="基于Docker安装关系型数据库PostgrelSQL替代Mysql"></a>基于Docker安装关系型数据库PostgrelSQL替代Mysql</h1><h2 id="PostgreSQL相对于MySQL的优势"><a href="#PostgreSQL相对于MySQL的优势" class="headerlink" title="PostgreSQL相对于MySQL的优势"></a>PostgreSQL相对于MySQL的优势</h2><p>1、在SQL的标准实现上要比MySQL完善，而且功能实现比较严谨；<br>2、存储过程的功能支持要比MySQL好，具备本地缓存执行计划的能力；<br>3、对表连接支持较完整，优化器的功能较完整，支持的索引类型很多，复杂查询能力较强；<br>4、PG主表采用堆表存放，MySQL采用索引组织表，能够支持比MySQL更大的数据量。<br>5、PG的主备复制属于物理复制，相对于MySQL基于binlog的逻辑复制，数据的一致性更加可靠，复制性能更高，对主机性能的影响也更小。<br>6、MySQL的存储引擎插件化机制，存在锁机制复杂影响并发的问题，而PG不存在。</p>
@@ -174,6 +134,71 @@
       </categories>
       <tags>
         <tag>PostgrelSQL数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python实现生成 json web token</title>
+    <url>/id_03/</url>
+    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
+<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
+<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
+<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
+<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
+<p> 依赖包: PyJWT==1.7.1</p>
+<p>代码示例：</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python+vue 从mongodb中获取数据使用eCharts渲染</title>
+    <url>/id_04/</url>
+    <content><![CDATA[<h1 id="python-vue-从mongodb中获取数据使用eCharts渲染"><a href="#python-vue-从mongodb中获取数据使用eCharts渲染" class="headerlink" title="python+vue 从mongodb中获取数据使用eCharts渲染"></a>python+vue 从mongodb中获取数据使用eCharts渲染</h1><h2 id="爬虫代码："><a href="#爬虫代码：" class="headerlink" title="爬虫代码："></a>爬虫代码：</h2><h3 id="爬取数据存入MongoDB数据库中"><a href="#爬取数据存入MongoDB数据库中" class="headerlink" title="爬取数据存入MongoDB数据库中"></a>爬取数据存入MongoDB数据库中</h3><span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line">url = <span class="string">&#x27;https://data.gtimg.cn/flashdata/hushen/latest/daily/sz000002.js?maxage=43201&amp;visitDstTime=1&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 FS&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(url=url, headers=headers)</span><br><span class="line">res.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line">res = res.text</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.strip(<span class="string">&#x27;latest_daily_data=&quot;&#x27;</span>)</span><br><span class="line">res = res.strip()</span><br><span class="line">res = res.rstrip(<span class="string">&#x27;&quot;;&#x27;</span>)</span><br><span class="line">res = res.split(<span class="string">&#x27;\\n\\&#x27;</span>)</span><br><span class="line">res = res[<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line">b = <span class="number">11</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    date = <span class="string">&quot;12月%s日&quot;</span> % b</span><br><span class="line">    b += <span class="number">1</span></span><br><span class="line">    table.insert_one(&#123;<span class="string">&quot;date&quot;</span>: date, <span class="string">&quot;volume&quot;</span>: i[<span class="number">32</span>:]&#125;)</span><br><span class="line">    <span class="comment"># print(date, i[32:])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="从mongodb中获取数据第一种方式"><a href="#从mongodb中获取数据第一种方式" class="headerlink" title="从mongodb中获取数据第一种方式"></a>从mongodb中获取数据第一种方式</h3><p> 之前在数据库里存了爬取的数据 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd	<span class="comment"># 需要pip安装</span></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line">mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">27017</span>)</span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">db = mongo_client.stock</span><br><span class="line">table = db.stock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StockView</span>(<span class="params">APIView</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        <span class="comment">#find_one 获取一条数据</span></span><br><span class="line">        data = pd.DataFrame(<span class="built_in">list</span>(table.find()))</span><br><span class="line">        <span class="comment"># 选择需要显示的字段</span></span><br><span class="line">        data = data[[<span class="string">&#x27;date&#x27;</span>, <span class="string">&#x27;volume&#x27;</span>]]</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: data&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="从mongodb中获取数据第二种方式：个人倾向第一种"><a href="#从mongodb中获取数据第二种方式：个人倾向第一种" class="headerlink" title="从mongodb中获取数据第二种方式：个人倾向第一种"></a>从mongodb中获取数据第二种方式：个人倾向第一种</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, request</span>):</span></span><br><span class="line">    date = []</span><br><span class="line">    volume = []</span><br><span class="line">    <span class="comment"># 查询全部</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table.find():</span><br><span class="line">        date.append(i.get(<span class="string">&#x27;date&#x27;</span>))</span><br><span class="line">        volume.append(i.get(<span class="string">&#x27;volume&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    ret = &#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>: date,</span><br><span class="line">        <span class="string">&#x27;volume&#x27;</span>: volume,</span><br><span class="line">        <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(ret)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vue代码："><a href="#vue代码：" class="headerlink" title="vue代码："></a>vue代码：</h2><p>主要是将数据库中的数据通过axios请求获取后端数据通过<strong>eCharts</strong>渲染到前端</p>
+<p>安装eCharts：npm install echarts @4.9.0</p>
+<p>eCharts官方网址：<a href="https://echarts.apache.org/zh/tutorial.html#">https://echarts.apache.org/zh/tutorial.html#</a></p>
+<p>在这里可以选择样式：<a href="https://echarts.apache.org/zh/option.html#series-candlestick">https://echarts.apache.org/zh/option.html#series-candlestick</a></p>
+<p>注意：这里会有一个坑安装**<code>npm install echarts --save</code>**这个会报错建议安装 4.9.0版本的 </p>
+<p>然后在main.js中全局配置：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//全局引入eCharts</span></span><br><span class="line"><span class="keyword">import</span> echarts <span class="keyword">from</span> <span class="string">&#x27;echarts&#x27;</span></span><br><span class="line">Vue.prototype.$echarts = echarts;</span><br></pre></td></tr></table></figure>
+
+<p>现在上vue的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">     &lt;!-- 为ECharts准备一个具备大小（宽高）的Dom --&gt;</span><br><span class="line">     &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">import</span> &#123;getStock&#125; from <span class="string">&#x27;@/http/api&#x27;</span></span><br><span class="line"></span><br><span class="line">  export <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">//注册子组件</span></span><br><span class="line">    components: &#123;</span><br><span class="line">      Breadcrumb,</span><br><span class="line">    &#125;,</span><br><span class="line">    name: <span class="string">&quot;eCharts-manage&quot;</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        date: [],</span><br><span class="line">        volume: [],</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      drawChart() &#123;</span><br><span class="line">        <span class="comment">// 基于准备好的dom，初始化echarts实例</span></span><br><span class="line">        let myChart = <span class="keyword">this</span>.$echarts.init(document.getElementById(<span class="string">&quot;main&quot;</span>));</span><br><span class="line">        <span class="comment">// 指定图表的配置项和数据</span></span><br><span class="line">        let option = &#123;</span><br><span class="line">          title: &#123;</span><br><span class="line">            text: <span class="string">&quot;股票&quot;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          tooltip: &#123;&#125;,</span><br><span class="line">          legend: &#123;&#125;,</span><br><span class="line">          xAxis: &#123;</span><br><span class="line">            type: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">            data: <span class="keyword">this</span>.date</span><br><span class="line">          &#125;,</span><br><span class="line">          yAxis: &#123;&#125;,</span><br><span class="line">          series: [</span><br><span class="line">            &#123;</span><br><span class="line">              name: <span class="string">&quot;销量&quot;</span>,</span><br><span class="line">              type: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">              data: <span class="keyword">this</span>.volume</span><br><span class="line">            &#125;,</span><br><span class="line">          ]</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 使用刚指定的配置项和数据显示图表。</span></span><br><span class="line">        myChart.setOption(option);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//从后端获取股票数据绘制折线图</span></span><br><span class="line">      getStock() &#123;</span><br><span class="line">        getStock().then(res =&gt; &#123;</span><br><span class="line">          <span class="keyword">this</span>.date = res.data.date;</span><br><span class="line">          <span class="keyword">this</span>.volume = res.data.volume;</span><br><span class="line">          <span class="comment">// console.log(this.date, &#x27;111111111111111111111&#x27;);</span></span><br><span class="line">          <span class="comment">// console.log(this.volume, &#x27;2222222222222222222222&#x27;);</span></span><br><span class="line">          <span class="comment">//重新渲染图表</span></span><br><span class="line">          <span class="keyword">this</span>.drawChart();</span><br><span class="line">          console.log(res);</span><br><span class="line">        &#125;).<span class="keyword">catch</span>(errors =&gt; &#123;</span><br><span class="line">          console.log(errors)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      <span class="keyword">this</span>.getStock(); </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>效果图：</p>
+<p><img src="/imgs/python+vue%E4%BB%8Emongodb%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8eCharts%E6%B8%B2/1608639861979.png"></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -334,52 +359,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python实现生成 json web token</title>
-    <url>/id_03/</url>
-    <content><![CDATA[<h1 id="Python-生成-JWT-json-web-token-及-解析方式"><a href="#Python-生成-JWT-json-web-token-及-解析方式" class="headerlink" title="Python 生成 JWT(json web token) 及 解析方式"></a>Python 生成 JWT(json web token) 及 解析方式</h1><hr>
-<p>jwt原理及概念博客：<a href="https://www.freebuf.com/articles/web/180874.html">https://www.freebuf.com/articles/web/180874.html</a></p>
-<p>推荐博客：<a href="https://zhuanlan.zhihu.com/p/86937325">https://zhuanlan.zhihu.com/p/86937325</a></p>
-<p>JWT 的官方文档: <a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
-<h1 id="python实现生成-json-web-token"><a href="#python实现生成-json-web-token" class="headerlink" title="python实现生成 json web token"></a>python实现生成 json web token</h1><p> 环境: python3.7</p>
-<p> 依赖包: PyJWT==1.7.1</p>
-<p>代码示例：</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> financial.settings <span class="keyword">import</span> SECRET_KEY</span><br><span class="line"><span class="comment">#每一个人的SECRET_KEY都是不一样的 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_start</span>(<span class="params">data</span>):</span></span><br><span class="line">    encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>)	<span class="comment">#加密方式HS256</span></span><br><span class="line">    <span class="comment"># 强转</span></span><br><span class="line">    encode_jwt = <span class="built_in">str</span>(encode_jwt, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> encode_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_end</span>(<span class="params">jwt_data</span>):</span></span><br><span class="line">    decode_jwt = jwt.decode(jwt_data, SECRET_KEY, algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;token&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> decode_jwt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入理解MVC</title>
-    <url>/id_07/</url>
-    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
-<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
- <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
-
-<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
-<span id="more"></span>
-<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
-
-<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
-]]></content>
-      <categories>
-        <category>Python 开发者手册</category>
-      </categories>
-      <tags>
-        <tag>开发者手册</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python解释器</title>
     <url>/id_08/</url>
     <content><![CDATA[<h1 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h1><hr>
@@ -404,6 +383,27 @@
       </categories>
       <tags>
         <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解MVC</title>
+    <url>/id_07/</url>
+    <content><![CDATA[<h1 id="深入了解MVC模块"><a href="#深入了解MVC模块" class="headerlink" title="深入了解MVC模块"></a>深入了解MVC模块</h1><p>​阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2007/11/mvc.html">http://www.ruanyifeng.com/blog/2007/11/mvc.html</a></p>
+<p>​深入理解MVC：<a href="https://zhuanlan.zhihu.com/p/35680070">https://zhuanlan.zhihu.com/p/35680070</a></p>
+ <img src="/imgs/深入了解MVC模块/v2-30f72a70d6d84065d2147754bf2ad59f_1440w.jpg" alt="深入理解MVC" style="zoom:80%;" /> 
+
+<p>MVC无人不知，可很多程序员对MVC的概念的理解似乎有误，换言之他们一直在错用MVC，尽管即使如此软件也能被写出来，然而软件内部代码的组织方式却是不科学的，这会影响到软件的可维护性、可移植性，代码的可重用性。</p>
+<span id="more"></span>
+<p><font color="#FF0000">MVC</font> 的全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范。它是用一种业务逻辑、数据与界面显示分离的方法来组织代码，将众多的业务逻辑聚集到一个部件里面，在需要改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑，达到减少编码的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>）最上面的一层，是直接面向最终用户的<span class="string">&quot;视图层&quot;</span>（View）。它是提供给用户的操作界面，是程序的外壳。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>）最底下的一层，是核心的<span class="string">&quot;数据层&quot;</span>（Model），也就是程序需要操作的数据或信息。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>）中间的一层，就是<span class="string">&quot;控制层&quot;</span>（Controller），它负责根据用户从<span class="string">&quot;视图层&quot;</span>输入的指令，选取<span class="string">&quot;数据层&quot;</span>中的数据，然后对其进行相应的操作，产生最终结果。</span><br></pre></td></tr></table></figure>
+
+<p>这三层是紧密联系在一起的，但又是互相独立的，每一层内部的变化不影响其他层。每一层都对外提供接口（Interface），供上面一层调用。这样一来，软件就可以实现模块化，修改外观或者变更数据都不用修改其他层，大大方便了维护和升级。</p>
+]]></content>
+      <categories>
+        <category>Python 开发者手册</category>
+      </categories>
+      <tags>
+        <tag>开发者手册</tag>
       </tags>
   </entry>
   <entry>
@@ -559,6 +559,152 @@
       </tags>
   </entry>
   <entry>
+    <title>python +django 实现码云（gitee）三方登陆</title>
+    <url>/id_10/</url>
+    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
+<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
+<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
+<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
+<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
+<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
+<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
+<span id="more"></span>
+
+
+
+<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
+<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
+<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
+<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
+<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
+<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+
+<p>最后我们会得到一个用户信息。</p>
+<p><strong>总结</strong>：</p>
+<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python的垃圾回收机制</title>
+    <url>/id_11/</url>
+    <content><![CDATA[<h1 id="Python的垃圾回收机制"><a href="#Python的垃圾回收机制" class="headerlink" title="Python的垃圾回收机制"></a>Python的垃圾回收机制</h1><br/>
+
+
+
+<p><strong>对象</strong>：因为Python中一切皆对象，所以变量的本质其实就是对象的一个指针；比如：<code>a = 1 </code>其实先分配内存（<strong>创建对象</strong>）存储数据“1”；然后a变量中指向对象（变量a存储着对象的内存地址）<br><strong>不可变对象</strong>：变量相对于对象的指向不会发生改变<br>1.具有相同值的不可变对象，变量指向的是同一个对象<br>2.只要不可变对象的值发生改变，变量就会指向重新创建的对象<br><strong>可变对象</strong>：变量相对于对象的指向会发生改变<br>1.具有相同值的可变对象，变量指向的是不同的对象<br>2.允许可变对象存储数据的值发生改变而不影响变量的指向</p>
+<p>因为Python运行过程中会使用各种变量，所以如果对象的占用内存管理不当，程序会由于内存溢出而异常终止</p>
+<br/>
+
+<h2 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1.引用计数法"></a>1.引用计数法</h2><p>Python中采用<code>引用计数</code>为主，<code>标记-清除</code>和<code>分代回收</code>为辅的策略</p>
+<p>引用计数法：每当对象被引用一次<code>引用计数</code>就会加一；而当引用被销毁后就会进行减一，当<code>引用计数</code>为零时进行内存回收</p>
+<p><strong>优点</strong></p>
+<blockquote>
+<p>1.高效且易于实现<br>2.实时性：一旦没有引用，内存直接释放<br>3.对象拥有确定的周期</p>
+</blockquote>
+<p><strong>缺点</strong></p>
+<blockquote>
+<p>1.资源消耗：维护引用计数的次数和引用赋值成正比<br>2.无法解决循环引用问题</p>
+</blockquote>
+<br/>
+
+<h3 id="引用计数案例"><a href="#引用计数案例" class="headerlink" title="引用计数案例"></a>引用计数案例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;初始化对象&#x27;&#x27;&#x27;</span></span><br><span class="line">        print(<span class="string">&#x27;object born id:%s&#x27;</span> %<span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">id</span>(self))))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>():</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;循环引用变量与删除变量&#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        c1=A()</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">c</span>):</span></span><br><span class="line">    print(<span class="string">&#x27;obejct refcount is: &#x27;</span>,sys.getrefcount(c)) <span class="comment">#getrefcount()方法用于返回对象的引用计数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="comment">#生成对象</span></span><br><span class="line">    a=A()</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#增加引用</span></span><br><span class="line">    b=a</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#销毁引用对象b</span></span><br><span class="line">    <span class="keyword">del</span> b</span><br><span class="line">    func(a)</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong><code>注意：查看对象的引用计数使用python内置模块中的sys的getrefcount()方法</code></strong></p>
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> born <span class="built_in">id</span>:<span class="number">0xfbfed0</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">5</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h4 id="导致引用计数-1-的情况"><a href="#导致引用计数-1-的情况" class="headerlink" title="导致引用计数 +1 的情况"></a>导致引用计数 +1 的情况</h4><ul>
+<li><p>对象被创建，例如 a=23</p>
+</li>
+<li><p>对象被引用，例如 b=a</p>
+</li>
+<li><p>对象被作为参数，传入到一个函数中，例如<code>func(a)</code></p>
+</li>
+<li><p>对象作为一个元素，存储在容器中，例如<code>list1=[a,a]</code></p>
+<br/></li>
+</ul>
+<h4 id="导致引用计数-1-的情况-1"><a href="#导致引用计数-1-的情况-1" class="headerlink" title="导致引用计数-1 的情况"></a>导致引用计数-1 的情况</h4><ul>
+<li><p>对象的别名被显式销毁，例如<code>del a</code></p>
+</li>
+<li><p>对象的别名被赋予新的对象，例如<code>a=24</code></p>
+</li>
+<li><p>一个对象离开它的作用域，例如 f 函数执行完毕时，<code>func</code>函数中的局部变量（全局变量不会）</p>
+</li>
+<li><p>对象所在的容器被销毁，或从容器中删除对象</p>
+<br/></li>
+</ul>
+<h2 id="2-标记-清除"><a href="#2-标记-清除" class="headerlink" title="2.标记-清除"></a>2.标记-清除</h2><p><strong>标记-清除</strong></p>
+<blockquote>
+<p>1）它分为两个阶段：第一阶段是标记阶段，GC会把所有的活动对象打上标记，第二阶段是把那些没有标记的对象非活动对象进行回收。</p>
+<p>2）对象之间通过引用（指针）连在一起，构成一个有向图</p>
+<p>3）从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象，根对象就是全局变量、调用栈、寄存器。</p>
+<p>注：像是PyIntObject、PyStringObject这些不可变对象是不可能产生循环引用的，因为它们内部不可能持有其它对象的引用。</p>
+</blockquote>
+<br/>
+
+<p><img src="/imgs/Python%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/1611640216458.png"></p>
+<br/>
+
+<ol>
+<li>在上图中，可以从程序变量直接访问块1，并且可以间接访问块2和3,程序无法访问块4和5</li>
+<li>第一步将标记块1，并记住块2和3以供稍后处理。</li>
+<li>第二步将标记块2，第三步将标记块3，但不记得块2，因为它已被标记。</li>
+<li>扫描阶段将忽略块1，2和3，因为它们已被标记，但会回收块4和5。</li>
+</ol>
+<br/>
+
+<h2 id="3-分代回收"><a href="#3-分代回收" class="headerlink" title="3.分代回收"></a>3.分代回收</h2><p>1、Python将内存分为了3“代”，分别为年轻代、中年代、老年代<br>2、最初创建对象都放在年轻代<br>3、当触发一次标记清除时，如果没有被清除，从年轻代到中年代<br>4、再一次触发标记清除，在中年代的数据依然没有被清除，就会放到老年代<br>5、意义：越多次数无法清除的，以后被清除的概率就更低</p>
+<p>参考博客：<a href="https://testerhome.com/topics/16556">https://testerhome.com/topics/16556</a><br>         <a href="https://segmentfault.com/a/1190000021986557">https://segmentfault.com/a/1190000021986557</a></p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+        <category>内存管理</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
+    <url>/id_15/</url>
+    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用redis数据库+python实现获取在线用户人数</title>
     <url>/id_12/</url>
     <content><![CDATA[<h1 id="使用redis数据库-python实现获取在线用户人数"><a href="#使用redis数据库-python实现获取在线用户人数" class="headerlink" title="使用redis数据库+python实现获取在线用户人数"></a>使用redis数据库+python实现获取在线用户人数</h1><hr>
@@ -628,52 +774,6 @@
       </categories>
       <tags>
         <tag>Hexo博客搭建</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python深浅拷贝的区别</title>
-    <url>/id_14/</url>
-    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<ul>
-<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
-<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
-</ul>
-</blockquote>
-<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
-<br/>
-
-<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
-<p>代码展示：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<br/>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-        <category>语法基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用Python随机生成一个六位验证码（验证码由数字和字母组成（大小写字母））</title>
-    <url>/id_15/</url>
-    <content><![CDATA[<h1 id="用Python随机生成一个六位验证码（验证码由数字和字母组成"><a href="#用Python随机生成一个六位验证码（验证码由数字和字母组成" class="headerlink" title="用Python随机生成一个六位验证码（验证码由数字和字母组成"></a>用Python随机生成一个六位验证码（验证码由数字和字母组成</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random    </span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line">这里要用到random函数中的随机生成一个区间的整数 randint 函数模块 </span><br><span class="line">第一次知道循环可以这样用  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>():</span><br><span class="line">hhh</span><br><span class="line">、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_code</span>(<span class="params">code_len = <span class="number">6</span></span>):</span></span><br><span class="line">    all_char = <span class="string">&#x27;0123456789qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJIKOLP&#x27;</span></span><br><span class="line">    index = <span class="built_in">len</span>(all_char) + <span class="number">1</span></span><br><span class="line">    code = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(code_len):</span><br><span class="line">        num = random.randint(<span class="number">0</span>,index)</span><br><span class="line">        code += all_char[num]</span><br><span class="line">    <span class="keyword">return</span> code </span><br><span class="line">print(generate_code())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-
-
-]]></content>
-      <categories>
-        <category>Python基础</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -761,47 +861,31 @@
       </tags>
   </entry>
   <entry>
-    <title>python +django 实现码云（gitee）三方登陆</title>
-    <url>/id_10/</url>
-    <content><![CDATA[<h1 id="python-django-实现码云（gitee）三方登陆"><a href="#python-django-实现码云（gitee）三方登陆" class="headerlink" title="python +django 实现码云（gitee）三方登陆"></a>python +django 实现码云（gitee）三方登陆</h1><hr>
-<p>参考博客：<a href="https://v3u.cn/a_id_154">https://v3u.cn/a_id_154</a></p>
-<p>​          <a href="https://www.cnblogs.com/anle123/p/13446182.html">https://www.cnblogs.com/anle123/p/13446182.html</a></p>
-<p>gitee开发文档：<a href="https://gitee.com/api/v5/oauth_doc#/list-item-1">https://gitee.com/api/v5/oauth_doc#/list-item-1</a></p>
-<p>官网地址：<a href="https://gitee.com/">https://gitee.com/</a></p>
-<h3 id="OAuth2-认证基本流程"><a href="#OAuth2-认证基本流程" class="headerlink" title="OAuth2 认证基本流程"></a>OAuth2 认证基本流程</h3><p> ![](/imgs/python +django 实现码云（gitee）三方登陆/openapi-oauth2-flow.png) </p>
-<h3 id="首先注册码云的账号，并且新建三方应用"><a href="#首先注册码云的账号，并且新建三方应用" class="headerlink" title="首先注册码云的账号，并且新建三方应用"></a>首先注册码云的账号，并且新建三方应用</h3><h6 id="a-点击自己的头像进入设置页面"><a href="#a-点击自己的头像进入设置页面" class="headerlink" title="a.  点击自己的头像进入设置页面"></a>a.  点击自己的头像进入设置页面</h6><h6 id="b-点击新建三方应用"><a href="#b-点击新建三方应用" class="headerlink" title="b.点击新建三方应用"></a>b.点击新建三方应用</h6><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-1.png) </p>
-<span id="more"></span>
+    <title>Python深浅拷贝的区别</title>
+    <url>/id_14/</url>
+    <content><![CDATA[<h1 id="Python深浅拷贝的区别"><a href="#Python深浅拷贝的区别" class="headerlink" title="Python深浅拷贝的区别"></a>Python深浅拷贝的区别</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<ul>
+<li>浅copy： 不管多么复杂的数据结构，浅拷贝都只会copy一层</li>
+<li>deepcopy : 深拷贝会完全复制原变量相关的所有数据，在内存中生成一套完全一样的内容，我们对这两个变量中任意一个修改都不会影响其他变量</li>
+</ul>
+</blockquote>
+<p><strong><code>注意：深浅拷贝都是拷贝的数据的内存地址</code></strong></p>
+<br/>
+
+<p><img src="/imgs/Python%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB/1611635290239.png" alt="1611635290239"></p>
+<p>代码展示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1的id：&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list1[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"></span><br><span class="line">print(list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2的id：&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list2[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"></span><br><span class="line">print(list3)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3的id：&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3第4个元素的id：&#x27;</span>, <span class="built_in">id</span>(list3[<span class="number">4</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变list1中的元素</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">2</span>] = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">list1[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list1:&#x27;</span>, list1)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list2:&#x27;</span>, list2)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;list3:&#x27;</span>, list3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"><a href="#3-填写应用相关信息，勾选应用所需要的权限。其中-回调地址是用户授权后，码云回调到应用，并且回传授权码的地址" class="headerlink" title="3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址"></a>3.填写应用相关信息，勾选应用所需要的权限。其中: 回调地址是用户授权后，码云回调到应用，并且回传授权码的地址</h3><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-2.png) </p>
-<p><strong>应用主页</strong>：要求不严格，测试用的话可以直接填<code>http://127.0.0.1:8000/</code></p>
-<p><strong>应用回调地址</strong> ：这里要填写自己定义的视图路由，我自己的为<code>http://127.0.0.1:8000/gitee_back</code></p>
-<h4 id="4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到"><a href="#4-创建成功后，会生成-Cliend-ID-和-Client-Secret。他们将会在上述OAuth2-认证基本流程用到" class="headerlink" title="4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到"></a>4.创建成功后，会生成 Cliend ID 和 Client Secret。他们将会在上述OAuth2 认证基本流程用到</h4><p> ![](/myhexo/imgs/python +django 实现码云（gitee）三方登陆/create-app-3.png) </p>
-<h3 id="vue端代码"><a href="#vue端代码" class="headerlink" title="vue端代码"></a>vue端代码</h3><p>我们这里直接使用window.location.href = url;进行调转。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">这里只写一个点击方法</span><br><span class="line"></span><br><span class="line"><span class="comment">//gitee登陆</span></span><br><span class="line">gitee:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建应用后生成的Cliend ID</span></span><br><span class="line">    <span class="keyword">var</span> clientId = <span class="string">&#x27;*********************************&#x27;</span></span><br><span class="line">    <span class="comment">//应用回调地址</span></span><br><span class="line">    <span class="keyword">var</span> redirect_uri = <span class="string">&#x27;http://127.0.0.1:8000/gitee_back&#x27;</span></span><br><span class="line">    <span class="comment">//拼接要请求的地址</span></span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;https://gitee.com/oauth/authorize?client_id=&#x27;</span>+clientId+<span class="string">&#x27;&amp;redirect_uri=&#x27;</span>+redirect_uri+<span class="string">&#x27;&amp;response_type=code&#x27;</span></span><br><span class="line">    <span class="comment">// 进行跳转</span></span><br><span class="line">    <span class="built_in">window</span>.location.href = url;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<br/>
 
-
-
-<p>随后的流程可以参照官方文档：<a href="https://gitee.com/api/v5/oauth_doc#/">https://gitee.com/api/v5/oauth_doc#/</a> </p>
-<h3 id="django代码"><a href="#django代码" class="headerlink" title="django代码"></a>django代码</h3><h5 id="第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）"><a href="#第一步，通过-浏览器-或-Webview-将用户引导到码云三方认证页面上（-GET请求-）" class="headerlink" title="第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）"></a>第一步，通过 浏览器 或 Webview 将用户引导到码云三方认证页面上（ GET请求 ）</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gitee</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&quot;https://gitee.com/oauth/authorize?client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;response_type=code&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h4 id="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token"><a href="#第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access-token" class="headerlink" title="第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token"></a>第二步，如果用户授权登录成功，gitee则会通过回调网址将code传递给第三方应用，此时三方应用可以通过code换取access_token</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GiteeBack</span>(<span class="params">View</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self,request</span>):</span></span><br><span class="line"></span><br><span class="line">        code = request.GET.get(<span class="string">&quot;code&quot;</span>,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        r = requests.post(<span class="string">&quot;https://gitee.com/oauth/token?grant_type=authorization_code&amp;code=%s&amp;client_id=你的应用id&amp;redirect_uri=http://localhost:8000/gitee_back&amp;client_secret=你的应用秘钥&quot;</span> % code)</span><br><span class="line">        print(r.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpResponse(<span class="string">&quot;ok&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h4 id="这里我们以基础用户信息接口为例子"><a href="#这里我们以基础用户信息接口为例子" class="headerlink" title="这里我们以基础用户信息接口为例子"></a>这里我们以基础用户信息接口为例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">&quot;https://gitee.com/api/v5/user?access_token=获取到的accesstoken&quot;</span>)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
-
-<p>最后我们会得到一个用户信息。</p>
-<p><strong>总结</strong>：</p>
-<p>​    用户通过前端点击gitee登陆图标，跳转到gitee授权页面点击授权我们会获取到用户token,通过token去请求换取用户身份信息</p>
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1的<span class="built_in">id</span>： <span class="number">51714408</span></span><br><span class="line">list1第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list2的<span class="built_in">id</span>： <span class="number">51714728</span></span><br><span class="line">list2第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51518840</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">list3的<span class="built_in">id</span>： <span class="number">51715008</span></span><br><span class="line">list3第<span class="number">4</span>个元素的<span class="built_in">id</span>： <span class="number">51715368</span></span><br><span class="line">--------------------------------------------------</span><br><span class="line">list1: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list2: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">8</span>]]</span><br><span class="line">list3: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>项目开发</category>
+        <category>Python基础</category>
+        <category>语法基础</category>
       </categories>
       <tags>
         <tag>Python基础</tag>
@@ -841,6 +925,45 @@
       </categories>
       <tags>
         <tag>Redis数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>钉钉机器人消息通知</title>
+    <url>/id_20/</url>
+    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
+<ol>
+<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+</ol>
+<ol start="2">
+<li>创建一个钉钉机器人。 </li>
+</ol>
+<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
+<p>   <img src="/imgs/1608125490600.png"></p>
+<span id="more"></span>
+
+
+<ol start="3">
+<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
+</ol>
+<ol start="4">
+<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
+<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
+<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
+<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
+<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
+]]></content>
+      <categories>
+        <category>项目开发</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
       </tags>
   </entry>
   <entry>
@@ -1136,6 +1259,84 @@
       </tags>
   </entry>
   <entry>
+    <title>解决GitHub打不开的问题</title>
+    <url>/id_24/</url>
+    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
+<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
+<br/>
+
+<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
+<p>查看GitHub的ip地址。</p>
+<p><img src="/imgs/id_24/1616318075440.png"></p>
+<br/>
+
+<blockquote>
+<p>140.82.114.4  github.com </p>
+</blockquote>
+<br/>
+
+<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
+<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
+<br/>
+
+<blockquote>
+<p> 199.232.69.194 github.global.ssl.fastly.net </p>
+</blockquote>
+<br/>
+
+<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
+<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
+<br/>
+
+<blockquote>
+<p>185.199.108.153 assets-cdn.github.com</p>
+<p>185.199.110.153 assets-cdn.github.com</p>
+<p>185.199.111.153 assets-cdn.github.com</p>
+</blockquote>
+<br/>
+
+<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
+
+<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
+<br/>
+
+<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单因子登录、双因子登录、三因子登录</title>
+    <url>/id_22/</url>
+    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
+<ul>
+<li>可用于认证的因子可有三种:<ul>
+<li>what you know</li>
+<li>what you have</li>
+<li>what you are</li>
+</ul>
+</li>
+</ul>
+<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
+<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
+<span id="more"></span>
+
+
+<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
+<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python内存管理机制</title>
     <url>/id_21/</url>
     <content><![CDATA[<h1 id="Python内存管理机制"><a href="#Python内存管理机制" class="headerlink" title="Python内存管理机制"></a>Python内存管理机制</h1><hr>
@@ -1216,153 +1417,55 @@
       </tags>
   </entry>
   <entry>
-    <title>钉钉机器人消息通知</title>
-    <url>/id_20/</url>
-    <content><![CDATA[<h1 id="钉钉机器人消息通知"><a href="#钉钉机器人消息通知" class="headerlink" title="钉钉机器人消息通知"></a>钉钉机器人消息通知</h1><hr>
-<ol>
-<li>先创建一个钉钉群，将所有人添加到群里。 </li>
+    <title>Typora里面如何快捷改变字体颜色？</title>
+    <url>/id_23/</url>
+    <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
+<li>font 标签</li>
 </ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&#x27;red&#x27;</span>&gt;</span>红色<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <ol start="2">
-<li>创建一个钉钉机器人。 </li>
+<li>span 标签</li>
 </ol>
-<p>​    钉钉自定义机器人早就不支持在手机端创建了，所以打开你的pc端或者mac端的钉钉客户端，在需要机器人的聊天群界面，点击智能群助手 </p>
-<p>   <img src="/imgs/1608125490600.png"></p>
-<span id="more"></span>
-
-
-<ol start="3">
-<li>随后点击添加机器人按钮，将机器人添加到群中 </li>
-</ol>
-<ol start="4">
-<li>将得到的机器人Webhook的url 交给研发配置到代码中 </li>
-<li>向webhook地址发送POST请求和消息内容，即可发送向群里发送消息。 </li>
-</ol>
-<p>代码示例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> requests, json  <span class="comment"># 导入依赖库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义验证码类</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verification</span>(<span class="params">code</span>):</span></span><br><span class="line">    timestamp = <span class="built_in">str</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line">    <span class="comment"># 钉钉群机器人的secret 秘钥</span></span><br><span class="line">    secret = <span class="string">&#x27;SECfa53aff12afc94056178ca1533ea29e22c3e8692b8e21684e552038f005fbe2a&#x27;</span></span><br><span class="line">    secret_enc = secret.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    string_to_sign = <span class="string">&#x27;&#123;&#125;\n&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(timestamp, secret)</span><br><span class="line">    string_to_sign_enc = string_to_sign.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()</span><br><span class="line">    sign = urllib.parse.quote(base64.b64encode(hmac_code))</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;  <span class="comment"># 定义数据类型</span></span><br><span class="line">    webhook = <span class="string">&#x27;https://oapi.dingtalk.com/robot/send?access_token=941de22b2af2718d0974f1b89abf14c872bb1b954eeb136bae673265afbffb27&amp;timestamp=&#x27;</span> + timestamp + <span class="string">&quot;&amp;sign=&quot;</span> + sign</span><br><span class="line">    <span class="comment"># 定义要发送的数据</span></span><br><span class="line">    <span class="comment"># &quot;at&quot;: &#123;&quot;atMobiles&quot;: &quot;[&#x27;&quot;+ mobile + &quot;&#x27;]&quot;</span></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="comment"># &quot;text&quot;: &#123;&quot;content&quot;: &#x27;都谁没加到群里来？小心升不了班&#x27;&#125;,</span></span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: code&#125;,</span><br><span class="line">        <span class="string">&quot;isAtAll&quot;</span>: <span class="literal">True</span>&#125;</span><br><span class="line">    res = requests.post(webhook, data=json.dumps(data), headers=headers)  <span class="comment"># 发送post请求</span></span><br><span class="line">    print(res.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">&#x27;color:文字颜色;background:背景颜色;font-size:文字大小;font-family:字体;&#x27;</span>&gt;</span>文字<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p>钉钉返回{&quot;errcode&quot;:300001,&quot;errmsg&quot;:&quot;token is not exist&quot;} 是因为机器人的Webhook送的有误，将群中机器人的Webhook配置到代码中就OK啦；</p>
-<p>钉钉返回{&quot;errcode&quot;:310000,&quot;errmsg&quot;:&quot;keywords not in content&quot;} 是因为发送内容缺少关键字，将建群时的关键字添加到发送内容就OK啦；</p>
-<p>详见可参考博客：<a href="https://v3u.cn/a_id_132">https://v3u.cn/a_id_132</a></p>
-<p>钉钉研发文档：<a href="https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz">https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz</a></p>
-]]></content>
-      <categories>
-        <category>项目开发</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python的垃圾回收机制</title>
-    <url>/id_11/</url>
-    <content><![CDATA[<h1 id="Python的垃圾回收机制"><a href="#Python的垃圾回收机制" class="headerlink" title="Python的垃圾回收机制"></a>Python的垃圾回收机制</h1><br/>
-
-
-
-<p><strong>对象</strong>：因为Python中一切皆对象，所以变量的本质其实就是对象的一个指针；比如：<code>a = 1 </code>其实先分配内存（<strong>创建对象</strong>）存储数据“1”；然后a变量中指向对象（变量a存储着对象的内存地址）<br><strong>不可变对象</strong>：变量相对于对象的指向不会发生改变<br>1.具有相同值的不可变对象，变量指向的是同一个对象<br>2.只要不可变对象的值发生改变，变量就会指向重新创建的对象<br><strong>可变对象</strong>：变量相对于对象的指向会发生改变<br>1.具有相同值的可变对象，变量指向的是不同的对象<br>2.允许可变对象存储数据的值发生改变而不影响变量的指向</p>
-<p>因为Python运行过程中会使用各种变量，所以如果对象的占用内存管理不当，程序会由于内存溢出而异常终止</p>
-<br/>
-
-<h2 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1.引用计数法"></a>1.引用计数法</h2><p>Python中采用<code>引用计数</code>为主，<code>标记-清除</code>和<code>分代回收</code>为辅的策略</p>
-<p>引用计数法：每当对象被引用一次<code>引用计数</code>就会加一；而当引用被销毁后就会进行减一，当<code>引用计数</code>为零时进行内存回收</p>
-<p><strong>优点</strong></p>
-<blockquote>
-<p>1.高效且易于实现<br>2.实时性：一旦没有引用，内存直接释放<br>3.对象拥有确定的周期</p>
-</blockquote>
-<p><strong>缺点</strong></p>
-<blockquote>
-<p>1.资源消耗：维护引用计数的次数和引用赋值成正比<br>2.无法解决循环引用问题</p>
-</blockquote>
-<br/>
-
-<h3 id="引用计数案例"><a href="#引用计数案例" class="headerlink" title="引用计数案例"></a>引用计数案例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;初始化对象&#x27;&#x27;&#x27;</span></span><br><span class="line">        print(<span class="string">&#x27;object born id:%s&#x27;</span> %<span class="built_in">str</span>(<span class="built_in">hex</span>(<span class="built_in">id</span>(self))))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>():</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;循环引用变量与删除变量&#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        c1=A()</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">c</span>):</span></span><br><span class="line">    print(<span class="string">&#x27;obejct refcount is: &#x27;</span>,sys.getrefcount(c)) <span class="comment">#getrefcount()方法用于返回对象的引用计数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="comment">#生成对象</span></span><br><span class="line">    a=A()</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#增加引用</span></span><br><span class="line">    b=a</span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#销毁引用对象b</span></span><br><span class="line">    <span class="keyword">del</span> b</span><br><span class="line">    func(a)</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><strong><code>注意：查看对象的引用计数使用python内置模块中的sys的getrefcount()方法</code></strong></p>
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> born <span class="built_in">id</span>:<span class="number">0xfbfed0</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">5</span></span><br><span class="line">obejct refcount <span class="keyword">is</span>:  <span class="number">4</span></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h4 id="导致引用计数-1-的情况"><a href="#导致引用计数-1-的情况" class="headerlink" title="导致引用计数 +1 的情况"></a>导致引用计数 +1 的情况</h4><ul>
-<li><p>对象被创建，例如 a=23</p>
-</li>
-<li><p>对象被引用，例如 b=a</p>
-</li>
-<li><p>对象被作为参数，传入到一个函数中，例如<code>func(a)</code></p>
-</li>
-<li><p>对象作为一个元素，存储在容器中，例如<code>list1=[a,a]</code></p>
-<br/></li>
-</ul>
-<h4 id="导致引用计数-1-的情况-1"><a href="#导致引用计数-1-的情况-1" class="headerlink" title="导致引用计数-1 的情况"></a>导致引用计数-1 的情况</h4><ul>
-<li><p>对象的别名被显式销毁，例如<code>del a</code></p>
-</li>
-<li><p>对象的别名被赋予新的对象，例如<code>a=24</code></p>
-</li>
-<li><p>一个对象离开它的作用域，例如 f 函数执行完毕时，<code>func</code>函数中的局部变量（全局变量不会）</p>
-</li>
-<li><p>对象所在的容器被销毁，或从容器中删除对象</p>
-<br/></li>
-</ul>
-<h2 id="2-标记-清除"><a href="#2-标记-清除" class="headerlink" title="2.标记-清除"></a>2.标记-清除</h2><p><strong>标记-清除</strong></p>
-<blockquote>
-<p>1）它分为两个阶段：第一阶段是标记阶段，GC会把所有的活动对象打上标记，第二阶段是把那些没有标记的对象非活动对象进行回收。</p>
-<p>2）对象之间通过引用（指针）连在一起，构成一个有向图</p>
-<p>3）从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象，根对象就是全局变量、调用栈、寄存器。</p>
-<p>注：像是PyIntObject、PyStringObject这些不可变对象是不可能产生循环引用的，因为它们内部不可能持有其它对象的引用。</p>
-</blockquote>
-<br/>
-
-<p><img src="/imgs/Python%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/1611640216458.png"></p>
-<br/>
-
+<h1 id="2、使用AutoHotKey-ahk-快捷键变法-Windows"><a href="#2、使用AutoHotKey-ahk-快捷键变法-Windows" class="headerlink" title="2、使用AutoHotKey(.ahk)快捷键变法 (Windows)"></a>2、使用AutoHotKey(.ahk)快捷键变法 (Windows)</h1><p> <strong>下载并安装 AutoHotkey（具体步骤可自行百度）</strong> </p>
 <ol>
-<li>在上图中，可以从程序变量直接访问块1，并且可以间接访问块2和3,程序无法访问块4和5</li>
-<li>第一步将标记块1，并记住块2和3以供稍后处理。</li>
-<li>第二步将标记块2，第三步将标记块3，但不记得块2，因为它已被标记。</li>
-<li>扫描阶段将忽略块1，2和3，因为它们已被标记，但会回收块4和5。</li>
+<li>访问 AutoHotkey 主页: <a href="https://autohotkey.com/">https://autohotkey.com/</a></li>
+<li>点击下载: <a href="https://autohotkey.com/download/ahk-install.exe">https://autohotkey.com/download/ahk-install.exe</a></li>
 </ol>
-<br/>
+<p><strong>桌面新建文件 MyHotkeyScript.ahk 将以下代码复制进去保存</strong>   注意文件后缀<code>.ahk</code> </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">; Typora</span><br><span class="line">; 快捷增加字体颜色</span><br><span class="line">; SendInput &#123;Text&#125; 解决中文输入法问题</span><br><span class="line"></span><br><span class="line"><span class="comment">#IfWinActive ahk_exe Typora.exe</span></span><br><span class="line">&#123;</span><br><span class="line">    ; Ctrl+Alt+o 橙色</span><br><span class="line">    ^!o::addFontColor(<span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">    ; Ctrl+Alt+r 红色</span><br><span class="line">    ^!r::addFontColor(<span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line">    ; Ctrl+Alt+b 浅蓝色</span><br><span class="line">    ^!b::addFontColor(<span class="string">&quot;cornflowerblue&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">; 快捷增加字体颜色</span><br><span class="line">addFontColor(color)&#123;</span><br><span class="line">    clipboard := <span class="string">&quot;&quot;</span> ; 清空剪切板</span><br><span class="line">    Send &#123;ctrl down&#125;c&#123;ctrl up&#125; ; 复制</span><br><span class="line">    SendInput &#123;TEXT&#125;&lt;font color=<span class="string">&#x27;%color%&#x27;</span>&gt;</span><br><span class="line">    SendInput &#123;ctrl down&#125;v&#123;ctrl up&#125; ; 粘贴</span><br><span class="line">    If(clipboard = <span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">        SendInput &#123;TEXT&#125;&lt;/font&gt; ; Typora 在这不会自动补充</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        SendInput &#123;TEXT&#125;&lt;/ ; Typora中自动补全标签</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-分代回收"><a href="#3-分代回收" class="headerlink" title="3.分代回收"></a>3.分代回收</h2><p>1、Python将内存分为了3“代”，分别为年轻代、中年代、老年代<br>2、最初创建对象都放在年轻代<br>3、当触发一次标记清除时，如果没有被清除，从年轻代到中年代<br>4、再一次触发标记清除，在中年代的数据依然没有被清除，就会放到老年代<br>5、意义：越多次数无法清除的，以后被清除的概率就更低</p>
-<p>参考博客：<a href="https://testerhome.com/topics/16556">https://testerhome.com/topics/16556</a><br>         <a href="https://segmentfault.com/a/1190000021986557">https://segmentfault.com/a/1190000021986557</a></p>
-]]></content>
-      <categories>
-        <category>Python基础</category>
-        <category>内存管理</category>
-      </categories>
-      <tags>
-        <tag>Python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单因子登录、双因子登录、三因子登录</title>
-    <url>/id_22/</url>
-    <content><![CDATA[<h1 id="单因子登录、双因子登录、三因子登录"><a href="#单因子登录、双因子登录、三因子登录" class="headerlink" title="单因子登录、双因子登录、三因子登录"></a>单因子登录、双因子登录、三因子登录</h1><hr>
-<ul>
-<li>可用于认证的因子可有三种:<ul>
-<li>what you know</li>
-<li>what you have</li>
-<li>what you are</li>
-</ul>
+
+
+<p>双击运行（使用<code>AutoHotkey</code>运行）</p>
+<h3 id="运行脚本"><a href="#运行脚本" class="headerlink" title="运行脚本"></a>运行脚本</h3><ol>
+<li><p>双击ahk脚本运行</p>
 </li>
-</ul>
-<h3 id="单因子登录（what-you-know"><a href="#单因子登录（what-you-know" class="headerlink" title="单因子登录（what you know)"></a>单因子登录（what you know)</h3><p>表示你知道什么，这种的一般只需要输入账号密码就可以完成登录</p>
-<p>以账号密码为唯一标识，<code>不安全</code> 有巨大的安全隐患。</p>
-<span id="more"></span>
-
-
-<h3 id="双因子登录（what-you-have"><a href="#双因子登录（what-you-have" class="headerlink" title="双因子登录（what you have)"></a>双因子登录（what you have)</h3><p>表示你有什么，这种登录在单因子基础上可能还需要结合另一种实物：如短信验证，或者令牌之类。<br>可以产生token的硬件设<br>只能手机的app<br>手机短信微信扫码确认都可以成为双因子认证，双因子认证会结合一个你有的硬件设备，只要这个专属的硬件不丢失，就可以大大的提高账号的安全性</p>
-<h3 id="三因子登录（what-you-are"><a href="#三因子登录（what-you-are" class="headerlink" title="三因子登录（what you are)"></a>三因子登录（what you are)</h3><p>你是谁，进行人脸识别，指纹识别<br>直接对你的指纹，视网膜进行验证，验证是否是本人</p>
+<li><p>Typora检测</p>
+</li>
+<li><ol>
+<li><p>Ctrl+Alt+O——橙色Orange</p>
+</li>
+<li><p>Ctrl+Alt+R——红色Red</p>
+</li>
+<li><p>Ctrl+Alt+B——蓝色Blue</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>然后去Typora 按快捷键试试吧！！！</p>
+<p>选择要设置颜色的文字，按<code>Ctrl+Alt+o</code>添加橙色，按<code>Ctrl+\</code>取消样式！</p>
+<p><strong>更多功能可以自行查看：</strong><a href="https://www.zhihu.com/question/385854845/answer/1182275415">https://www.zhihu.com/question/385854845/answer/1182275415</a></p>
 ]]></content>
       <categories>
-        <category>Python基础</category>
+        <category>工具</category>
       </categories>
       <tags>
-        <tag>Python基础</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1428,180 +1531,6 @@
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决GitHub打不开的问题</title>
-    <url>/id_24/</url>
-    <content><![CDATA[<h1 id="解决GitHub打不开的问题"><a href="#解决GitHub打不开的问题" class="headerlink" title="解决GitHub打不开的问题"></a>解决GitHub打不开的问题</h1><hr>
-<p> github的ip和cdn老是有变化，导致国内的用户无法登陆。记录一下怎么解决 </p>
-<br/>
-
-<h2 id="一、确定ip"><a href="#一、确定ip" class="headerlink" title="一、确定ip"></a>一、确定ip</h2><p>进入网址<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a> </p>
-<p>查看GitHub的ip地址。</p>
-<p><img src="/imgs/id_24/1616318075440.png"></p>
-<br/>
-
-<blockquote>
-<p>140.82.114.4  github.com </p>
-</blockquote>
-<br/>
-
-<h2 id="二、确定域名ip"><a href="#二、确定域名ip" class="headerlink" title="二、确定域名ip"></a>二、确定域名ip</h2><p>进入网址<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a> </p>
-<p><img src="/imgs/id_24/1616317727147.png" alt="1616317727147"></p>
-<br/>
-
-<blockquote>
-<p> 199.232.69.194 github.global.ssl.fastly.net </p>
-</blockquote>
-<br/>
-
-<h2 id="三、确定静态资源ip"><a href="#三、确定静态资源ip" class="headerlink" title="三、确定静态资源ip"></a>三、确定静态资源ip</h2><p> 进入网址<a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a> </p>
-<p><img src="/imgs/id_24/1616317793360.png" alt="1616317793360"></p>
-<br/>
-
-<blockquote>
-<p>185.199.108.153 assets-cdn.github.com</p>
-<p>185.199.110.153 assets-cdn.github.com</p>
-<p>185.199.111.153 assets-cdn.github.com</p>
-</blockquote>
-<br/>
-
-<h2 id="四、修改hosts文件"><a href="#四、修改hosts文件" class="headerlink" title="四、修改hosts文件"></a>四、修改hosts文件</h2><h6 id="Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件"><a href="#Windows系统：打开-C-Windows-System32-drivers-etc-找到hosts文件" class="headerlink" title="Windows系统：打开 C:\Windows\System32\drivers\etc    找到hosts文件"></a>Windows系统：打开 <code>C:\Windows\System32\drivers\etc </code>   找到hosts文件</h6><br/>
-
-<p> <img src="/imgs/id_24/20200908173112281.png" alt="img"> </p>
-<br/>
-
-<p>右键打开，把之前三步的ip粘贴在最下方 保存后，重新打开GitHub就可以了。 一般情况下就可以直接访问了 </p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Typora里面如何快捷改变字体颜色？</title>
-    <url>/id_23/</url>
-    <content><![CDATA[<h1 id="Typora里面如何快捷改变字体颜色？"><a href="#Typora里面如何快捷改变字体颜色？" class="headerlink" title="Typora里面如何快捷改变字体颜色？"></a>Typora里面如何快捷改变字体颜色？</h1><h1 id="1、常规文字变色方法："><a href="#1、常规文字变色方法：" class="headerlink" title="1、常规文字变色方法："></a>1、常规文字变色方法：</h1><ol>
-<li>font 标签</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&#x27;red&#x27;</span>&gt;</span>红色<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>span 标签</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">&#x27;color:文字颜色;background:背景颜色;font-size:文字大小;font-family:字体;&#x27;</span>&gt;</span>文字<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="2、使用AutoHotKey-ahk-快捷键变法-Windows"><a href="#2、使用AutoHotKey-ahk-快捷键变法-Windows" class="headerlink" title="2、使用AutoHotKey(.ahk)快捷键变法 (Windows)"></a>2、使用AutoHotKey(.ahk)快捷键变法 (Windows)</h1><p> <strong>下载并安装 AutoHotkey（具体步骤可自行百度）</strong> </p>
-<ol>
-<li>访问 AutoHotkey 主页: <a href="https://autohotkey.com/">https://autohotkey.com/</a></li>
-<li>点击下载: <a href="https://autohotkey.com/download/ahk-install.exe">https://autohotkey.com/download/ahk-install.exe</a></li>
-</ol>
-<p><strong>桌面新建文件 MyHotkeyScript.ahk 将以下代码复制进去保存</strong>   注意文件后缀<code>.ahk</code> </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">; Typora</span><br><span class="line">; 快捷增加字体颜色</span><br><span class="line">; SendInput &#123;Text&#125; 解决中文输入法问题</span><br><span class="line"></span><br><span class="line"><span class="comment">#IfWinActive ahk_exe Typora.exe</span></span><br><span class="line">&#123;</span><br><span class="line">    ; Ctrl+Alt+o 橙色</span><br><span class="line">    ^!o::addFontColor(<span class="string">&quot;orange&quot;</span>)</span><br><span class="line"></span><br><span class="line">    ; Ctrl+Alt+r 红色</span><br><span class="line">    ^!r::addFontColor(<span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line">    ; Ctrl+Alt+b 浅蓝色</span><br><span class="line">    ^!b::addFontColor(<span class="string">&quot;cornflowerblue&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">; 快捷增加字体颜色</span><br><span class="line">addFontColor(color)&#123;</span><br><span class="line">    clipboard := <span class="string">&quot;&quot;</span> ; 清空剪切板</span><br><span class="line">    Send &#123;ctrl down&#125;c&#123;ctrl up&#125; ; 复制</span><br><span class="line">    SendInput &#123;TEXT&#125;&lt;font color=<span class="string">&#x27;%color%&#x27;</span>&gt;</span><br><span class="line">    SendInput &#123;ctrl down&#125;v&#123;ctrl up&#125; ; 粘贴</span><br><span class="line">    If(clipboard = <span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">        SendInput &#123;TEXT&#125;&lt;/font&gt; ; Typora 在这不会自动补充</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        SendInput &#123;TEXT&#125;&lt;/ ; Typora中自动补全标签</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>双击运行（使用<code>AutoHotkey</code>运行）</p>
-<h3 id="运行脚本"><a href="#运行脚本" class="headerlink" title="运行脚本"></a>运行脚本</h3><ol>
-<li><p>双击ahk脚本运行</p>
-</li>
-<li><p>Typora检测</p>
-</li>
-<li><ol>
-<li><p>Ctrl+Alt+O——橙色Orange</p>
-</li>
-<li><p>Ctrl+Alt+R——红色Red</p>
-</li>
-<li><p>Ctrl+Alt+B——蓝色Blue</p>
-</li>
-</ol>
-</li>
-</ol>
-<p>然后去Typora 按快捷键试试吧！！！</p>
-<p>选择要设置颜色的文字，按<code>Ctrl+Alt+o</code>添加橙色，按<code>Ctrl+\</code>取消样式！</p>
-<p><strong>更多功能可以自行查看：</strong><a href="https://www.zhihu.com/question/385854845/answer/1182275415">https://www.zhihu.com/question/385854845/answer/1182275415</a></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 18.04安装/全局配置java环境</title>
-    <url>/id_28/</url>
-    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
-
-<p>环境信息：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
-<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
-</ol>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<ol start="2">
-<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
-</ol>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
-
-<p> 使用如下命令打开~/.bashrc文件</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 使用source命令使配置立即生效 </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<blockquote>
-<p>注意：</p>
-<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
-</blockquote>
-<br/>
-
-<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
-<br/>
-
-<p>在终端输入javac命令，得到javac的可选项 </p>
-<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
-<br/>
-
-<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1733,13 +1662,77 @@
 <p>迁移数据时，数据库中的表很少</p>
 <p><img src="/imgs/id_25/1616488215406.png" alt="1616488215406"></p>
 <p>执行命令后显示这样  <strong>No installed app with label ‘appscan_client’.</strong> 不要慌  这表示这个文件夹中没有model</p>
-<p>先 python manage.py makemigrations –empty yourappname 生成一个空的initial.py<br>再 python manage.py makemigrations<br>生成原先的model对应的migration file</p>
+<p>先 python manage.py makemigrations –empty “yourappname” 生成一个空的initial.py<br>再 python manage.py makemigrations<br>生成原先的model对应的migration file</p>
 ]]></content>
       <categories>
         <category>报错锦集</category>
       </categories>
       <tags>
         <tag>报错锦集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gitlab创建分支及上传代码</title>
+    <url>/id_27/</url>
+    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
+
+<p>1.查看所有分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>查看本地分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616577735277.png"></p>
+<br/>
+
+<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
+<br/>
+
+<p>2.创建分支</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>3.切换分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>4.查看本地代码状态 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
+<br/>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>这个我在第一次上传的时候没有执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 5.做一次提交，指定提交的远程分支 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
+<br/>
+
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1814,81 +1807,6 @@
 
 <h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><img src="/imgs/id_30/1591859377945.png" alt="1591859377945"></p>
 ]]></content>
-      <categories>
-        <category>spider</category>
-      </categories>
-      <tags>
-        <tag>spider</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gitlab创建分支及上传代码</title>
-    <url>/id_27/</url>
-    <content><![CDATA[<h1 id="gitlab创建分支及上传代码"><a href="#gitlab创建分支及上传代码" class="headerlink" title="gitlab创建分支及上传代码"></a>gitlab创建分支及上传代码</h1><br/>
-
-<p>1.查看所有分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch -a </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>查看本地分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch </span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616577735277.png"></p>
-<br/>
-
-<p><img src="/imgs/id_27/1616578680885.png" alt="1616578680885"></p>
-<br/>
-
-<p>2.创建分支</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git branch 分支名字</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>3.切换分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.查看本地代码状态 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>4.后面就是上传代码的一些操作了 ，直接素质三连击</p>
-<br/>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>这个我在第一次上传的时候没有执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;备注说明&#x27;</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p> 5.做一次提交，指定提交的远程分支 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push origin 分支名称</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><img src="/imgs/id_27/1616578838341.png" alt="1616578838341"></p>
-<br/>
-
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Selenium入门</title>
-    <url>/id_33/</url>
-    <content><![CDATA[<h1 id="Selenium入门"><a href="#Selenium入门" class="headerlink" title="Selenium入门"></a>Selenium入门</h1>]]></content>
       <categories>
         <category>spider</category>
       </categories>
@@ -1984,6 +1902,77 @@
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu 18.04安装/全局配置java环境</title>
+    <url>/id_28/</url>
+    <content><![CDATA[<h1 id="Ubuntu-18-04安装-全局配置java环境"><a href="#Ubuntu-18-04安装-全局配置java环境" class="headerlink" title="Ubuntu 18.04安装/全局配置java环境"></a>Ubuntu 18.04安装/全局配置java环境</h1><br/>
+
+<p>环境信息：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu <span class="number">18.04</span><span class="number">.5</span> LTS</span><br><span class="line">Release:	<span class="number">18.04</span></span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download"><a href="#一、先去官网下载JDK-下载链接-点击链接找到自己对应的JDK包-点击-JDK-Download" class="headerlink" title="一、先去官网下载JDK 下载链接 点击链接找到自己对应的JDK包 点击 JDK Download"></a>一、先去官网下载JDK <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">下载链接</a> 点击链接找到自己对应的JDK包 点击 JDK Download</h2><h2 id="二、解压JDK包"><a href="#二、解压JDK包" class="headerlink" title="二、解压JDK包"></a>二、解压JDK包</h2><ol>
+<li><h3 id="在下载目录打开终端，使用如下命令解压："><a href="#在下载目录打开终端，使用如下命令解压：" class="headerlink" title="在下载目录打开终端，使用如下命令解压："></a>在下载目录打开终端，使用如下命令解压：</h3></li>
+</ol>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">tar zxvf 你自己的JDK包名.tar.gz</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<ol start="2">
+<li><h3 id="解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下"><a href="#解压得到jdk文件夹，我的是jdk1-8-0-144，用如下命令将该文件夹移动到-usr-local目录下" class="headerlink" title="解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下"></a>解压得到jdk文件夹，我的是jdk1.8.0_144，用如下命令将该文件夹移动到/usr/local目录下</h3></li>
+</ol>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mv jdk1<span class="number">.8</span><span class="number">.0_144</span> /usr/local</span><br><span class="line">sudo mv 自己的包名 /usr/local</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="三、配置Java环境"><a href="#三、配置Java环境" class="headerlink" title="三、配置Java环境"></a><strong>三、配置Java环境</strong></h2><br/>
+
+<p> 使用如下命令打开~/.bashrc文件</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>在文件末尾加上Java信息  粘贴完了就点击右上角的保存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1<span class="number">.8</span><span class="number">.0_144</span></span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="built_in">bin</span>:$PATH</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p> 使用source命令使配置立即生效 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<blockquote>
+<p>注意：</p>
+<p>~/.bashrc配置的是用户的环境变量，如果希望直接配置系统环境变量，可以直接在/etc/profile内直接做相同的配置过程 </p>
+</blockquote>
+<br/>
+
+<h2 id="四、测试Java安装"><a href="#四、测试Java安装" class="headerlink" title="四、测试Java安装"></a>四、测试Java安装</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><img src="/imgs/id_27/20190509200625722.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>在终端输入javac命令，得到javac的可选项 </p>
+<p> <img src="/imgs/id_27/20190509200635577.png" alt="在这里插入图片描述"> </p>
+<br/>
+
+<p>看的上方的选框，就表示我们的那个java环境安装好了。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python+Linux+Selenium — 祖传爬虫利器</title>
     <url>/id_32/</url>
     <content><![CDATA[<h1 id="python-Linux-Selenium-—-祖传爬虫利器"><a href="#python-Linux-Selenium-—-祖传爬虫利器" class="headerlink" title="python+Linux+Selenium — 祖传爬虫利器"></a>python+Linux+Selenium — 祖传爬虫利器</h1><br/>
@@ -2027,6 +2016,17 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"><span class="comment">#注意 我们把geckodriver移动到了/usr/local/bin 这里就不需要引入了</span></span><br><span class="line">driver = webdriver.Firefox()</span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>spider</category>
+      </categories>
+      <tags>
+        <tag>spider</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Selenium入门</title>
+    <url>/id_33/</url>
+    <content><![CDATA[<h1 id="Selenium入门"><a href="#Selenium入门" class="headerlink" title="Selenium入门"></a>Selenium入门</h1>]]></content>
       <categories>
         <category>spider</category>
       </categories>
@@ -2250,72 +2250,105 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu18.04安装Redis</title>
-    <url>/id_39/</url>
-    <content><![CDATA[<h1 id="Ubuntu18-04安装Redis"><a href="#Ubuntu18-04安装Redis" class="headerlink" title="Ubuntu18.04安装Redis"></a>Ubuntu18.04安装Redis</h1><h2 id="Redis的特点："><a href="#Redis的特点：" class="headerlink" title="Redis的特点："></a>Redis的特点：</h2><ul>
-<li>内存数据库，速度快，也支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
-<li>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
-<li>Redis支持数据的备份，即master-slave模式的数据备份。</li>
-<li>支持事务</li>
-</ul>
-<h2 id="Redis的优势："><a href="#Redis的优势：" class="headerlink" title="Redis的优势："></a>Redis的优势：</h2><ul>
-<li>性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。</li>
-<li>丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。</li>
-<li>原子 – Redis的所有操作都是原子性的，同时Redis还支持对几个操作合并后的原子性执行。（事务）</li>
-<li>丰富的特性 – Redis还支持 publish/subscribe, 通知, key 过期等等特性。</li>
-</ul>
-<h2 id="Redis与其他key-value存储有什么不同？"><a href="#Redis与其他key-value存储有什么不同？" class="headerlink" title="Redis与其他key-value存储有什么不同？"></a>Redis与其他key-value存储有什么不同？</h2><ul>
-<li>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。</li>
-<li>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</li>
-</ul>
-<h2 id="安装redis服务端"><a href="#安装redis服务端" class="headerlink" title="安装redis服务端"></a><strong>安装redis服务端</strong></h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install redis-server</span><br></pre></td></tr></table></figure>
+    <title>【在家办公】代码上传公司远端GitLab仓库</title>
+    <url>/id_40/</url>
+    <content><![CDATA[<h1 id="【在家办公】代码上传公司远端GitLab仓库"><a href="#【在家办公】代码上传公司远端GitLab仓库" class="headerlink" title="【在家办公】代码上传公司远端GitLab仓库"></a>【在家办公】代码上传公司远端GitLab仓库</h1><br/>
 
-<p> 安装完成后，Redis服务器会自动启动。 </p>
+<h2 id="查看本地的git-如何添加远程仓库"><a href="#查看本地的git-如何添加远程仓库" class="headerlink" title="查看本地的git 如何添加远程仓库"></a>查看本地的git 如何添加远程仓库</h2><h3 id="1-查看远程仓库地址"><a href="#1-查看远程仓库地址" class="headerlink" title="1.查看远程仓库地址"></a>1.查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<p>此时若什么都没有显示说明，git无远程仓库。</p>
 <br/>
 
-<h2 id="检查Redis服务器系统进程"><a href="#检查Redis服务器系统进程" class="headerlink" title="检查Redis服务器系统进程"></a>检查Redis服务器系统进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -agx|grep redis</span><br></pre></td></tr></table></figure>
+<h3 id="2-添加ssh协议的远程仓库"><a href="#2-添加ssh协议的远程仓库" class="headerlink" title="2.添加ssh协议的远程仓库"></a>2.添加ssh协议的远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:**********.git</span><br></pre></td></tr></table></figure>
 
+<p>再次查看，即可查看到2个远程仓库的链接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">origin	git@gitlab.com:**********.git (fetch)</span><br><span class="line">origin	git@gitlab.com::**********.git (push)</span><br></pre></td></tr></table></figure>
+
+<p>当前，我本机就是用的这种方式连接的github，好处是每次提交代码时，不需要重复来回输入用户名和密码，这就是ssh秘钥的好处。</p>
 <br/>
 
-<h2 id="通过启动命令检查Redis服务器状态"><a href="#通过启动命令检查Redis服务器状态" class="headerlink" title="通过启动命令检查Redis服务器状态"></a>通过启动命令检查Redis服务器状态</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -nlt|grep 6379 </span><br></pre></td></tr></table></figure>
+<p>使用家里的WiFi长传到github上的代码时，报出如下错误：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin 分支名称</span></span><br><span class="line">ssh: connect to host github.com port 22: Connection refused</span><br><span class="line">fatal: Could not read from remote repository.</span><br></pre></td></tr></table></figure>
+
+<p>得知第一种协议被禁掉后，只能换一种连接进行合并本地仓库了。继续往下看另一种协议。</p>
+<br/>
+
+<h3 id="3-切换成-https协议连接github"><a href="#3-切换成-https协议连接github" class="headerlink" title="3.切换成 https协议连接github"></a>3.切换成 https协议连接github</h3><p>建立本地仓库和远端GitLab仓库的关联关系</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<h2 id="通过命令行客户端访问Redis"><a href="#通过命令行客户端访问Redis" class="headerlink" title="通过命令行客户端访问Redis"></a>通过命令行客户端访问Redis</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
+<p>在这一步时如果出现错误：<code>fatal:remote origin already exists</code>先清除一下关联关系：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<h2 id="Redis服务器基本配置"><a href="#Redis服务器基本配置" class="headerlink" title="Redis服务器基本配置"></a>Redis服务器基本配置</h2><h3 id="开启Redis的远程连接"><a href="#开启Redis的远程连接" class="headerlink" title="开启Redis的远程连接"></a><strong>开启Redis的远程连接</strong></h3><p>我们可以切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">注释掉绑定地址# bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>再重新关联：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
 
-<p><img src="/imgs/id_39/Snipaste_2021-04-12_15-49-43.png"></p>
-<br/>
+</br>
 
-<h2 id="windows下的redisDesktopManager怎么连接Ubuntu-server"><a href="#windows下的redisDesktopManager怎么连接Ubuntu-server" class="headerlink" title="windows下的redisDesktopManager怎么连接Ubuntu server"></a>windows下的redisDesktopManager怎么连接Ubuntu server</h2><p> 首先我们将ubuntu上的防火墙关闭 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">service iptables stop</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把bind 127.0.0.1修改成 bind 0.0.0.0</span></span><br><span class="line"><span class="comment"># 按esc键后输入:wq保存退出</span></span><br></pre></td></tr></table></figure>
+<p>检查关联是否已建立且正确</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
 
 <br/>
+注意：因为我们是在家办公，我们公司的gitlab域名映射成了ip我们直接把`域名换成IP地址`
 
-<p>退出后输入reboot重启 redis-server</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">停止 sudo service redis-server stop</span><br><span class="line">启动 sudo service redis-server start</span><br><span class="line">重启 sudo service redis-server restart</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 添加http链接协议</span></span><br><span class="line">git remote add origin http://ip:port/*********************.git</span><br></pre></td></tr></table></figure>
+
+<br/>
 
 
 
-<p>最后我们可以在windows下打开 <code>redis desktop manager</code> 点击：</p>
-<p><img src="/imgs/id_39/1618215112436.png" alt="1618215112436"></p>
-<p>将连接所需进行填写，Auth为密码，未设置则不需填写，点击OK就可以了 </p>
-<p> <img src="/imgs/id_39/20181110111458721.png" alt="img"> </p>
+<p>参考链接：<a href="https://blog.csdn.net/s740556472/article/details/80318886">https://blog.csdn.net/s740556472/article/details/80318886</a></p>
+<p>​                <a href="https://www.jianshu.com/p/c74ae40b5127">https://www.jianshu.com/p/c74ae40b5127</a></p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git常见错误---git branch不显示本地分支的问题</title>
+    <url>/id_41/</url>
+    <content><![CDATA[<h1 id="Git常见错误—git-branch不显示本地分支的问题"><a href="#Git常见错误—git-branch不显示本地分支的问题" class="headerlink" title="Git常见错误—git branch不显示本地分支的问题"></a>Git常见错误—git branch不显示本地分支的问题</h1><br/>
+
+<p>使用git init命令创建仓库，执行<code>git add . </code>和<code>git commit</code>,再使用<code>git branch</code>命令</p>
+<p>即可查看到远程分支<code>master</code></p>
+<p>再新建分支及上传就可以了详情可看：<a href="http://tjw5.cn/id_27/">http://tjw5.cn/id_27/</a></p>
+<br/>
+
+<p>参考链接：<a href="https://blog.csdn.net/qq_39671159/article/details/81261049">https://blog.csdn.net/qq_39671159/article/details/81261049</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scrapy项目如何运行和debug断点调试</title>
+    <url>/id_42/</url>
+    <content><![CDATA[<h1 id="Scrapy项目运行和debug断点调试"><a href="#Scrapy项目运行和debug断点调试" class="headerlink" title="Scrapy项目运行和debug断点调试"></a>Scrapy项目运行和debug断点调试</h1><ol>
+<li><p>在项目的文件夹下增加一个文件<code>debug.py</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#debug.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加当前项目的绝对地址</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行 scrapy 内置的函数方法execute，  使用 crawl 爬取并调试，最后一个参数example 是我的爬虫文件名</span></span><br><span class="line">execute([<span class="string">&#x27;scrapy&#x27;</span>, <span class="string">&#x27;crawl&#x27;</span>, <span class="string">&#x27;example&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/></li>
+<li><p>然后直接运行debug.py文件，即可添加断点进行调试</p>
+</li>
+</ol>
+<br/>
+
+<p>参考博客：<a href="https://www.cnblogs.com/grimm/p/13884670.html">https://www.cnblogs.com/grimm/p/13884670.html</a></p>
+]]></content>
+      <categories>
+        <category>scrapy</category>
+      </categories>
+      <tags>
+        <tag>scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -2410,86 +2443,72 @@
       </tags>
   </entry>
   <entry>
-    <title>【在家办公】代码上传公司远端GitLab仓库</title>
-    <url>/id_40/</url>
-    <content><![CDATA[<h1 id="【在家办公】代码上传公司远端GitLab仓库"><a href="#【在家办公】代码上传公司远端GitLab仓库" class="headerlink" title="【在家办公】代码上传公司远端GitLab仓库"></a>【在家办公】代码上传公司远端GitLab仓库</h1><br/>
+    <title>Ubuntu18.04安装Redis</title>
+    <url>/id_39/</url>
+    <content><![CDATA[<h1 id="Ubuntu18-04安装Redis"><a href="#Ubuntu18-04安装Redis" class="headerlink" title="Ubuntu18.04安装Redis"></a>Ubuntu18.04安装Redis</h1><h2 id="Redis的特点："><a href="#Redis的特点：" class="headerlink" title="Redis的特点："></a>Redis的特点：</h2><ul>
+<li>内存数据库，速度快，也支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
+<li>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
+<li>Redis支持数据的备份，即master-slave模式的数据备份。</li>
+<li>支持事务</li>
+</ul>
+<h2 id="Redis的优势："><a href="#Redis的优势：" class="headerlink" title="Redis的优势："></a>Redis的优势：</h2><ul>
+<li>性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。</li>
+<li>丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。</li>
+<li>原子 – Redis的所有操作都是原子性的，同时Redis还支持对几个操作合并后的原子性执行。（事务）</li>
+<li>丰富的特性 – Redis还支持 publish/subscribe, 通知, key 过期等等特性。</li>
+</ul>
+<h2 id="Redis与其他key-value存储有什么不同？"><a href="#Redis与其他key-value存储有什么不同？" class="headerlink" title="Redis与其他key-value存储有什么不同？"></a>Redis与其他key-value存储有什么不同？</h2><ul>
+<li>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。</li>
+<li>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</li>
+</ul>
+<h2 id="安装redis服务端"><a href="#安装redis服务端" class="headerlink" title="安装redis服务端"></a><strong>安装redis服务端</strong></h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install redis-server</span><br></pre></td></tr></table></figure>
 
-<h2 id="查看本地的git-如何添加远程仓库"><a href="#查看本地的git-如何添加远程仓库" class="headerlink" title="查看本地的git 如何添加远程仓库"></a>查看本地的git 如何添加远程仓库</h2><h3 id="1-查看远程仓库地址"><a href="#1-查看远程仓库地址" class="headerlink" title="1.查看远程仓库地址"></a>1.查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-
-<p>此时若什么都没有显示说明，git无远程仓库。</p>
+<p> 安装完成后，Redis服务器会自动启动。 </p>
 <br/>
 
-<h3 id="2-添加ssh协议的远程仓库"><a href="#2-添加ssh协议的远程仓库" class="headerlink" title="2.添加ssh协议的远程仓库"></a>2.添加ssh协议的远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:**********.git</span><br></pre></td></tr></table></figure>
-
-<p>再次查看，即可查看到2个远程仓库的链接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">origin	git@gitlab.com:**********.git (fetch)</span><br><span class="line">origin	git@gitlab.com::**********.git (push)</span><br></pre></td></tr></table></figure>
-
-<p>当前，我本机就是用的这种方式连接的github，好处是每次提交代码时，不需要重复来回输入用户名和密码，这就是ssh秘钥的好处。</p>
-<br/>
-
-<p>使用家里的WiFi长传到github上的代码时，报出如下错误：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin 分支名称</span></span><br><span class="line">ssh: connect to host github.com port 22: Connection refused</span><br><span class="line">fatal: Could not read from remote repository.</span><br></pre></td></tr></table></figure>
-
-<p>得知第一种协议被禁掉后，只能换一种连接进行合并本地仓库了。继续往下看另一种协议。</p>
-<br/>
-
-<h3 id="3-切换成-https协议连接github"><a href="#3-切换成-https协议连接github" class="headerlink" title="3.切换成 https协议连接github"></a>3.切换成 https协议连接github</h3><p>建立本地仓库和远端GitLab仓库的关联关系</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>在这一步时如果出现错误：<code>fatal:remote origin already exists</code>先清除一下关联关系：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
+<h2 id="检查Redis服务器系统进程"><a href="#检查Redis服务器系统进程" class="headerlink" title="检查Redis服务器系统进程"></a>检查Redis服务器系统进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -agx|grep redis</span><br></pre></td></tr></table></figure>
 
 <br/>
 
-<p>再重新关联：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin  https://gitlab*********************.git</span><br></pre></td></tr></table></figure>
-
-</br>
-
-<p>检查关联是否已建立且正确</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-
-<br/>
-注意：因为我们是在家办公，我们公司的gitlab域名映射成了ip我们直接把`域名换成IP地址`
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 添加http链接协议</span></span><br><span class="line">git remote add origin http://ip:port/*********************.git</span><br></pre></td></tr></table></figure>
+<h2 id="通过启动命令检查Redis服务器状态"><a href="#通过启动命令检查Redis服务器状态" class="headerlink" title="通过启动命令检查Redis服务器状态"></a>通过启动命令检查Redis服务器状态</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -nlt|grep 6379 </span><br></pre></td></tr></table></figure>
 
 <br/>
 
+<h2 id="通过命令行客户端访问Redis"><a href="#通过命令行客户端访问Redis" class="headerlink" title="通过命令行客户端访问Redis"></a>通过命令行客户端访问Redis</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="Redis服务器基本配置"><a href="#Redis服务器基本配置" class="headerlink" title="Redis服务器基本配置"></a>Redis服务器基本配置</h2><h3 id="开启Redis的远程连接"><a href="#开启Redis的远程连接" class="headerlink" title="开启Redis的远程连接"></a><strong>开启Redis的远程连接</strong></h3><p>我们可以切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">注释掉绑定地址# bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/id_39/Snipaste_2021-04-12_15-49-43.png"></p>
+<br/>
+
+<h2 id="windows下的redisDesktopManager怎么连接Ubuntu-server"><a href="#windows下的redisDesktopManager怎么连接Ubuntu-server" class="headerlink" title="windows下的redisDesktopManager怎么连接Ubuntu server"></a>windows下的redisDesktopManager怎么连接Ubuntu server</h2><p> 首先我们将ubuntu上的防火墙关闭 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">service iptables stop</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>切换到root<code> sudo -i</code> 下进行操作<code>/etc/redis/redis.conf</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把bind 127.0.0.1修改成 bind 0.0.0.0</span></span><br><span class="line"><span class="comment"># 按esc键后输入:wq保存退出</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>退出后输入reboot重启 redis-server</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">停止 sudo service redis-server stop</span><br><span class="line">启动 sudo service redis-server start</span><br><span class="line">重启 sudo service redis-server restart</span><br></pre></td></tr></table></figure>
 
 
-<p>参考链接：<a href="https://blog.csdn.net/s740556472/article/details/80318886">https://blog.csdn.net/s740556472/article/details/80318886</a></p>
-<p>​                <a href="https://www.jianshu.com/p/c74ae40b5127">https://www.jianshu.com/p/c74ae40b5127</a></p>
+
+<p>最后我们可以在windows下打开 <code>redis desktop manager</code> 点击：</p>
+<p><img src="/imgs/id_39/1618215112436.png" alt="1618215112436"></p>
+<p>将连接所需进行填写，Auth为密码，未设置则不需填写，点击OK就可以了 </p>
+<p> <img src="/imgs/id_39/20181110111458721.png" alt="img"> </p>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scrapy项目如何运行和debug断点调试</title>
-    <url>/id_42/</url>
-    <content><![CDATA[<h1 id="Scrapy项目运行和debug断点调试"><a href="#Scrapy项目运行和debug断点调试" class="headerlink" title="Scrapy项目运行和debug断点调试"></a>Scrapy项目运行和debug断点调试</h1><ol>
-<li><p>在项目的文件夹下增加一个文件<code>debug.py</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#debug.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加当前项目的绝对地址</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行 scrapy 内置的函数方法execute，  使用 crawl 爬取并调试，最后一个参数example 是我的爬虫文件名</span></span><br><span class="line">execute([<span class="string">&#x27;scrapy&#x27;</span>, <span class="string">&#x27;crawl&#x27;</span>, <span class="string">&#x27;example&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/></li>
-<li><p>然后直接运行debug.py文件，即可添加断点进行调试</p>
-</li>
-</ol>
-<br/>
-
-<p>参考博客：<a href="https://www.cnblogs.com/grimm/p/13884670.html">https://www.cnblogs.com/grimm/p/13884670.html</a></p>
-]]></content>
-      <categories>
-        <category>scrapy</category>
-      </categories>
-      <tags>
-        <tag>scrapy</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2584,16 +2603,20 @@
       </tags>
   </entry>
   <entry>
-    <title>Git常见错误---git branch不显示本地分支的问题</title>
-    <url>/id_41/</url>
-    <content><![CDATA[<h1 id="Git常见错误—git-branch不显示本地分支的问题"><a href="#Git常见错误—git-branch不显示本地分支的问题" class="headerlink" title="Git常见错误—git branch不显示本地分支的问题"></a>Git常见错误—git branch不显示本地分支的问题</h1><br/>
-
-<p>使用git init命令创建仓库，执行<code>git add . </code>和<code>git commit</code>,再使用<code>git branch</code>命令</p>
-<p>即可查看到远程分支<code>master</code></p>
-<p>再新建分支及上传就可以了详情可看：<a href="http://tjw5.cn/id_27/">http://tjw5.cn/id_27/</a></p>
+    <title>爬虫必备工具 curl</title>
+    <url>/id_47/</url>
+    <content><![CDATA[<h1 id="爬虫必备工具-curl"><a href="#爬虫必备工具-curl" class="headerlink" title="爬虫必备工具 curl"></a>爬虫必备工具 curl</h1><h2 id="在windows-10-安装"><a href="#在windows-10-安装" class="headerlink" title="在windows 10 安装"></a>在windows 10 安装</h2><p>1.进入<a href="https://curl.haxx.se/download.html">curl官网</a> 下载合适的版本，我这里下载的是Windows 64位的curl.</p>
+<p><img src="/imgs/id_47/1722637-20190622170922926-1096464134.png" alt="img"></p>
 <br/>
 
-<p>参考链接：<a href="https://blog.csdn.net/qq_39671159/article/details/81261049">https://blog.csdn.net/qq_39671159/article/details/81261049</a></p>
+<p>2.解压下载的curl</p>
+<p>3.可以给Windows增加curl命令的环境变量，增加CURL_HOME环境变量，给PATH环境变量加上%CURL_HOME%</p>
+<p>4.打开cmd ，输入 curl –help,显示入下，就代表成功了</p>
+<br/>
+
+<p>阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2019/09/curl-reference.html">http://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
+<p>Windows 10中安装curl详细教程：<a href="https://blog.csdn.net/qq_37289115/article/details/106665123">https://blog.csdn.net/qq_37289115/article/details/106665123</a></p>
+<p>解决Windows 10 中文乱码问题：<a href="https://blog.csdn.net/rfrder/article/details/108938583">https://blog.csdn.net/rfrder/article/details/108938583</a></p>
 ]]></content>
       <categories>
         <category>git</category>
@@ -2666,26 +2689,37 @@
       </tags>
   </entry>
   <entry>
-    <title>爬虫必备工具 curl</title>
-    <url>/id_47/</url>
-    <content><![CDATA[<h1 id="爬虫必备工具-curl"><a href="#爬虫必备工具-curl" class="headerlink" title="爬虫必备工具 curl"></a>爬虫必备工具 curl</h1><h2 id="在windows-10-安装"><a href="#在windows-10-安装" class="headerlink" title="在windows 10 安装"></a>在windows 10 安装</h2><p>1.进入<a href="https://curl.haxx.se/download.html">curl官网</a> 下载合适的版本，我这里下载的是Windows 64位的curl.</p>
-<p><img src="/imgs/id_47/1722637-20190622170922926-1096464134.png" alt="img"></p>
+    <title>python 时间转换</title>
+    <url>/id_51/</url>
+    <content><![CDATA[<h1 id="python-时间转换"><a href="#python-时间转换" class="headerlink" title="python 时间转换"></a>python 时间转换</h1><h2 id="python-xxxx年xx月xx日转换成日期-xxxx-xx-xx"><a href="#python-xxxx年xx月xx日转换成日期-xxxx-xx-xx" class="headerlink" title="python xxxx年xx月xx日转换成日期 xxxx-xx-xx"></a>python xxxx年xx月xx日转换成日期 xxxx-xx-xx</h2><br/>
+
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datetrans</span>(<span class="params">text</span>):</span></span><br><span class="line">    dates = time.strptime(text, <span class="string">&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br></pre></td></tr></table></figure>
+
+
+
 <br/>
 
-<p>2.解压下载的curl</p>
-<p>3.可以给Windows增加curl命令的环境变量，增加CURL_HOME环境变量，给PATH环境变量加上%CURL_HOME%</p>
-<p>4.打开cmd ，输入 curl –help,显示入下，就代表成功了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">publish_Time = <span class="string">&quot;2018年10月10日&quot;</span></span><br><span class="line">array = time.strptime(publish_Time, <span class="string">u&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>：</span><br><span class="line">    publishTime = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, array)</span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"><span class="built_in">print</span> publishTime</span><br></pre></td></tr></table></figure>
+
 <br/>
 
-<p>阮一峰的网络日志 ：<a href="http://www.ruanyifeng.com/blog/2019/09/curl-reference.html">http://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
-<p>Windows 10中安装curl详细教程：<a href="https://blog.csdn.net/qq_37289115/article/details/106665123">https://blog.csdn.net/qq_37289115/article/details/106665123</a></p>
-<p>解决Windows 10 中文乱码问题：<a href="https://blog.csdn.net/rfrder/article/details/108938583">https://blog.csdn.net/rfrder/article/details/108938583</a></p>
+<h2 id="python-时间转换-年月日时分秒只保留年月日"><a href="#python-时间转换-年月日时分秒只保留年月日" class="headerlink" title="python 时间转换 年月日时分秒只保留年月日"></a>python 时间转换 年月日时分秒只保留年月日</h2><br/>
+
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;2021-05-18 15:13:40 只保留年月日&quot;&quot;&quot;</span></span><br><span class="line">date=<span class="string">&quot;2021-05-18 15:13:40&quot;</span></span><br><span class="line">dates = time.strptime(date, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">dates = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br><span class="line">print(dates)</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>博客推荐：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616">https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616</a></p>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -2796,6 +2830,19 @@
       </tags>
   </entry>
   <entry>
+    <title>ubuntu 18.04 设置静态ip方法</title>
+    <url>/id_53/</url>
+    <content><![CDATA[<h1 id="ubuntu-18-04-设置静态ip方法"><a href="#ubuntu-18-04-设置静态ip方法" class="headerlink" title="ubuntu 18.04 设置静态ip方法"></a>ubuntu 18.04 设置静态ip方法</h1><p>参考博客：<a href="https://www.cnblogs.com/yaohong/p/11593989.html">https://www.cnblogs.com/yaohong/p/11593989.html</a></p>
+<h2 id="修改成桥接模式"><a href="#修改成桥接模式" class="headerlink" title="修改成桥接模式"></a>修改成桥接模式</h2><p>参考博客：<a href="https://www.cnblogs.com/hdcoder/p/6079743.html">https://www.cnblogs.com/hdcoder/p/6079743.html</a></p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>es基本使用之查询数据</title>
     <url>/id_52/</url>
     <content><![CDATA[<h1 id="es基本使用之查询数据"><a href="#es基本使用之查询数据" class="headerlink" title="es基本使用之查询数据"></a>es基本使用之查询数据</h1><br/>
@@ -2888,40 +2935,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python 时间转换</title>
-    <url>/id_51/</url>
-    <content><![CDATA[<h1 id="python-时间转换"><a href="#python-时间转换" class="headerlink" title="python 时间转换"></a>python 时间转换</h1><h2 id="python-xxxx年xx月xx日转换成日期-xxxx-xx-xx"><a href="#python-xxxx年xx月xx日转换成日期-xxxx-xx-xx" class="headerlink" title="python xxxx年xx月xx日转换成日期 xxxx-xx-xx"></a>python xxxx年xx月xx日转换成日期 xxxx-xx-xx</h2><br/>
-
-
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datetrans</span>(<span class="params">text</span>):</span></span><br><span class="line">    dates = time.strptime(text, <span class="string">&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br></pre></td></tr></table></figure>
-
-
-
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">publish_Time = <span class="string">&quot;2018年10月10日&quot;</span></span><br><span class="line">array = time.strptime(publish_Time, <span class="string">u&quot;%Y年%m月%d日&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>：</span><br><span class="line">    publishTime = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, array)</span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"><span class="built_in">print</span> publishTime</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h2 id="python-时间转换-年月日时分秒只保留年月日"><a href="#python-时间转换-年月日时分秒只保留年月日" class="headerlink" title="python 时间转换 年月日时分秒只保留年月日"></a>python 时间转换 年月日时分秒只保留年月日</h2><br/>
-
-
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;2021-05-18 15:13:40 只保留年月日&quot;&quot;&quot;</span></span><br><span class="line">date=<span class="string">&quot;2021-05-18 15:13:40&quot;</span></span><br><span class="line">dates = time.strptime(date, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">dates = time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, dates)</span><br><span class="line">print(dates)</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>博客推荐：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616">https://www.liaoxuefeng.com/wiki/1016959663602400/1017648783851616</a></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python -- 列表嵌套字典排序</title>
     <url>/id_54/</url>
     <content><![CDATA[<h1 id="Python-–-列表嵌套字典排序"><a href="#Python-–-列表嵌套字典排序" class="headerlink" title="Python – 列表嵌套字典排序"></a>Python – 列表嵌套字典排序</h1><p>使用operator的itemgetter（）方法，</p>
@@ -2946,6 +2959,142 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis系列----操作基类</title>
+    <url>/id_56/</url>
+    <content><![CDATA[<h1 id="Redis系列—-操作基类"><a href="#Redis系列—-操作基类" class="headerlink" title="Redis系列—-操作基类"></a>Redis系列—-操作基类</h1><br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisBackend</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Redis task result store.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, server</span>):</span></span><br><span class="line">        self.redis = redis.Redis(**server)</span><br><span class="line">        self.enbale_expire_notify()</span><br><span class="line">          </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">        self.redis.rpush(key, value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">accept</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.redis.lpop(key)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">        self.redis.<span class="built_in">set</span>(key, value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.redis.get(key)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delete</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.redis.delete(key)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.redis.sadd(key, value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.redis.srem(key, value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_member</span>(<span class="params">self, key, member</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.redis.sismember(key, member)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_expire_key</span>(<span class="params">self, key, time, value</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 设置订单有效时限，单位为秒 &quot;&quot;&quot;</span></span><br><span class="line">        self.redis.setex(key, time=time, value=value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enbale_expire_notify</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.redis.config_set(<span class="string">&#x27;notify-keyspace-events&#x27;</span>, <span class="string">&#x27;Ex&#x27;</span>)</span><br><span class="line">        self.sub = self.redis.pubsub()</span><br><span class="line">        self.sub.psubscribe(<span class="string">&#x27;__keyevent@0__:expired&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_expire_key</span>(<span class="params">self</span>):</span></span><br><span class="line">        expired_key = self.sub.get_message()</span><br><span class="line">        <span class="keyword">return</span> expired_key</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python---自定义django-admin命令</title>
+    <url>/id_57/</url>
+    <content><![CDATA[<h1 id="python—自定义django-admin命令"><a href="#python—自定义django-admin命令" class="headerlink" title="python—自定义django-admin命令"></a>python—自定义django-admin命令</h1><br/>
+
+<p>Django为项目中每一个应用下的management/commands目录中名字没有以下划线开始的Python模块都注册了一个manage.py命令，我们可以利用这点来自定制一个命令。</p>
+<p>作用：</p>
+<p>自定义的管理命令对于独立脚本非常有用，特别是那些使用Linux的crontab服务，或者Windows的调度任务执行的脚本。比如，你有个需求，需要定时清空某篇文章下面的评论，一种解决方案就是写一个django-admin命令，再写一个运行该命令的独立脚本，最后通过crontab服务，定时执行该脚本。</p>
+<br/>
+
+<p>文件目录结构如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">app01/</span><br><span class="line">    __init__.py</span><br><span class="line">    models.py</span><br><span class="line">    management/</span><br><span class="line">        __init__.py</span><br><span class="line">        commands/</span><br><span class="line">            __init__.py</span><br><span class="line">            _private.py<span class="comment">#下划线开头的不可以用作自定制命令的编写文件</span></span><br><span class="line">            xxx.py<span class="comment">#不以下划线开头的就可以</span></span><br><span class="line">    tests.py</span><br><span class="line">    views.py</span><br></pre></td></tr></table></figure>
+
+<p>　如上图所示，_private.py将不可以作为一个管理命令使用，而xxx.py则可以。我们想要自定制命令，需自己在指定app目录下创建management包，management包内创建commands包，commands包内心间自己想要写入自定制命令的文件即可。</p>
+<p>xxx.py模块想要写自定制命令的话，必须定义一个Command类并继承Basecommand或其子类。</p>
+<br/>
+
+<p><img src="/imgs/id_57/image-20210605155357639.png" alt="image-20210605155357639"></p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.management.base <span class="keyword">import</span> BaseCommand, CommandError</span><br><span class="line"><span class="keyword">from</span> app01.models <span class="keyword">import</span> Poll</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Command</span>(<span class="params">BaseCommand</span>):</span><span class="comment">#必须继承</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self, *args, **options</span>):</span><span class="comment">#必须实现的方法 ，该方法即自定义命令执行的内容</span></span><br><span class="line">       print(<span class="string">&quot;Hello World&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>完成以上配置后，键入命令python manage.py xxx就可以执行打印Hello World的操作</p>
+<br/>
+
+<p>参考其他博客：</p>
+<p><a href="https://blog.csdn.net/weixin_30527143/article/details/97980714">https://blog.csdn.net/weixin_30527143/article/details/97980714</a><br><a href="https://www.cnblogs.com/sanduzxcvbnm/p/12834918.html">https://www.cnblogs.com/sanduzxcvbnm/p/12834918.html</a><br><a href="https://www.cnblogs.com/zhuminghui/p/9100395.html">https://www.cnblogs.com/zhuminghui/p/9100395.html</a><br><a href="https://blog.csdn.net/weixin_43796109/article/details/105979783">https://blog.csdn.net/weixin_43796109/article/details/105979783</a></p>
+<p>Django官方文档：<a href="https://docs.djangoproject.com/zh-hans/2.0/howto/custom-management-commands/">https://docs.djangoproject.com/zh-hans/2.0/howto/custom-management-commands/</a><br><a href="https://docs.djangoproject.com/zh-hans/2.0/">https://docs.djangoproject.com/zh-hans/2.0/</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux查看日志的几种方法</title>
+    <url>/id_58/</url>
+    <content><![CDATA[<h1 id="linux查看日志的几种方法"><a href="#linux查看日志的几种方法" class="headerlink" title="linux查看日志的几种方法"></a>linux查看日志的几种方法</h1><p>作为开发项目出了bug想要最快速定位到问题所在，查看日志是最好不过的了~(当然，也要习惯在业务关键点设置日志)。</p>
+ <br/>
+
+<p>最常用查看日志方法：<br>·实时日志：tail -f XXX.log<br>·搜索关键字附近日志：cat -n filename | grep “关键字”</p>
+<p>下面详细看下⬇⬇⬇：</p>
+ <br/>
+
+<p>查看日志常用命令<br>    tail:  </p>
+<pre><code>   -n  是显示行号；相当于nl命令；例子如下：
+
+        tail -100f test.log      实时监控100行日志
+
+        tail  -n  10  test.log   查询日志尾部最后10行的日志;
+
+        tail -n +10 test.log    查询10行之后的所有日志;
+
+head:  
+
+    跟tail是相反的，tail是看后多少行日志，而head是查看日志文件的头多少行，例子如下：
+
+        head -n 10  test.log   查询日志文件中的头10行日志;
+
+        head -n -10  test.log   查询日志文件除了最后10行的其他所有日志;
+
+cat： 
+
+    tac是倒序查看，是cat单词反写；例子如下：
+
+        cat -n test.log |grep &quot;debug&quot;   查询关键字的日志(常用！~)
+
+vim：
+
+    1、进入vim编辑模式：vim filename
+    2、输入“/关键字”,按enter键查找
+    3、查找下一个，按“n”即可
+    退出：按ESC键后，接着再输入:号时，vi会在屏幕的最下方等待我们输入命令
+    wq! 保存退出
+    q! 不保存退出 
+</code></pre>
+ <br/>
+
+
+<p>列出几种常见的应用场景⬇⬇⬇：</p>
+ <br/>
+
+<p>查看日志应用场景一：按行号查看：过滤出关键字附近的日志</p>
+<pre><code> (1) cat -n test.log |grep &quot;debug&quot;  得到关键日志的行号
+
+ (2) cat -n test.log |tail -n +92|head -n 20  选择关键字所在的中间一行. 然后查看这个关键字前10行和后10行的日志:
+
+        tail -n +92表示查询92行之后的日志
+
+        head -n 20 则表示在前面的查询结果里再查前20条记录
+</code></pre>
+ <br/>
+
+
+<p>查看日志应用场景二：根据日期查询日志</p>
+<pre><code>   (1) sed -n &#39;/2014-12-17 16:17:20/,/2014-12-17 16:17:36/p&#39;  test.log
+</code></pre>
+<p>特别说明:</p>
+<p>上面的两个日期必须是日志中打印出来的日志,否则无效</p>
+<p>先 grep ‘2014-12-17 16:17:20’ test.log 来确定日志中是否有该时间点</p>
+ <br/>
+
+<p>查看日志应用场景三：日志内容特别多，打印在屏幕上不方便查看，分页/保存文件查看</p>
+<pre><code>(1)使用more和less命令,
+
+       如： cat -n test.log |grep &quot;debug&quot; |more     这样就分页打印了,通过点击空格键翻页
+
+(2)使用 &gt;xxx.txt 将其保存到文件中,到时可以拉下这个文件分析
+
+        如：cat -n test.log |grep &quot;debug&quot;  &gt;debug.txt
+</code></pre>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python--django 实现文件下载功能</title>
     <url>/id_55/</url>
     <content><![CDATA[<h1 id="Python–django-实现文件下载功能"><a href="#Python–django-实现文件下载功能" class="headerlink" title="Python–django 实现文件下载功能"></a>Python–django 实现文件下载功能</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadTextObject</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, request</span>):</span></span><br><span class="line">        self.params = <span class="literal">None</span></span><br><span class="line">        self.request = request</span><br><span class="line">        self.msg = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        self.query = self.request.query_params</span><br><span class="line">        self.body = self.request.data</span><br><span class="line">        self.page = self.request.GET.get(<span class="string">&#x27;page&#x27;</span>, <span class="number">1</span>)</span><br><span class="line">        self.size = self.request.GET.get(<span class="string">&#x27;size&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        self.txt_name = self.request.GET.get(<span class="string">&#x27;txt_name&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        self.userid = request.user.<span class="built_in">id</span></span><br><span class="line">        self.status = <span class="number">200</span></span><br><span class="line">        self.result = &#123;&#125;</span><br><span class="line">        self.total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">file_down</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        下载压缩文件</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        file_name = self.txt_name  <span class="comment"># 文件名</span></span><br><span class="line"></span><br><span class="line">        file_path = os.path.join(FILEPATH, file_name)  <span class="comment"># 下载文件的绝对路径</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isfile(file_path):  <span class="comment"># 判断下载文件是否存在</span></span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Sorry but Not Found the File&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">file_iterator</span>(<span class="params">file_path, chunk_size=<span class="number">512</span></span>):</span></span><br><span class="line">            <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            文件生成器,防止文件过大，导致内存溢出</span></span><br><span class="line"><span class="string">            :param file_path: 文件绝对路径</span></span><br><span class="line"><span class="string">            :param chunk_size: 块大小</span></span><br><span class="line"><span class="string">            :return: 生成器</span></span><br><span class="line"><span class="string">            &quot;&quot;&quot;</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, mode=<span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                    c = f.read(chunk_size)</span><br><span class="line">                    <span class="keyword">if</span> c:</span><br><span class="line">                        <span class="keyword">yield</span> c</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 设置响应头</span></span><br><span class="line">            <span class="comment"># StreamingHttpResponse将文件内容进行流式传输，数据量大可以用这个方法</span></span><br><span class="line">            response = StreamingHttpResponse(file_iterator(file_path))</span><br><span class="line">            <span class="comment"># 以流的形式下载文件,这样可以实现任意格式的文件下载</span></span><br><span class="line">            response[<span class="string">&#x27;Content-Type&#x27;</span>] = <span class="string">&#x27;application/octet-stream&#x27;</span></span><br><span class="line">            <span class="comment"># Content-Disposition就是当用户想把请求所得的内容存为一个文件的时候提供一个默认的文件名</span></span><br><span class="line">            response[<span class="string">&#x27;Content-Disposition&#x27;</span>] = <span class="string">&#x27;attachment;filename=&quot;&#123;&#125;&quot;&#x27;</span>.<span class="built_in">format</span>(file_name)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Sorry but Not Found the File&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -2959,19 +3108,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 18.04 设置静态ip方法</title>
-    <url>/id_53/</url>
-    <content><![CDATA[<h1 id="ubuntu-18-04-设置静态ip方法"><a href="#ubuntu-18-04-设置静态ip方法" class="headerlink" title="ubuntu 18.04 设置静态ip方法"></a>ubuntu 18.04 设置静态ip方法</h1><p>参考博客：<a href="https://www.cnblogs.com/yaohong/p/11593989.html">https://www.cnblogs.com/yaohong/p/11593989.html</a></p>
-<h2 id="修改成桥接模式"><a href="#修改成桥接模式" class="headerlink" title="修改成桥接模式"></a>修改成桥接模式</h2><p>参考博客：<a href="https://www.cnblogs.com/hdcoder/p/6079743.html">https://www.cnblogs.com/hdcoder/p/6079743.html</a></p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
 </search>
